@@ -8,9 +8,6 @@ import (
 	gear_client "github.com/misnaged/gear-go/internal/client"
 )
 
-type Modules struct {
-}
-
 func GetMetaData(cli gear_client.IClient) (*types.MetadataStruct, error) {
 	decoder := &scalecodec.MetadataDecoder{}
 	var postReq any
