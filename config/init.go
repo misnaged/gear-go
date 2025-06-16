@@ -13,7 +13,7 @@ func InitConfig(cfg *Scheme) error {
 
 	viper.SetDefault("env", "prod")
 	viper.SetDefault("client.host", "127.0.0.1")
-	viper.SetDefault("client.port", "9944")
+	viper.SetDefault("client.port", 9944)
 	viper.SetDefault("client.iswebsocket", false)
 	viper.SetDefault("client.issecured", false)
 

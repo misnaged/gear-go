@@ -24,7 +24,7 @@ func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.ICl
 
 }
 func (cli *HttpClient) PropagateAddress() string {
-	return fmt.Sprintf("%s://%s:%b", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
+	return fmt.Sprintf("%s://%s:%d", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
 }
 
 func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {

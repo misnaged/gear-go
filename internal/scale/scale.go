@@ -25,9 +25,10 @@ type Scale struct {
 
 const TxVersionInfo = "84"
 
-func NewScale(client gear_client.IClient) *Scale {
+func NewScale(client gear_client.IClient, config *config.Scheme) *Scale {
 	return &Scale{
 		client: client,
+		config: config,
 	}
 }
 

@@ -18,7 +18,7 @@ type wsClient struct {
 }
 
 func (ws *wsClient) PropagateAddress() string {
-	return fmt.Sprintf("%s://%s:%v", ws.config.Client.Transport, ws.config.Client.Host, ws.config.Client.Port)
+	return fmt.Sprintf("%s://%s:%d", ws.config.Client.Transport, ws.config.Client.Host, ws.config.Client.Port)
 }
 
 func NewWsClient(config *config.Scheme) (gear_client.IClient, error) {
