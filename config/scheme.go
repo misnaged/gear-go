@@ -16,5 +16,5 @@ type Client struct {
 type Addr struct {
 	Transport string
 	Host      string
-	Port      string
+	Port      int
 }

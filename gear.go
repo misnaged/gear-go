@@ -37,7 +37,7 @@ func NewGear() (*Gear, error) {
 }
 
 func (gear *Gear) initScale() error {
-	scale := gear_scale.NewScale(gear.client)
+	scale := gear_scale.NewScale(gear.client, gear.config)
 	gear.scale = scale
 	return nil
 }
