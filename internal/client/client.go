@@ -6,6 +6,6 @@ import (
 
 type IClient interface {
 	PostRequest(params any, method string) (*models.RpcGenericResponse, error)
-
+	SetId(id any)
 	PropagateAddress() string
 }

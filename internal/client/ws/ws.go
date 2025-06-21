@@ -15,19 +15,30 @@ type wsClient struct {
 	conn   *websocket.Conn
 	closed chan struct{}
 	mu     sync.RWMutex
+	id     any
 }
+
+//TODO: !!!!! Close() METHOD IS A MUST !!!
 
 func (ws *wsClient) PropagateAddress() string {
 	return fmt.Sprintf("%s://%s:%d", ws.config.Client.Transport, ws.config.Client.Host, ws.config.Client.Port)
 }
 
+func (ws *wsClient) SetId(id any) {
+	ws.id = id
+}
 func NewWsClient(config *config.Scheme) (gear_client.IClient, error) {
 	wsc := &wsClient{
 		closed: make(chan struct{}),
 		config: config,
 	}
 	address := wsc.PropagateAddress()
-	fmt.Println("address:", address)
+
+	// Setting default id //
+	if wsc.id == nil {
+		wsc.id = "1"
+	}
+	// --------------------- //
 	conn, _, err := websocket.DefaultDialer.Dial(address, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to dial to ws: %w", err)
@@ -36,7 +47,6 @@ func NewWsClient(config *config.Scheme) (gear_client.IClient, error) {
 	wsc.conn = conn
 	return wsc, nil
 }
-
 func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {
 	ws.mu.Lock()
 	defer ws.mu.Unlock()

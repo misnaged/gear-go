@@ -1,11 +1,14 @@
 package gear_utils
 
 import (
+	"encoding/hex"
+	"errors"
 	"fmt"
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	"github.com/itering/scale.go/utiles"
 	gear_client "github.com/misnaged/gear-go/internal/client"
+	"strings"
 )
 
 func GetMetaData(cli gear_client.IClient) (*types.MetadataStruct, error) {
@@ -114,4 +117,45 @@ func GetCallArgsByModuleAndCallNames(meta *types.MetadataStruct, moduleName, cal
 		}
 	}
 	return nil
+}
+
+func GetStoragesByModuleName(meta *types.MetadataStruct, moduleName string) (storages []types.MetadataStorage) {
+	for i := range meta.Metadata.Modules {
+		if meta.Metadata.Modules[i].Name == moduleName {
+			storages = append(storages, meta.Metadata.Modules[i].Storage...)
+			return
+		}
+	}
+	return nil
+}
+
+func GetEventsByModuleName(meta *types.MetadataStruct, moduleName string) (events []types.MetadataEvents) {
+	for i := range meta.Metadata.Modules {
+		if meta.Metadata.Modules[i].Name == moduleName {
+			events = append(events, meta.Metadata.Modules[i].Events...)
+			return
+		}
+	}
+	return nil
+}
+func Getttt(meta *types.MetadataStruct) {
+	fmt.Println(meta.Extrinsic.SignedExtensions)
+}
+
+func AddToHex(addr []byte) string {
+	return fmt.Sprintf("0x%s", hex.EncodeToString(addr))
+}
+
+func GetStorageTypeByModuleAndMethodNames(moduleName, methodName string, modules []types.MetadataModules) (*types.StorageType, error) {
+	for _, v := range modules {
+		if strings.EqualFold(v.Name, moduleName) {
+			for _, stor := range v.Storage {
+				fmt.Println(stor.Name)
+				if strings.EqualFold(stor.Name, methodName) {
+					return &stor.Type, nil
+				}
+			}
+		}
+	}
+	return nil, errors.New("module not found")
 }
