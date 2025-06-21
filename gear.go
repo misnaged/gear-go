@@ -6,7 +6,8 @@ import (
 	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/client/http"
 	"github.com/misnaged/gear-go/internal/client/ws"
-
+	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
+	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
 	gear_scale "github.com/misnaged/gear-go/internal/scale"
 	"github.com/misnaged/scriptorium/versioner"
 	"time"
@@ -17,9 +18,17 @@ type Gear struct {
 	version *version.Version
 	client  gear_client.IClient
 	scale   *gear_scale.Scale
+	gearRPC gear_rpc.IGearRPC
 }
 
+const (
+	// TODO: Remove !!
+	BobAccountId = "8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48"
+	AliceSeed    = "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d"
+)
+
 func NewGear() (*Gear, error) {
+	// Keeping subsequence of inits is must!
 	gear := &Gear{
 		config: initConfig(),
 	}
@@ -29,15 +38,39 @@ func NewGear() (*Gear, error) {
 	if err := gear.initClient(); err != nil {
 		return nil, fmt.Errorf(" gear.initClient failed: %v", err)
 	}
+
+	gear.initGearRpc()
+
 	if err := gear.initScale(); err != nil {
 		return nil, fmt.Errorf(" gear.initScale failed: %v", err)
 	}
+	//
+	if err := gear.scale.InitMetadata(); err != nil {
+		return nil, fmt.Errorf(" gear.scale.InitMetadata failed: %v", err)
+	}
+	/*
+		//storage example call:
+
+		storage := gear_storage_methods.NewStorage("System", "Account", gear.scale.GetMetadata())
+		if err := storage.BuildParams(AliceSeed); err != nil {
+			return nil, fmt.Errorf(" gear.buildParams failed: %v", err)
+		}
+		var toDecode models.FrameSystemAccountInfo
+		err := storage.DecodeStorage(gear.gearRPC, &toDecode)
+		if err != nil {
+			return nil, fmt.Errorf(" gear.scale failed: %v", err)
+		}
+	*/
 
 	return gear, nil
 }
 
+func (gear *Gear) initGearRpc() {
+	gearRpc := gear_rpc_method.NewGearRpc(gear.client, gear.config)
+	gear.gearRPC = gearRpc
+}
 func (gear *Gear) initScale() error {
-	scale := gear_scale.NewScale(gear.client, gear.config)
+	scale := gear_scale.NewScale(gear.gearRPC, gear.config)
 	gear.scale = scale
 	return nil
 }

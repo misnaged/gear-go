@@ -3,6 +3,7 @@ package gear_http
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
 	"github.com/misnaged/gear-go/internal/client"
@@ -14,14 +15,24 @@ import (
 type HttpClient struct {
 	client *http.Client
 	config *config.Scheme
+	id     any
 }
 
 func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.IClient {
 	c := &http.Client{
 		Timeout: timeout,
 	}
-	return &HttpClient{client: c, config: config}
+	httpClient := &HttpClient{client: c, config: config}
+	// setting id for `Id` json-rpc field
+	if httpClient.id == nil {
+		httpClient.id = "1"
+	}
+	// ---------------------- //
+	return httpClient
+}
 
+func (cli *HttpClient) SetId(id any) {
+	cli.id = id
 }
 func (cli *HttpClient) PropagateAddress() string {
 	return fmt.Sprintf("%s://%s:%d", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
@@ -54,6 +65,11 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 	var respRPC *models.RpcGenericResponse
 	if err = json.NewDecoder(resp.Body).Decode(&respRPC); err != nil {
 		return nil, fmt.Errorf("failed to read all bytes: %w", err)
+	}
+	// TODO: needs better and separate error handling
+	if respRPC.Error != nil {
+		errorMsg := fmt.Sprintf("response for method: %s has failed due to: %v", method, respRPC.Error)
+		return respRPC, errors.New(errorMsg)
 	}
 	return respRPC, nil
 }
