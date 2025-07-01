@@ -6,14 +6,10 @@ import (
 	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/client/http"
 	"github.com/misnaged/gear-go/internal/client/ws"
-	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
 	gear_scale "github.com/misnaged/gear-go/internal/scale"
-	gear_utils "github.com/misnaged/gear-go/internal/utils"
 	"github.com/misnaged/scriptorium/versioner"
-	"github.com/misnaged/substrate-api-rpc/keyring"
-	"os"
 	"time"
 )
 
@@ -32,37 +28,6 @@ const (
 )
 
 // TODO: for debug only! Remove it in the next update!
-func (gear *Gear) UploadCodeTemp() (string, error) {
-	f, err := os.ReadFile("demo_messenger.opt.wasm")
-	if err != nil {
-		return "", fmt.Errorf("failed to read *.wasm: %w", err)
-	}
-	var args []any
-
-	//args = append(args, "0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48", "abc", "0", "0", false)
-
-	//args = append(args, util.BytesToHex(f), "012", "0", "0", "0", false)
-	//args = append(args, util.BytesToHex(f))
-	//util.BytesToHex(f)
-	toHex := gear_utils.AddToHex(f)
-	args = append(args, toHex)
-	params, err := extrinsic_params.InitBuilder("Gear", "upload_code", gear.scale.GetMetadata().Metadata.Modules, args)
-	if err != nil {
-		return "", fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
-	}
-
-	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
-
-	aa, err := gear.scale.SignTransaction("Gear", "upload_code", kr, params)
-	if err != nil {
-		return "", fmt.Errorf(" gear.scale.SignTransaction failed: %w", err)
-	}
-	//TODO: debug only. Removal is needed
-	//if err = os.WriteFile("text.txt", []byte(aa), 0644); err != nil {
-	//	return "", fmt.Errorf(" os.WriteFile failed: %w", err)
-	//}
-	return aa, nil
-}
 
 func NewGear() (*Gear, error) {
 	// Keeping subsequence of inits is must!
@@ -116,19 +81,26 @@ func NewGear() (*Gear, error) {
 
 	//TODO: CLEAN!!
 
-	// -----------------------  Upload Code example ----------------- //
+	//-----------------------  Upload Code example ----------------- //
 
 	//a, err := gear.UploadCodeTemp()
 	//if err != nil {
 	//	return nil, fmt.Errorf(" gear.UploadCodeTemp() failed: %w", err)
 	//}
-
+	//
 	//var args []string
 	//args = append(args, a)
 	//gear.client.Subscribe(args, "author_submitAndWatchExtrinsic")
 
-	// -----------------------------------------------------------------//
+	//storage := gear_storage_methods.NewStorage("GearProgram", "CodeStorage", gear.GetScale().GetMetadata())
+	//var vv map[string]any
+	//err := storage.DecodeStorage(gear.GetRPC(), &vv, true)
+	//if err != nil {
+	//	return nil, fmt.Errorf(" gear_rpc.DecodeStorage failed: %w", err)
+	//}
 
+	// -----------------------------------------------------------------//
+	//str, _ := gear_utils.GetCodeIdFromWasmFile("demo_messenger.opt.wasm")
 	//storage example call:
 	/*
 		storage := gear_storage_methods.NewStorage("GearProgram", "CodeStorage", gear.scale.GetMetadata())

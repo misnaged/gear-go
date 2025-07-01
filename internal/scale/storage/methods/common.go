@@ -69,7 +69,6 @@ func (stor *Storage) getStorageRpc(gearRPC gear_rpc.IGearRPC, isBigData bool) (s
 	if err != nil {
 		return "", fmt.Errorf(" gear.scale.StorageRequest failed: %v", err)
 	}
-	fmt.Println("gear.scale.StorageRequest isBigData:", storKey)
 	if isBigData {
 		keyPaged, err := gearRPC.StateGetKeyPaged(storKey)
 		if err != nil {
@@ -78,7 +77,6 @@ func (stor *Storage) getStorageRpc(gearRPC gear_rpc.IGearRPC, isBigData bool) (s
 		toAnyArr := keyPaged.Result.([]any) //TODO: clear type assertion is needed!\
 		storKey = toAnyArr[0].(string)
 	}
-
 	resp, err := gearRPC.StateGetStorageLatest(storKey)
 	if err != nil {
 		return "", fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
@@ -102,7 +100,6 @@ func (stor *Storage) DecodeStorage(gearRPC gear_rpc.IGearRPC, decodeData any, is
 	if err != nil {
 		return fmt.Errorf("storage.Decode failed: %v", err)
 	}
-
 	a.ToAny(&decodeData)
 	return nil
 }
