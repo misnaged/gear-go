@@ -12,12 +12,18 @@ import (
 )
 
 func newTestGearRpc() (gear_rpc.IGearRPC, error) {
-	cfg := &config.Scheme{}
-	err := config.InitConfig(cfg)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to initialize config: %v", err)
+	clientCfg := &config.Client{
+		IsWebSocket: false,
+		IsSecured:   false,
 	}
-	client := gear_http.NewHttpClient(time.Second*10, cfg)
+	clientCfg.Transport = "http"
+	clientCfg.Host = "127.0.0.1"
+	clientCfg.Port = 9944
+	cfg := &config.Scheme{Client: clientCfg}
+
+	fmt.Println(cfg.Client.Transport)
+
+	client := gear_http.NewHttpClient(time.Second*3, cfg)
 	return NewGearRpc(client, cfg), nil
 }
 func TestGearRpc_NoArgRpcRequest(t *testing.T) {
@@ -25,6 +31,7 @@ func TestGearRpc_NoArgRpcRequest(t *testing.T) {
 	assert.NoError(t, err)
 
 	for _, v := range gear_rpc.NoArgsMethods {
+		fmt.Println("calling", gear_rpc.NoArgMethodFromString(v))
 		_, err = gearRpc.NoArgRpcRequest(gear_rpc.NoArgMethodFromString(v))
 		assert.NoError(t, err)
 	}

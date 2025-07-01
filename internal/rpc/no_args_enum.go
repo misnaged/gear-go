@@ -8,7 +8,6 @@ const (
 	MethodRpc NoArgsMethod = iota
 	MethodAuthorPendingExtrinsics
 	MethodAuthorRotateKeys
-	MethodBabeEpochAuthorship
 	MethodChainGetFinalizedHead
 	MethodGrandpaRoundState
 	MethodSystemChain
@@ -27,11 +26,13 @@ const (
 	methodUnsupported
 )
 
+//MethodBabeEpochAuthorship
+//MethodBabeEpochAuthorship:        "babe_epochAuthorship", // currently non-callable
+
 var NoArgsMethods = [...]string{
 	MethodRpc:                        "rpc_methods",
 	MethodAuthorPendingExtrinsics:    "author_pendingExtrinsics",
 	MethodAuthorRotateKeys:           "author_rotateKeys",
-	MethodBabeEpochAuthorship:        "babe_epochAuthorship",
 	MethodChainGetFinalizedHead:      "chain_getFinalizedHead",
 	MethodGrandpaRoundState:          "grandpa_roundState",
 	MethodSystemChain:                "system_chain",
