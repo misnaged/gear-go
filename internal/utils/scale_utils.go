@@ -4,11 +4,13 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	blake2b2 "github.com/ethereum/go-ethereum/crypto/blake2b"
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	"github.com/itering/scale.go/types/scaleBytes"
 	"github.com/itering/scale.go/utiles"
 	gear_client "github.com/misnaged/gear-go/internal/client"
+	"os"
 	"strings"
 )
 
@@ -158,11 +160,7 @@ func GetStorageTypeByModuleAndMethodNames(moduleName, methodName string, modules
 		if strings.EqualFold(v.Name, moduleName) {
 			for _, stor := range v.Storage {
 				if strings.EqualFold(stor.Name, methodName) {
-					fmt.Println(stor.Name, methodName)
 					return &stor.Type, nil
-				} else {
-					fmt.Println(stor.Name, methodName)
-
 				}
 			}
 		}
@@ -181,4 +179,17 @@ func GetArgumentsForExtrinsicParams(moduleName, callName string, modules []types
 		}
 	}
 	return nil
+}
+
+// GetCodeIdFromWasmFile reads wasm file and returns it Blake2 hash
+//
+// https://docs.rs/gprimitives/latest/gprimitives/struct.CodeId.html
+func GetCodeIdFromWasmFile(filePath string) (string, error) {
+	f, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+
+	h := blake2b2.Sum256(f)
+	return AddToHex(h[:]), nil
 }

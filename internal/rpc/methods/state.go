@@ -34,6 +34,7 @@ func (gearRPC *GearRpc) StateGetStorageLatest(accountId string) (*models.RpcGene
 func (gearRPC *GearRpc) StateGetKeyPaged(encodedKey string) (*models.RpcGenericResponse, error) {
 	var params []any
 	params = append(params, encodedKey, 1000, encodedKey)
+	fmt.Println(params)
 	return gearRPC.client.PostRequest(params, "state_getKeysPaged")
 }
 
@@ -43,7 +44,7 @@ func (gearRPC *GearRpc) StateQueryStorageAt(encodedKey string) (*models.RpcGener
 		return nil, fmt.Errorf("%w", err)
 	}
 	var subParams []any
-	var params [][]any                                       // requires [["0x..."]] multidimensional array ¯\_(ツ)_/¯
+	var params [][]any
 	subParams = append(subParams, pagedKeys.Result.(string)) //TODO panic check for pagedKeys.Result !
 	params = append(params, subParams)
 	return gearRPC.client.PostRequest(params, "state_queryStorageAt")
