@@ -25,7 +25,7 @@ func main() {
 		logger.Log().Errorf("error creating gear: %v", err)
 		os.Exit(1)
 	}
-	f, err := os.ReadFile("demo_messenger.opt.wasm")
+	f, err := os.ReadFile("./example/code/demo_messenger.opt.wasm")
 	if err != nil {
 		logger.Log().Errorf("failed to read *.wasm file: : %v", err)
 		os.Exit(1)
@@ -97,7 +97,7 @@ func uploadCodeTemp(scale *gear_scale.Scale, file []byte) (string, error) {
 
 	var args []any
 
-	toHex := gear_utils.AddToHex(f)
+	toHex := gear_utils.AddToHex(file)
 	args = append(args, toHex)
 	params, err := extrinsic_params.InitBuilder("Gear", "upload_code", scale.GetMetadata().Metadata.Modules, args)
 	if err != nil {
