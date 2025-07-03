@@ -5,6 +5,7 @@ EXAMPLES_ENTRY_POINT=example/
 GITVER_PKG:=github.com/misnaged/scriptorium/versioner
 BUILD_OUT_DIR:=./
 GOPRIVATE:=github.com
+CARGO_DIR := lib/temp/
 
 GOOS	:=
 GOARCH	:=
@@ -78,3 +79,11 @@ run:
 
 example-code-run:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/example_upload_code_and_get_code_from_storage.go
+
+cargo-build:
+	cd $(CARGO_DIR) && cargo install subxt-cli
+	cd $(CARGO_DIR) && subxt metadata -f bytes > metadata.scale
+	cd $(CARGO_DIR) && cargo build
+
+cargo-run:
+	cd $(CARGO_DIR) && cargo run
