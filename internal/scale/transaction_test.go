@@ -47,7 +47,7 @@ func TestScale_SignTransaction(t *testing.T) {
 	assert.NoError(t, err)
 	var args []any
 	assert.NoError(t, err)
-	args = append(args, "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d", "10000000000000000000", "", true, "1000000")
+	args = append(args, "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d", "10000000000000000000", "", true, 1000000)
 	params, err := extrinsic_params.InitBuilder("GearVoucher", "issue", scaleT.GetMetadata().Metadata.Modules, args)
 	assert.NoError(t, err)
 	//Alice
