@@ -1,0 +1,20 @@
+syntax = "proto3";
+package gear_grpc;
+
+option go_package = "protocols/gear-grpc";
+
+message VoucherParams {
+  string          spender = 1;
+  string          balance = 2;
+  bool            code_uploading=3;
+  int32           duration=4;
+
+}
+
+service GearGrpcService {
+  rpc CallVoucherIssue(VoucherParams) returns(EncodedVoucherIssue);
+}
+
+message EncodedVoucherIssue{
+   string encoded_call = 1;
+}

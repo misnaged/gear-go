@@ -1,0 +1,23 @@
+[package]
+name = "gear_grpc"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+[dependencies]
+tonic = "0.13.1"
+prost = "0.13.5"
+tokio = { version = "1.46.1", features = ["macros", "rt-multi-thread"] }
+hex = "0.4.3"
+subxt = "0.42.1"
+subxt-core = "0.42.1"
+subxt-macro = "0.42.1"
+subxt-signer = "0.42.1"
+bytes = "1.10.1"
+
+[build-dependencies]
+tonic-build = "0.13.1"
+prost = "0.13.5"
