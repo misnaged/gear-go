@@ -1,11 +1,13 @@
 APP:=gear-go
 COMMON_PATH	?= $(shell pwd)
 APP_ENTRY_POINT:=cmd/gear-go.go
+RUST_GEN_ENTRY=cmd/generate-rust-grpc/generate-rust-grpc.go
 EXAMPLES_ENTRY_POINT=example/
 GITVER_PKG:=github.com/misnaged/scriptorium/versioner
 BUILD_OUT_DIR:=./
 GOPRIVATE:=github.com
 CARGO_DIR := lib/temp/
+RUST_GRPC := lib/server_grpc/
 
 GOOS	:=
 GOARCH	:=
@@ -87,3 +89,19 @@ cargo-build:
 
 cargo-run:
 	cd $(CARGO_DIR) && cargo run
+
+generate-proto-go:
+	cd lib/server_grpc/proto && protoc --go_out=paths=source_relative:. --go_opt=paths=source_relative  --go-grpc_out=paths=source_relative:. --go-grpc_opt=paths=source_relative  *.proto
+
+generate-rust-grpc:
+	MallocNanoZone=0 go run -race $(RUST_GEN_ENTRY) generate-rust-grpc true
+	MallocNanoZone=0 go run -race $(RUST_GEN_ENTRY) remove-target
+	if [ -f "$(RUST_GRPC)/gear_grpc.rs" ]; then \
+			MallocNanoZone=0 go run -race $(RUST_GEN_ENTRY) remove-rust; \
+	fi
+
+	if [ ! -d "$(RUST_GRPC)/target" ]; then \
+		cd $(RUST_GRPC) && cargo build; \
+	fi
+	MallocNanoZone=0 go run -race $(RUST_GEN_ENTRY) generate-rust-grpc false
+

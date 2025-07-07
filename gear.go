@@ -6,12 +6,11 @@ import (
 	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/client/http"
 	"github.com/misnaged/gear-go/internal/client/ws"
-	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
+	gear_grpc "github.com/misnaged/gear-go/internal/gear-grpc"
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
 	gear_scale "github.com/misnaged/gear-go/internal/scale"
 	"github.com/misnaged/scriptorium/versioner"
-	"github.com/misnaged/substrate-api-rpc/keyring"
 	"time"
 )
 
@@ -54,31 +53,45 @@ func NewGear() (*Gear, error) {
 	}
 	// TODO: add all examples to Readme
 
-	for _, v := range gear.scale.GetMetadata().Metadata.Modules {
-		if v.Name == "GearVoucher" {
-			for _, vv := range v.Calls {
-				if vv.Name == "issue" {
-					for _, vvv := range vv.Args {
-						fmt.Printf("%s %s\n", vvv.Name, vvv.Type)
-					}
-				}
-			}
-		}
-	}
-	var args []any
-	//toHex := util.BytesToHex(file)
-	args = append(args, "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d", "10000000000000000000", "", true, 1000000)
-	params, err := extrinsic_params.InitBuilder("GearVoucher", "issue", gear.scale.GetMetadata().Metadata.Modules, args)
-	if err != nil {
-		return nil, fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
-	}
-	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
+	//for _, v := range gear.scale.GetMetadata().Metadata.Modules {
+	//	if v.Name == "GearVoucher" {
+	//		for _, vv := range v.Calls {
+	//			if vv.Name == "issue" {
+	//				for _, vvv := range vv.Args {
+	//					fmt.Printf("%s %s\n", vvv.Name, vvv.Type)
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
-	aa, err := gear.scale.SignTransaction("GearVoucher", "issue", kr, params)
+	grpcClient, err := gear_grpc.New("127.0.0.1:9090", 5*time.Second)
 	if err != nil {
-		return nil, fmt.Errorf(" gear.scale.SignTransaction failed: %w", err)
+		return nil, fmt.Errorf(" gear_grpc.New() failed: %w", err)
 	}
-	fmt.Println(aa)
+
+	signed, err := grpcClient.CallVoucherIssue(AliceSecret, "10000000000000000000", true, 1000000)
+	if err != nil {
+		return nil, fmt.Errorf(" gear_grpc.CallVoucherIssue failed: %w", err)
+	}
+	fmt.Println("gear_grpc_call is", signed.EncodedCall)
+	/*
+		// **** GearVoucher Issue example **** //
+		var args []any
+		args = append(args, "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d", "10000000000000000000", "", true, 1000000)
+		params, err := extrinsic_params.InitBuilder("GearVoucher", "issue", gear.scale.GetMetadata().Metadata.Modules, args)
+		if err != nil {
+			return nil, fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
+		}
+		kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
+
+		aa, err := gear.scale.SignTransaction("GearVoucher", "issue", kr, params)
+		if err != nil {
+			return nil, fmt.Errorf(" gear.scale.SignTransaction failed: %w", err)
+		}
+		fmt.Println(aa)
+
+	*/
 	/*
 		// TODO: REMOVE (Debug)
 		dec := gear_utils.GetExtrinsicDecoderByRawHex(kkk, gear.scale.GetMetadata())

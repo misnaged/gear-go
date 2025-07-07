@@ -56,15 +56,15 @@ func (s *Scale) SignTransaction(moduleName, callName string, kr keyring.IKeyRing
 }
 
 func (s *Scale) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
-	genesisHash, err := s.gearRpc.StateGetRuntimeVersionLatest()
+	runtimeVersion, err := s.gearRpc.StateGetRuntimeVersionLatest()
 	if err != nil {
 		return nil, fmt.Errorf("request state_getRuntimeVersion failed: %v", err)
 	}
 	rtm := &rpcModels.RuntimeVersion{}
 
-	switch genesisHash.Result.(type) {
+	switch runtimeVersion.Result.(type) {
 	case map[string]any:
-		for key, val := range genesisHash.Result.(map[string]any) {
+		for key, val := range runtimeVersion.Result.(map[string]any) {
 			switch key {
 			//todo panic check! do not forget!
 			case "apis":
