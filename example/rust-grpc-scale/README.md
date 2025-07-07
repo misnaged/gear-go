@@ -20,7 +20,7 @@ run node locally:
 ### 2.
 
 **Generate client(go) protoc part:**
-> make generate-proto
+> make generate-proto-go
 
 ### 3.
 
