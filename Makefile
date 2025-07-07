@@ -108,3 +108,5 @@ generate-rust-grpc:
 	fi
 	MallocNanoZone=0 go run -race $(RUST_GEN_ENTRY) generate-rust-grpc false
 
+run-rust-grpc:
+	cd $(RUST_GRPC) && cargo run
