@@ -1,3 +1,4 @@
+//nolint:typecheck
 package gear_client
 
 import (
