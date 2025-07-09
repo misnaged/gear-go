@@ -1,0 +1,19 @@
+name: run linter
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Run Go linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Run linter
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: latest

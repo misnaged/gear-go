@@ -43,6 +43,7 @@ func NewGear() (*Gear, error) {
 	if err := gear.scale.InitMetadata(); err != nil {
 		return nil, fmt.Errorf(" gear.scale.InitMetadata failed: %w", err)
 	}
+
 	return gear, nil
 }
 

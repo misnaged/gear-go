@@ -35,7 +35,9 @@ func NewTemplate(cleanBuild bool) ITemplate {
 	}
 }
 func (t *Template) Generate() error {
-	file, _ := os.Create(serverTemplateFile) //
+	file, _ := os.Create(serverTemplateFile)
+
+	// nolint:errcheck
 	defer file.Close()
 
 	pattern, _ := filepath.Abs("pkg/warp_codegen/server.gotml") // .gotmpl is used because of IDE's supports only :D

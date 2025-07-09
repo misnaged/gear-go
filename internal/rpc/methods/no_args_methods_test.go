@@ -5,13 +5,14 @@ import (
 	"github.com/misnaged/gear-go/config"
 	gear_http "github.com/misnaged/gear-go/internal/client/http"
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
+	gear_scale "github.com/misnaged/gear-go/internal/scale"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func newTestGearRpc() (gear_rpc.IGearRPC, error) {
+func newTestGearRpc() (gear_rpc.IGearRPC, *gear_scale.Scale, error) {
 	clientCfg := &config.Client{
 		IsWebSocket: false,
 		IsSecured:   false,
@@ -22,12 +23,13 @@ func newTestGearRpc() (gear_rpc.IGearRPC, error) {
 	cfg := &config.Scheme{Client: clientCfg}
 
 	fmt.Println(cfg.Client.Transport)
-
 	client := gear_http.NewHttpClient(time.Second*3, cfg)
-	return NewGearRpc(client, cfg), nil
+	gearGRPC := NewGearRpc(client, cfg)
+
+	return gearGRPC, gear_scale.NewScale(gearGRPC, cfg), nil
 }
 func TestGearRpc_NoArgRpcRequest(t *testing.T) {
-	gearRpc, err := newTestGearRpc()
+	gearRpc, _, err := newTestGearRpc()
 	assert.NoError(t, err)
 
 	for _, v := range gear_rpc.NoArgsMethods {

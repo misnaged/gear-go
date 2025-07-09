@@ -6,14 +6,15 @@ import (
 )
 
 func TestGearRpc_GetMetadataLatest(t *testing.T) {
-	gearRpc, err := newTestGearRpc()
+	gearRpc, _, err := newTestGearRpc()
 	assert.NoError(t, err)
 
 	_, err = gearRpc.StateGetMetadataLatest()
 	assert.NoError(t, err)
 }
+
 func TestGearRpc_GetRuntimeVersionLatest(t *testing.T) {
-	gearRpc, err := newTestGearRpc()
+	gearRpc, _, err := newTestGearRpc()
 	assert.NoError(t, err)
 
 	_, err = gearRpc.StateGetRuntimeVersionLatest()
