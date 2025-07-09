@@ -34,7 +34,9 @@ func Cmd() *cobra.Command {
 					return fmt.Errorf("error generating rust grpc template: %w", err)
 				}
 			default:
-				return errors.New(fmt.Sprintf("unknown command flag: %s should be either `true` or `false`", args[0]))
+
+				//nolint:staticcheck
+				return fmt.Errorf("%w", errors.New(fmt.Sprintf("unknown command flag: %s should be either `true` or `false`", args[0])))
 			}
 
 			return nil

@@ -41,5 +41,5 @@ func setTransport() {
 	if viper.GetBool("client.issecured") {
 		viper.Set("client.transport", addSecured(viper.GetString("client.transport")))
 	}
-	viper.SetDefault("client.transport", fmt.Sprintf("%s", transportType))
+	viper.SetDefault("client.transport", transportType)
 }

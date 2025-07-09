@@ -10,7 +10,6 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"
-	"sync"
 	"time"
 )
 
@@ -21,7 +20,6 @@ type IGrpcClient interface {
 type GrpcClient struct {
 	timeout time.Duration
 	*grpc.ClientConn
-	mu sync.Mutex
 	proto.GearGrpcServiceClient
 	grpc_health_v1.HealthClient
 }

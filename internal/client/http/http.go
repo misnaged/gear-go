@@ -6,7 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
-	"github.com/misnaged/gear-go/internal/client"
+
+	//nolint:typecheck
+	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/models"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"net/http"
@@ -61,7 +63,9 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 		return nil, fmt.Errorf("client Do failed %w", err)
 	}
 
+	// nolint:errcheck
 	defer resp.Body.Close()
+
 	var respRPC *models.RpcGenericResponse
 	if err = json.NewDecoder(resp.Body).Decode(&respRPC); err != nil {
 		return nil, fmt.Errorf("failed to read all bytes: %w", err)
@@ -75,5 +79,4 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 }
 func (cli *HttpClient) Subscribe(params any, method string) {
 	logger.Log().Error("http client DO NOT support subscribe methods")
-	return
 }

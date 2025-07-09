@@ -3,11 +3,23 @@ package gear_go
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
+
+	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
-	"github.com/misnaged/gear-go/internal/client/http"
-	"github.com/misnaged/gear-go/internal/client/ws"
+
+	//nolint:typecheck
+	gear_http "github.com/misnaged/gear-go/internal/client/http"
+
+	//nolint:typecheck
+	gear_ws "github.com/misnaged/gear-go/internal/client/ws"
+
+	// nolint:typecheck
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
+
+	// nolint:typecheck
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
+
+	// nolint:typecheck
 	gear_scale "github.com/misnaged/gear-go/internal/scale"
 	"github.com/misnaged/scriptorium/versioner"
 	"time"
@@ -43,6 +55,7 @@ func NewGear() (*Gear, error) {
 	if err := gear.scale.InitMetadata(); err != nil {
 		return nil, fmt.Errorf(" gear.scale.InitMetadata failed: %w", err)
 	}
+
 	return gear, nil
 }
 
@@ -61,12 +74,14 @@ func (gear *Gear) initScale() error {
 
 func (gear *Gear) initClient() error {
 	if gear.config.Client.IsWebSocket {
+
 		client, err := gear_ws.NewWsClient(gear.config)
 		if err != nil {
 			return fmt.Errorf("ws.Handler failed: %w", err)
 		}
 		gear.client = client
 	} else {
+
 		client := gear_http.NewHttpClient(time.Second*10, gear.config)
 		gear.client = client
 	}
