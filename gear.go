@@ -7,8 +7,11 @@ import (
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
-	"github.com/misnaged/gear-go/internal/client/http"
-	"github.com/misnaged/gear-go/internal/client/ws"
+	//nolint:typecheck
+	gear_http "github.com/misnaged/gear-go/internal/client/http"
+
+	//nolint:typecheck
+	gear_ws "github.com/misnaged/gear-go/internal/client/ws"
 
 	// nolint:typecheck
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"

@@ -1,4 +1,3 @@
-//nolint:typecheck
 package gear_http
 
 import (
@@ -7,7 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
-	"github.com/misnaged/gear-go/internal/client"
+
+	//nolint:typecheck
+	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/models"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"net/http"

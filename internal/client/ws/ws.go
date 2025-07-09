@@ -1,4 +1,3 @@
-//nolint:typecheck
 package gear_ws
 
 import (
