@@ -44,6 +44,7 @@ linters-settings:
 linters:
   disable-all: true
   enable:
+    - typecheck
     - revive
     - gocritic
     - stylecheck

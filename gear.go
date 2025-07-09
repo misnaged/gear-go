@@ -72,7 +72,6 @@ func (gear *Gear) initScale() error {
 func (gear *Gear) initClient() error {
 	if gear.config.Client.IsWebSocket {
 
-		// nolint:typecheck
 		client, err := gear_ws.NewWsClient(gear.config)
 		if err != nil {
 			return fmt.Errorf("ws.Handler failed: %w", err)
@@ -80,7 +79,6 @@ func (gear *Gear) initClient() error {
 		gear.client = client
 	} else {
 
-		// nolint:typecheck
 		client := gear_http.NewHttpClient(time.Second*10, gear.config)
 		gear.client = client
 	}

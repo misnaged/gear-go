@@ -6,7 +6,10 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 	"github.com/misnaged/gear-go/config"
+
+	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
+
 	"github.com/misnaged/gear-go/internal/models"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"sync"
