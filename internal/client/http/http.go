@@ -19,8 +19,8 @@ type HttpClient struct {
 	id     any
 }
 
-// nolint:typecheck
 func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.IClient {
+	// nolint:typecheck
 	c := &http.Client{
 		Timeout: timeout,
 	}
