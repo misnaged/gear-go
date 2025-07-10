@@ -13,9 +13,11 @@ import (
 )
 
 type Storage struct {
-	moduleName, methodName, scaleType string
-	meta                              *types.MetadataStruct
-	params                            []any
+	moduleName,
+	methodName,
+	scaleType string
+	meta   *types.MetadataStruct
+	params []any
 }
 
 func NewStorage(moduleName, methodName string, meta *types.MetadataStruct) gear_storage.IGearStorage {
@@ -61,23 +63,58 @@ func (stor *Storage) getEncodedStorageKey() (string, error) {
 	return gear_utils.AddToHex(b), nil
 }
 
+func (stor *Storage) GetStorageKey() (string, error) {
+	return stor.getEncodedStorageKey()
+}
+
+func (stor *Storage) DecodeStorageDataArray(gearRPC gear_rpc.IGearRPC) ([]map[string]any, error) {
+	keys, err := stor.getPagedKeys(gearRPC)
+	if err != nil {
+		return nil, fmt.Errorf("error getting paged keys: %v", err)
+	}
+
+	if len(keys) <= 0 {
+		return nil, fmt.Errorf("%w", errors.New("storageKeys length is 0"))
+	}
+
+	storageDataArr := make([]map[string]any, len(keys))
+
+	for i := range keys {
+		m, err := stor.DecodeStorageDataMap(gearRPC, keys[i])
+		if err != nil {
+			return nil, fmt.Errorf("error decoding storage data map: %v", err)
+		}
+		storageDataArr = append(storageDataArr, m)
+	}
+	return storageDataArr, nil
+}
+
 // TODO: refactoring is needed (shall add enum in the next updates)
 
-func (stor *Storage) getStorageRpc(gearRPC gear_rpc.IGearRPC, isBigData bool) (string, error) {
-
+func (stor *Storage) getPagedKeys(gearRPC gear_rpc.IGearRPC) ([]string, error) {
 	storKey, err := stor.getEncodedStorageKey()
 	if err != nil {
-		return "", fmt.Errorf(" gear.scale.StorageRequest failed: %v", err)
+		return nil, fmt.Errorf(" gear.scale.StorageRequest failed: %v", err)
 	}
-	if isBigData {
-		keyPaged, err := gearRPC.StateGetKeyPaged(storKey)
-		if err != nil {
-			return "", fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
-		}
-		toAnyArr := keyPaged.Result.([]any) //TODO: clear type assertion is needed!\
-		storKey = toAnyArr[0].(string)
+	var pagedKeys []string
+
+	keyPaged, err := gearRPC.StateGetKeyPaged(storKey)
+	if err != nil {
+		return nil, fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
 	}
-	resp, err := gearRPC.StateGetStorageLatest(storKey)
+	toAnyArr := keyPaged.Result.([]any)
+	for i := range toAnyArr {
+		pagedKeys = append(pagedKeys, toAnyArr[i].(string))
+	}
+	return pagedKeys, nil
+
+}
+
+func (stor *Storage) GetStorageKeys(gearRPC gear_rpc.IGearRPC) ([]string, error) {
+	return stor.getPagedKeys(gearRPC)
+}
+func (stor *Storage) getStorageRpc(gearRPC gear_rpc.IGearRPC, storkey string) (string, error) {
+	resp, err := gearRPC.StateGetStorageLatest(storkey)
 	if err != nil {
 		return "", fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
 	}
@@ -87,8 +124,24 @@ func (stor *Storage) getStorageRpc(gearRPC gear_rpc.IGearRPC, isBigData bool) (s
 	return resp.Result.(string), nil
 }
 
-func (stor *Storage) DecodeStorage(gearRPC gear_rpc.IGearRPC, decodeData any, isBigData bool) error {
-	storageEncoded, err := stor.getStorageRpc(gearRPC, isBigData)
+func (stor *Storage) DecodeStorageDataMap(gearRPC gear_rpc.IGearRPC, storkey string) (map[string]any, error) {
+	storageEncoded, err := stor.getStorageRpc(gearRPC, storkey)
+	if err != nil {
+		return nil, fmt.Errorf(" gear.scale.GetStorageRpc failed: %v", err)
+	}
+	err = stor.getTypeName()
+	if err != nil {
+		return nil, fmt.Errorf("getTypeName failed: %v", err)
+	}
+	a, _, err := storage.Decode(storageEncoded, stor.scaleType, &types.ScaleDecoderOption{Metadata: stor.meta})
+	if err != nil {
+		return nil, fmt.Errorf("storage.Decode failed: %v", err)
+	}
+
+	return a.ToMapInterface(), nil
+}
+func (stor *Storage) DecodeStorage(gearRPC gear_rpc.IGearRPC, decodeData any, storkey string) error {
+	storageEncoded, err := stor.getStorageRpc(gearRPC, storkey)
 	if err != nil {
 		return fmt.Errorf(" gear.scale.GetStorageRpc failed: %v", err)
 	}

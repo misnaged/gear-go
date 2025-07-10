@@ -3,7 +3,6 @@ package gear_go
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
-
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 

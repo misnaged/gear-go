@@ -1,0 +1,39 @@
+package gear_storage_methods
+
+import (
+	"fmt"
+	"github.com/misnaged/gear-go/config"
+	gear_http "github.com/misnaged/gear-go/internal/client/http"
+	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
+	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
+	gear_scale "github.com/misnaged/gear-go/internal/scale"
+	"github.com/stretchr/testify/assert"
+	"testing"
+	"time"
+)
+
+func newTestGearRpc() (gear_rpc.IGearRPC, *gear_scale.Scale, error) {
+	clientCfg := &config.Client{
+		IsWebSocket: false,
+		IsSecured:   false,
+	}
+	clientCfg.Transport = "http"
+	clientCfg.Host = "127.0.0.1"
+	clientCfg.Port = 9944
+	cfg := &config.Scheme{Client: clientCfg}
+
+	fmt.Println(cfg.Client.Transport)
+	client := gear_http.NewHttpClient(time.Second*3, cfg)
+	gearGRPC := gear_rpc_method.NewGearRpc(client, cfg)
+
+	return gearGRPC, gear_scale.NewScale(gearGRPC, cfg), nil
+}
+func TestStorage_GetProgramsId(t *testing.T) {
+	rpc, scale, err := newTestGearRpc()
+	assert.NoError(t, err)
+
+	storage := NewStorage("GearProgram", "ProgramStorage", scale.GetMetadata())
+
+	_, err = storage.GetProgramsId(rpc)
+	assert.NoError(t, err)
+}
