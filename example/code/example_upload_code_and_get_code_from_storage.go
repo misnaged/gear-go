@@ -40,8 +40,12 @@ func main() {
 	args = append(args, code)
 	gear.GetClient().Subscribe(args, "author_submitAndWatchExtrinsic")
 	storage := gear_storage_methods.NewStorage("GearProgram", "CodeStorage", gear.GetScale().GetMetadata())
-	var vv map[string]any
-	err = storage.DecodeStorage(gear.GetRPC(), &vv, true)
+	key, err := storage.GetStorageKey()
+	if err != nil {
+		logger.Log().Errorf("error while getting storage key: %v", err)
+		os.Exit(1)
+	}
+	vv, err := storage.DecodeStorageDataMap(gear.GetRPC(), key)
 	if err != nil {
 		logger.Log().Errorf("error decoding storage: %v", err)
 		os.Exit(1)

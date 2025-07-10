@@ -34,7 +34,6 @@ func (gearRPC *GearRpc) StateGetStorageLatest(accountId string) (*models.RpcGene
 func (gearRPC *GearRpc) StateGetKeyPaged(encodedKey string) (*models.RpcGenericResponse, error) {
 	var params []any
 	params = append(params, encodedKey, 1000, encodedKey)
-	fmt.Println(params)
 	return gearRPC.client.PostRequest(params, "state_getKeysPaged")
 }
 
