@@ -3,7 +3,9 @@ package gear_go
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
+	"github.com/misnaged/gear-go/internal/calls"
 	"github.com/misnaged/gear-go/internal/metadata"
+	"github.com/misnaged/substrate-api-rpc/keyring"
 
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
@@ -30,6 +32,8 @@ type Gear struct {
 	client  gear_client.IClient
 	gearRPC gear_rpc.IGearRPC
 	meta    *metadata.Metadata
+	calls   *calls.Calls
+	keyRing keyring.IKeyRing
 }
 
 // NewGear creates fully functional gear-go API instance
@@ -41,15 +45,26 @@ func NewGear() (*Gear, error) {
 	if err := gear.preRequests(); err != nil {
 		return nil, fmt.Errorf(" gear.preRequests failed: %w", err)
 	}
+
+	// Client (http/ws) initialization
 	if err := gear.initClient(); err != nil {
 		return nil, fmt.Errorf(" gear.initClient failed: %w", err)
 	}
 
+	// Keyring initialization
+	gear.initKeyRing()
+
+	// RPC initialization
 	gear.initGearRpc()
 
+	// Metadata initialization
 	if err := gear.initMetadata(); err != nil {
 		return nil, fmt.Errorf(" gear.Metadata failed: %w", err)
 	}
+
+	// Calls initialization
+	gear.initCalls()
+
 	return gear, nil
 }
 
@@ -68,7 +83,6 @@ func (gear *Gear) initMetadata() error {
 	gear.meta = meta
 	return nil
 }
-
 func (gear *Gear) initClient() error {
 	if gear.config.Client.IsWebSocket {
 
@@ -83,6 +97,15 @@ func (gear *Gear) initClient() error {
 		gear.client = client
 	}
 	return nil
+}
+func (gear *Gear) initKeyRing() {
+	kr := keyring.New(gear.config.Keyring.Category, gear.config.Keyring.Seed)
+	gear.keyRing = kr
+}
+
+func (gear *Gear) initCalls() {
+	cs := calls.NewCalls(gear.meta, gear.gearRPC, gear.keyRing)
+	gear.calls = cs
 }
 
 func (gear *Gear) preRequests() error {

@@ -6,17 +6,13 @@ import (
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	gear_utils "github.com/misnaged/gear-go/internal/utils"
-	"github.com/misnaged/substrate-api-rpc/keyring"
 	rpcModels "github.com/misnaged/substrate-api-rpc/model"
 	"github.com/misnaged/substrate-api-rpc/rpc"
 )
 
-func (calls *GearCalls) SignTransaction(moduleName, callName string, kr keyring.IKeyRing, params []scalecodec.ExtrinsicParam) (string, error) {
-	if kr == nil {
-		return "", errors.New("failed to sign transaction: signer keyring is nil")
-	}
-	if params == nil {
-		return "", errors.New("failed to sign transaction: params is nil")
+func (calls *Calls) SignTransaction(moduleName, callName string, params []scalecodec.ExtrinsicParam) (string, error) {
+	if calls.KeyRing == nil {
+		return "", fmt.Errorf("%w", errors.New("failed to sign transaction: params is nil"))
 	}
 	if err := calls.Meta.MetadataCheck(); err != nil {
 		return "", fmt.Errorf("failed to sign transaction: %w", err)
@@ -34,7 +30,7 @@ func (calls *GearCalls) SignTransaction(moduleName, callName string, kr keyring.
 	opt := &types.ScaleDecoderOption{Metadata: calls.Meta.GetMetadata(), Spec: -1}
 	callIndex := gear_utils.GetCallLookupIndexByModuleAndCallNames(calls.Meta.GetMetadata(), moduleName, callName)
 
-	resp, err := calls.GearRpc.SystemAccountNextIndex(kr.PublicKey())
+	resp, err := calls.GearRpc.SystemAccountNextIndex(calls.KeyRing.PublicKey())
 	if err != nil {
 		return "", fmt.Errorf("failed to send SystemAccountNextIndex request: %w", err)
 	}
@@ -44,7 +40,7 @@ func (calls *GearCalls) SignTransaction(moduleName, callName string, kr keyring.
 		int(resp.Result.(float64)),
 		version,
 		calls.Meta.GetMetadata(),
-		kr,
+		calls.KeyRing,
 		opt,
 		params,
 	)
@@ -55,7 +51,7 @@ func (calls *GearCalls) SignTransaction(moduleName, callName string, kr keyring.
 	return signed, nil
 }
 
-func (calls *GearCalls) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
+func (calls *Calls) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
 	runtimeVersion, err := calls.GearRpc.StateGetRuntimeVersionLatest()
 	if err != nil {
 		return nil, fmt.Errorf("request state_getRuntimeVersion failed: %v", err)
@@ -90,7 +86,7 @@ func (calls *GearCalls) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, 
 		return nil, errors.New("unknown genesis hash type")
 	}
 }
-func (calls *GearCalls) getChainGetBlockHash() (string, error) {
+func (calls *Calls) getChainGetBlockHash() (string, error) {
 
 	genesisHash, err := calls.GearRpc.ChainGetBlockHash(0)
 	if err != nil {
@@ -100,7 +96,6 @@ func (calls *GearCalls) getChainGetBlockHash() (string, error) {
 	case string:
 		return genesisHash.Result.(string), nil
 	default:
-		fmt.Printf("%T\n", genesisHash.Result)
 		return "", errors.New("genesisHash is not string")
 	}
 }

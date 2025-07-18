@@ -85,7 +85,7 @@ func (ws *wsClient) Subscribe(params any, method string) {
 		Method:  method,
 		Params:  params,
 	}
-	body, err := rpcRequest.MarshalBody()
+	body, err := json.Marshal(rpcRequest)
 	if err != nil {
 		logger.Log().Errorf("marshal json rpc request body failed: %v", err)
 		return
@@ -169,7 +169,7 @@ func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericRe
 		Params:  params,
 	}
 
-	body, err := rpcRequest.MarshalBody()
+	body, err := json.Marshal(rpcRequest)
 	if err != nil {
 		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
