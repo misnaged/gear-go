@@ -3,16 +3,16 @@ package gear_rpc_method
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
+	gear_api "github.com/misnaged/gear-go/internal/api"
 	gear_http "github.com/misnaged/gear-go/internal/client/http"
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
-	gear_scale "github.com/misnaged/gear-go/internal/scale"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func newTestGearRpc() (gear_rpc.IGearRPC, *gear_scale.Scale, error) {
+func newTestGearRpc() (gear_rpc.IGearRPC, *gear_api.Api, error) {
 	clientCfg := &config.Client{
 		IsWebSocket: false,
 		IsSecured:   false,
@@ -26,7 +26,7 @@ func newTestGearRpc() (gear_rpc.IGearRPC, *gear_scale.Scale, error) {
 	client := gear_http.NewHttpClient(time.Second*3, cfg)
 	gearGRPC := NewGearRpc(client, cfg)
 
-	return gearGRPC, gear_scale.NewScale(gearGRPC, cfg), nil
+	return gearGRPC, gear_api.NewApi(gearGRPC, cfg), nil
 }
 func TestGearRpc_NoArgRpcRequest(t *testing.T) {
 	gearRpc, _, err := newTestGearRpc()
