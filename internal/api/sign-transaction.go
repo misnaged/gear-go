@@ -1,4 +1,4 @@
-package gear_scale
+package gear_api
 
 import (
 	"errors"
@@ -11,52 +11,52 @@ import (
 	"github.com/misnaged/substrate-api-rpc/rpc"
 )
 
-func (s *Scale) SignTransaction(moduleName, callName string, kr keyring.IKeyRing, params []scalecodec.ExtrinsicParam) (string, error) {
+func (api *Api) SignTransaction(moduleName, callName string, kr keyring.IKeyRing, params []scalecodec.ExtrinsicParam) (string, error) {
 	if kr == nil {
 		return "", errors.New("failed to sign transaction: signer keyring is nil")
 	}
 	if params == nil {
 		return "", errors.New("failed to sign transaction: params is nil")
 	}
-	if err := s.MetadataCheck(); err != nil {
+	if err := api.MetadataCheck(); err != nil {
 		return "", fmt.Errorf("failed to sign transaction: %w", err)
 	}
 
-	genesisHash, err := s.getChainGetBlockHash()
+	genesisHash, err := api.getChainGetBlockHash()
 	if err != nil {
 		return "", fmt.Errorf("%w", err)
 	}
-	version, err := s.getStateGetRuntimeVersion()
+	version, err := api.getStateGetRuntimeVersion()
 	if err != nil {
 		return "", fmt.Errorf("%w", err)
 	}
 
-	opt := &types.ScaleDecoderOption{Metadata: s.metadata, Spec: -1}
-	callIndex := gear_utils.GetCallLookupIndexByModuleAndCallNames(s.metadata, moduleName, callName)
+	opt := &types.ScaleDecoderOption{Metadata: api.metadata, Spec: -1}
+	callIndex := gear_utils.GetCallLookupIndexByModuleAndCallNames(api.metadata, moduleName, callName)
 
-	resp, err := s.gearRpc.SystemAccountNextIndex(kr.PublicKey())
+	resp, err := api.gearRpc.SystemAccountNextIndex(kr.PublicKey())
 	if err != nil {
 		return "", fmt.Errorf("failed to send SystemAccountNextIndex request: %w", err)
 	}
-	s.customTx = rpc.NewCustomTransaction(
+	api.customTx = rpc.NewCustomTransaction(
 		callIndex,
 		genesisHash,
 		int(resp.Result.(float64)),
 		version,
-		s.metadata,
+		api.metadata,
 		kr,
 		opt,
 		params,
 	)
-	signed, err := s.customTx.SignTransactionCustom() //TODO: Era is ALWAYS immortal. Need to change!
+	signed, err := api.customTx.SignTransactionCustom() //TODO: Era is ALWAYS immortal. Need to change!
 	if err != nil {
 		return "", fmt.Errorf("failed to sign transaction: %w", err)
 	}
 	return signed, nil
 }
 
-func (s *Scale) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
-	runtimeVersion, err := s.gearRpc.StateGetRuntimeVersionLatest()
+func (api *Api) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
+	runtimeVersion, err := api.gearRpc.StateGetRuntimeVersionLatest()
 	if err != nil {
 		return nil, fmt.Errorf("request state_getRuntimeVersion failed: %v", err)
 	}
@@ -90,9 +90,9 @@ func (s *Scale) getStateGetRuntimeVersion() (*rpcModels.RuntimeVersion, error) {
 		return nil, errors.New("unknown genesis hash type")
 	}
 }
-func (s *Scale) getChainGetBlockHash() (string, error) {
+func (api *Api) getChainGetBlockHash() (string, error) {
 
-	genesisHash, err := s.gearRpc.ChainGetBlockHash(0)
+	genesisHash, err := api.gearRpc.ChainGetBlockHash(0)
 	if err != nil {
 		return "", fmt.Errorf("request chain_getBlockHash failed: %v", err)
 	}

@@ -19,7 +19,7 @@ import (
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
 
 	// nolint:typecheck
-	gear_scale "github.com/misnaged/gear-go/internal/scale"
+	gear_api "github.com/misnaged/gear-go/internal/api"
 	"github.com/misnaged/scriptorium/versioner"
 	"time"
 )
@@ -28,7 +28,7 @@ type Gear struct {
 	config  *config.Scheme
 	version *version.Version
 	client  gear_client.IClient
-	scale   *gear_scale.Scale
+	gearApi *gear_api.Api
 	gearRPC gear_rpc.IGearRPC
 }
 
@@ -51,7 +51,7 @@ func NewGear() (*Gear, error) {
 		return nil, fmt.Errorf(" gear.initScale failed: %w", err)
 	}
 	//
-	if err := gear.scale.InitMetadata(); err != nil {
+	if err := gear.gearApi.InitMetadata(); err != nil {
 		return nil, fmt.Errorf(" gear.scale.InitMetadata failed: %w", err)
 	}
 
@@ -66,8 +66,8 @@ func (gear *Gear) initGearRpc() {
 }
 
 func (gear *Gear) initScale() error {
-	scale := gear_scale.NewScale(gear.gearRPC, gear.config)
-	gear.scale = scale
+	api := gear_api.NewApi(gear.gearRPC, gear.config)
+	gear.gearApi = api
 	return nil
 }
 
@@ -121,8 +121,8 @@ func (gear *Gear) GetConfig() *config.Scheme {
 func (gear *Gear) GetClient() gear_client.IClient {
 	return gear.client
 }
-func (gear *Gear) GetScale() *gear_scale.Scale {
-	return gear.scale
+func (gear *Gear) GetApi() *gear_api.Api {
+	return gear.gearApi
 }
 func (gear *Gear) GetRPC() gear_rpc.IGearRPC {
 	return gear.gearRPC

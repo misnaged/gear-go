@@ -9,9 +9,9 @@ import (
 	"fmt"
 	blake2b2 "github.com/ethereum/go-ethereum/crypto/blake2b"
 	gear_go "github.com/misnaged/gear-go"
+	gear_api "github.com/misnaged/gear-go/internal/api"
+	gear_storage_methods "github.com/misnaged/gear-go/internal/api/storage/methods"
 	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
-	gear_scale "github.com/misnaged/gear-go/internal/scale"
-	gear_storage_methods "github.com/misnaged/gear-go/internal/scale/storage/methods"
 	gear_utils "github.com/misnaged/gear-go/internal/utils"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"github.com/misnaged/substrate-api-rpc/keyring"
@@ -30,7 +30,7 @@ func main() {
 		logger.Log().Errorf("failed to read *.wasm file: : %v", err)
 		os.Exit(1)
 	}
-	code, err := uploadCodeTemp(gear.GetScale(), f)
+	code, err := uploadCodeTemp(gear.GetApi(), f)
 	if err != nil {
 		logger.Log().Errorf("error uploading code: %v", err)
 		os.Exit(1)
@@ -39,7 +39,7 @@ func main() {
 	var args []string
 	args = append(args, code)
 	gear.GetClient().Subscribe(args, "author_submitAndWatchExtrinsic")
-	storage := gear_storage_methods.NewStorage("GearProgram", "CodeStorage", gear.GetScale().GetMetadata())
+	storage := gear_storage_methods.NewStorage("GearProgram", "CodeStorage", gear.GetApi().GetMetadata())
 	key, err := storage.GetStorageKey()
 	if err != nil {
 		logger.Log().Errorf("error while getting storage key: %v", err)
@@ -97,7 +97,7 @@ func main() {
 		typeSection)
 
 }
-func uploadCodeTemp(scale *gear_scale.Scale, file []byte) (string, error) {
+func uploadCodeTemp(scale *gear_api.Api, file []byte) (string, error) {
 
 	var args []any
 

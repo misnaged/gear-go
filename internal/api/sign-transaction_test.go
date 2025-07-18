@@ -1,4 +1,4 @@
-package gear_scale
+package gear_api
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func scale() (*Scale, error) {
+func api() (*Api, error) {
 	clientCfg := &config.Client{
 		IsWebSocket: false,
 		IsSecured:   false,
@@ -26,7 +26,7 @@ func scale() (*Scale, error) {
 	client := gear_http.NewHttpClient(time.Second*10, cfg)
 	gearRpc := gear_rpc_method.NewGearRpc(client, cfg)
 
-	scl := NewScale(gearRpc, cfg)
+	scl := NewApi(gearRpc, cfg)
 	decoder := &scalecodec.MetadataDecoder{}
 	resp, err := scl.gearRpc.StateGetMetadataLatest()
 	if err != nil {
@@ -41,19 +41,19 @@ func scale() (*Scale, error) {
 }
 
 func TestScale_SignTransaction(t *testing.T) {
-	scaleT, err := scale()
+	apiT, err := api()
 	assert.NoError(t, err)
-	err = scaleT.InitMetadata()
+	err = apiT.InitMetadata()
 	assert.NoError(t, err)
 	var args []any
 	assert.NoError(t, err)
 	args = append(args, "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d", "10000000000000000000", "", true, 1000000)
-	params, err := extrinsic_params.InitBuilder("GearVoucher", "issue", scaleT.GetMetadata().Metadata.Modules, args)
+	params, err := extrinsic_params.InitBuilder("GearVoucher", "issue", apiT.GetMetadata().Metadata.Modules, args)
 	assert.NoError(t, err)
 	//Alice
 	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
 
-	aa, err := scaleT.SignTransaction("GearVoucher", "issue", kr, params)
+	aa, err := apiT.SignTransaction("GearVoucher", "issue", kr, params)
 	assert.NoError(t, err)
 	if aa == "" {
 		assert.FailNow(t, "sign transaction failed")

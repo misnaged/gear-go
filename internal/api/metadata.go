@@ -1,4 +1,4 @@
-package gear_scale
+package gear_api
 
 import (
 	"errors"
@@ -8,9 +8,9 @@ import (
 	"github.com/itering/scale.go/utiles"
 )
 
-func (s *Scale) InitMetadata() error {
+func (api *Api) InitMetadata() error {
 	decoder := &scalecodec.MetadataDecoder{}
-	resp, err := s.gearRpc.StateGetMetadataLatest()
+	resp, err := api.gearRpc.StateGetMetadataLatest()
 	if err != nil {
 		return fmt.Errorf("post request err: %v", err)
 	}
@@ -19,16 +19,16 @@ func (s *Scale) InitMetadata() error {
 	if err != nil {
 		return fmt.Errorf("failed to decode metadata: %w", err)
 	}
-	s.metadata = &decoder.Metadata
+	api.metadata = &decoder.Metadata
 	return nil
 }
 
-func (s *Scale) GetMetadata() *types.MetadataStruct {
-	return s.metadata
+func (api *Api) GetMetadata() *types.MetadataStruct {
+	return api.metadata
 }
 
-func (s *Scale) MetadataCheck() error {
-	if s.metadata != nil {
+func (api *Api) MetadataCheck() error {
+	if api.metadata != nil {
 		return nil
 	}
 	return errors.New("metadata is nil")

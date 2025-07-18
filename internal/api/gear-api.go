@@ -1,4 +1,4 @@
-package gear_scale
+package gear_api
 
 import (
 	"github.com/misnaged/gear-go/config"
@@ -13,15 +13,15 @@ const (
 	SubstratePrefix uint16 = 42
 )
 
-type Scale struct {
+type Api struct {
 	gearRpc  gear_rpc.IGearRPC
 	metadata *types.MetadataStruct
 	config   *config.Scheme
 	customTx rpc.ICustomTranscation
 }
 
-func NewScale(gearRpc gear_rpc.IGearRPC, config *config.Scheme) *Scale {
-	return &Scale{
+func NewApi(gearRpc gear_rpc.IGearRPC, config *config.Scheme) *Api {
+	return &Api{
 		gearRpc: gearRpc,
 		config:  config,
 	}
