@@ -3,6 +3,8 @@ package gear_go
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
+	"github.com/misnaged/gear-go/internal/metadata"
+
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
@@ -18,8 +20,6 @@ import (
 	// nolint:typecheck
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
 
-	// nolint:typecheck
-	gear_api "github.com/misnaged/gear-go/internal/api"
 	"github.com/misnaged/scriptorium/versioner"
 	"time"
 )
@@ -28,8 +28,8 @@ type Gear struct {
 	config  *config.Scheme
 	version *version.Version
 	client  gear_client.IClient
-	gearApi *gear_api.Api
 	gearRPC gear_rpc.IGearRPC
+	meta    *metadata.Metadata
 }
 
 // NewGear creates fully functional gear-go API instance
@@ -47,14 +47,9 @@ func NewGear() (*Gear, error) {
 
 	gear.initGearRpc()
 
-	if err := gear.initScale(); err != nil {
-		return nil, fmt.Errorf(" gear.initScale failed: %w", err)
+	if err := gear.initMetadata(); err != nil {
+		return nil, fmt.Errorf(" gear.Metadata failed: %w", err)
 	}
-	//
-	if err := gear.gearApi.InitMetadata(); err != nil {
-		return nil, fmt.Errorf(" gear.scale.InitMetadata failed: %w", err)
-	}
-
 	return gear, nil
 }
 
@@ -65,9 +60,12 @@ func (gear *Gear) initGearRpc() {
 	gear.gearRPC = gearRpc
 }
 
-func (gear *Gear) initScale() error {
-	api := gear_api.NewApi(gear.gearRPC, gear.config)
-	gear.gearApi = api
+func (gear *Gear) initMetadata() error {
+	meta, err := metadata.NewMetadata(gear.gearRPC)
+	if err != nil {
+		return fmt.Errorf(" gear.initMetadata failed: %w", err)
+	}
+	gear.meta = meta
 	return nil
 }
 
@@ -121,9 +119,10 @@ func (gear *Gear) GetConfig() *config.Scheme {
 func (gear *Gear) GetClient() gear_client.IClient {
 	return gear.client
 }
-func (gear *Gear) GetApi() *gear_api.Api {
-	return gear.gearApi
-}
+
 func (gear *Gear) GetRPC() gear_rpc.IGearRPC {
 	return gear.gearRPC
+}
+func (gear *Gear) GetMeta() *metadata.Metadata {
+	return gear.meta
 }

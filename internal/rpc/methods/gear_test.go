@@ -9,7 +9,7 @@ import (
 var testWasmPing = "../../../assets/wasm/test/demo_ping.opt.wasm"
 
 func TestGearRpc_GearCalculateInitCreateGas(t *testing.T) {
-	gearRpc, _, err := newTestGearRpc()
+	gearRpc, err := newTestGearRpc()
 	assert.NoError(t, err)
 	codeId, err := gear_utils.GetCodeIdFromWasmFile(testWasmPing)
 	assert.NoError(t, err)
