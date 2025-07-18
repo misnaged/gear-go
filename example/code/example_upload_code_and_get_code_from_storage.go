@@ -30,8 +30,9 @@ func main() {
 		logger.Log().Errorf("failed to read *.wasm file: : %v", err)
 		os.Exit(1)
 	}
+	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
 
-	call := calls.NewGearCalls(gear.GetMeta(), gear.GetRPC())
+	call := calls.NewCalls(gear.GetMeta(), gear.GetRPC(), kr)
 	code, err := uploadCodeTemp(call, f)
 	if err != nil {
 		logger.Log().Errorf("error uploading code: %v", err)
@@ -77,7 +78,7 @@ func main() {
 		codeLen)
 
 }
-func uploadCodeTemp(calls *calls.GearCalls, file []byte) (string, error) {
+func uploadCodeTemp(calls *calls.Calls, file []byte) (string, error) {
 
 	var args []any
 
@@ -88,9 +89,7 @@ func uploadCodeTemp(calls *calls.GearCalls, file []byte) (string, error) {
 		return "", fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
 	}
 
-	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
-
-	aa, err := calls.SignTransaction("Gear", "upload_code", kr, params)
+	aa, err := calls.SignTransaction("Gear", "upload_code", params)
 	if err != nil {
 		return "", fmt.Errorf(" gear.scale.SignTransaction failed: %w", err)
 	}

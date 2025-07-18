@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func api() (*GearCalls, error) {
+func api() (*Calls, error) {
 	clientCfg := &config.Client{
 		IsWebSocket: false,
 		IsSecured:   false,
@@ -29,7 +29,9 @@ func api() (*GearCalls, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%w", err)
 	}
-	return NewGearCalls(meta, gearRpc), nil
+	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
+
+	return NewCalls(meta, gearRpc, kr), nil
 }
 
 func TestGearCalls_SignTransaction(t *testing.T) {
@@ -43,9 +45,8 @@ func TestGearCalls_SignTransaction(t *testing.T) {
 	assert.NoError(t, err)
 
 	//Alice
-	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
 
-	aa, err := apiT.SignTransaction("GearVoucher", "issue", kr, params)
+	aa, err := apiT.SignTransaction("GearVoucher", "issue", params)
 	assert.NoError(t, err)
 	if aa == "" {
 		assert.FailNow(t, "sign transaction failed")
