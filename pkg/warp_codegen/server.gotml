@@ -17,7 +17,7 @@ fn main() {
       gear_grpc_service_server::{GearGrpcService, GearGrpcServiceServer},
       EncodedVoucherIssue, VoucherParams,
   };
- use crate::sign_transaction::polkadot_transfer_demo;
+ use crate::sign_transaction::voucher_issue;
 
  #[derive(Debug, Default)]
   pub struct MyGearGrpcService;
@@ -31,7 +31,7 @@ fn main() {
 
           let params = request.into_inner();
 
-          let encoded_call = polkadot_transfer_demo(&*params.spender, &*params.balance, params.code_uploading, params.duration as u32);
+          let encoded_call = voucher_issue(&*params.spender, &*params.balance, params.code_uploading, params.duration as u32);
 
           let reply = EncodedVoucherIssue { encoded_call };
 

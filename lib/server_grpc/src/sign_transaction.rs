@@ -13,7 +13,7 @@ use std::str::FromStr;
 #[subxt::subxt(runtime_metadata_path = "./metadata.scale")]
 pub mod polkadot {}
 
-pub fn polkadot_transfer_demo(secret_uri_str: &str, bal: &str, upl: bool, dur: u32) -> String{
+pub fn voucher_issue(secret_uri_str: &str, bal: &str, upl: bool, dur: u32) -> String{
 
     // Load metadata
     let metadata_bytes = include_bytes!("../metadata.scale");
