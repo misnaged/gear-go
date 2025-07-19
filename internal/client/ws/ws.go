@@ -6,7 +6,6 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 	"github.com/misnaged/gear-go/config"
-
 	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
@@ -93,12 +92,12 @@ func (ws *wsClient) Subscribe(params any, method string) {
 
 	ws.mu.Lock()
 	err = conn.WriteMessage(websocket.TextMessage, body)
-	ws.mu.Unlock()
-
 	if err != nil {
 		logger.Log().Errorf("send subscription request failed: %v", err)
 		return
 	}
+	ws.mu.Unlock()
+
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
@@ -112,7 +111,12 @@ func (ws *wsClient) Subscribe(params any, method string) {
 				//ws.unsubscribe("1", conn) //TODO: add unsubscribe if neeeded
 				return
 			default:
+
+				// nolint:errcheck
+				conn.SetReadDeadline(time.Now().Add(15 * time.Second))
+
 				_, message, err := conn.ReadMessage()
+				fmt.Println(string(message))
 				if err != nil {
 					logger.Log().Errorf("read message failed: %v", err)
 					return

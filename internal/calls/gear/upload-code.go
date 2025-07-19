@@ -15,12 +15,10 @@ func (gc *GearCalls) UploadCode(pathToWasm string) error {
 	if err != nil {
 		return fmt.Errorf("error calling extrinsic params builder: %w", err)
 	}
-
 	resp, err := gc.c.GearRpc.AuthorSubmitExtrinsic(call)
 	if err != nil {
 		return fmt.Errorf("error submitting extrinsic: %w", err)
 	}
-	fmt.Println(resp)
 	if resp.Error != nil {
 		return fmt.Errorf("chain response returned error: %v", resp.Error)
 	}

@@ -2,11 +2,10 @@ package gear_http
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/goccy/go-json"
 	"github.com/misnaged/gear-go/config"
-
 	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/models"
@@ -52,6 +51,7 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 	if err != nil {
 		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
+
 	req, err := http.NewRequest(http.MethodPost, address, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("post request has failed: %w", err)
@@ -62,7 +62,6 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 	if err != nil {
 		return nil, fmt.Errorf("client Do failed %w", err)
 	}
-
 	// nolint:errcheck
 	defer resp.Body.Close()
 
