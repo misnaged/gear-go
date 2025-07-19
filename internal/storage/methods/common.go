@@ -74,7 +74,6 @@ func (stor *Storage) DecodeStorageDataArray() ([]map[string]any, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error getting paged keys: %v", err)
 	}
-
 	if len(keys) <= 0 {
 		return nil, fmt.Errorf("%w", errors.New("storageKeys length is 0"))
 	}
@@ -97,7 +96,6 @@ func (stor *Storage) getPagedKeys() ([]string, error) {
 		return nil, fmt.Errorf(" gear.scale.StorageRequest failed: %v", err)
 	}
 	var pagedKeys []string
-
 	keyPaged, err := stor.gearRpc.StateGetKeyPaged(storKey)
 	if err != nil {
 		return nil, fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
@@ -123,7 +121,22 @@ func (stor *Storage) getStorageRpc(storkey string) (string, error) {
 	}
 	return resp.Result.(string), nil
 }
-
+func (stor *Storage) DecodeStorageDataAny(storkey string, v any) error {
+	storageEncoded, err := stor.getStorageRpc(storkey)
+	if err != nil {
+		return fmt.Errorf("GetStorageRpc failed: %v", err)
+	}
+	err = stor.getTypeName()
+	if err != nil {
+		return fmt.Errorf("getTypeName failed: %v", err)
+	}
+	a, _, err := storage.Decode(storageEncoded, stor.scaleType, &types.ScaleDecoderOption{Metadata: stor.meta.GetMetadata()})
+	if err != nil {
+		return fmt.Errorf("storage.Decode failed: %v", err)
+	}
+	a.ToAny(v)
+	return nil
+}
 func (stor *Storage) DecodeStorageDataMap(storkey string) (map[string]any, error) {
 	storageEncoded, err := stor.getStorageRpc(storkey)
 	if err != nil {
