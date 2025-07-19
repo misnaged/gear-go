@@ -111,7 +111,10 @@ func (ws *wsClient) Subscribe(params any, method string) {
 				//ws.unsubscribe("1", conn) //TODO: add unsubscribe if neeeded
 				return
 			default:
+
+				// nolint:errcheck
 				conn.SetReadDeadline(time.Now().Add(15 * time.Second))
+
 				_, message, err := conn.ReadMessage()
 				fmt.Println(string(message))
 				if err != nil {
