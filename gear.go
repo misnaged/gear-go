@@ -110,13 +110,13 @@ func (gear *Gear) ResponsePoolRunner() {
 	for _, resp := range gear.responsePool {
 		select {
 		case <-gear.stop:
-			break
+			return
 		case <-resp:
 			for e := range resp {
 				if e.Params != nil {
 					if err := gear.Get(e); err != nil {
 						logger.Log().Errorf("gear.Get failed: %v", err)
-						break
+						return
 					}
 				}
 			}

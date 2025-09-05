@@ -11,6 +11,7 @@ func GetFieldFromAny(name string, src any) (any, error) {
 		return nil, errors.New("src is not a map[string]any")
 	}
 	if m[name] == nil {
+		// nolint:staticcheck
 		return nil, errors.New(fmt.Sprintf("no field %s found", name))
 	}
 	return m[name], nil

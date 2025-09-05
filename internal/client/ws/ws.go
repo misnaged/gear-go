@@ -26,7 +26,6 @@ type wsClient struct {
 	config       *config.Scheme
 	closed       chan struct{}
 	cancel       context.CancelFunc
-	mu           sync.RWMutex
 	dealer       *websocket.Dialer
 	conn         *websocket.Conn
 	sem          chan struct{}
@@ -40,7 +39,7 @@ func (ws *wsClient) readLoop() {
 		select {
 		case <-ws.closed:
 			logger.Log().Info("client disconnected")
-			break
+			return
 		default:
 
 			_, message, err := ws.conn.ReadMessage()
@@ -127,38 +126,6 @@ func (ws *wsClient) Subscribe(params any, method string) (<-chan *models.Subscri
 	}()
 
 	return respChan, nil
-}
-func aa() {
-	//if resp.Params != nil {
-	//	e, err := models.GetFieldFromAny("result", resp.Params)
-	//	if err != nil {
-	//		logger.Log().Errorf("failed to get field: %v", err)
-	//		break
-	//	}
-	//	switch e.(type) {
-	//	case map[string]any:
-	//		m, ok := e.(map[string]any)
-	//		if !ok {
-	//			logger.Log().Error("not a map[string]any")
-	//			break
-	//		}
-	//		subHash, err := models.GetFieldFromAny("subscription", resp.Params)
-	//		if err != nil {
-	//			logger.Log().Errorf("failed to get field: %v", err)
-	//			break
-	//		}
-	//		if subHash.(string) == "" {
-	//			logger.Log().Errorf("failed to get field: %v", err)
-	//			break
-	//		}
-	//		if m["finalized"] != nil {
-	//			ws.subscribes.Delete(subHash.(string))
-	//			close(respChan)
-	//			return
-	//		}
-	//	}
-	//}
-
 }
 
 func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {

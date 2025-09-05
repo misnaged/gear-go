@@ -41,12 +41,14 @@ func (ev *GearEvent) GetEvents(hex string) ([]*models.Event, error) {
 	}
 	return events, nil
 }
-func (ev *GearEvent) handleExtrinsicSuccess(event *models.Event) error {
-	for _, param := range event.Params {
-		fmt.Println(param.Name, param.Value)
-	}
-	return nil
-}
+
+//func (ev *GearEvent) handleExtrinsicSuccess(event *models.Event) error {
+//	for _, param := range event.Params {
+//		fmt.Println(param.Name, param.Value)
+//	}
+//	return nil
+//}
+
 func (ev *GearEvent) handleExtrinsicFailed(event *models.Event) error {
 	for _, param := range event.Params {
 		if param.Name == "dispatch_error" {

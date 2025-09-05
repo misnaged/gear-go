@@ -1,8 +1,3 @@
-/*
-In this example we're uploading new code using Extrinsic upload_code
-and then get its data from the storage
-*/
-
 package main
 
 import (
@@ -41,8 +36,11 @@ func main() {
 	}
 	var args []string
 	args = append(args, code)
-	gear.GetWsClient().Subscribe(args, "author_submitAndWatchExtrinsic")
-
+	_, err = gear.GetClient().PostRequest(args, "author_submitExtrinsic")
+	if err != nil {
+		logger.Log().Errorf("error posting request: %v", err)
+		os.Exit(1)
+	}
 	storage := gear_storage_methods.NewStorage("GearProgram", "CodeMetadataStorage", gear.GetMeta(), gear.GetRPC())
 	storageDataArr, err := storage.DecodeStorageDataArray()
 	if err != nil {
