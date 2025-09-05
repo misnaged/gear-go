@@ -15,11 +15,11 @@ func InitConfig(cfg *Scheme) error {
 	viper.SetDefault("env", "prod")
 	viper.SetDefault("client.host", "127.0.0.1")
 	viper.SetDefault("client.port", 9944)
-	viper.SetDefault("client.iswebsocket", false)
+	viper.SetDefault("client.iswebsocket", true)
 	viper.SetDefault("client.issecured", false)
 	viper.SetDefault("keyring.category", keyring.Sr25519Type)
 	viper.SetDefault("keyring.seed", "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a") //Alice
-
+	viper.SetDefault("subscriptions.hascustompoolrunner", false)
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			return fmt.Errorf("read config file: %w", err)

@@ -5,9 +5,13 @@ import "github.com/misnaged/substrate-api-rpc/keyring"
 // Scheme represents the application configuration scheme.
 type Scheme struct {
 	// Env is the application environment.
-	Env     string
-	Client  *Client
-	Keyring *Keyring
+	Env           string
+	Client        *Client
+	Keyring       *Keyring
+	Subscriptions *Subscriptions
+}
+type Subscriptions struct {
+	HasCustomPoolRunner bool
 }
 type Keyring struct {
 	Category keyring.Category

@@ -25,6 +25,7 @@ func main() {
 		logger.Log().Errorf("error creating gear: %v", err)
 		os.Exit(1)
 	}
+	gear.GetConfig().Client.IsWebSocket = true // override if it's false
 	f, err := os.ReadFile("./example/code/demo_messenger.opt.wasm")
 	if err != nil {
 		logger.Log().Errorf("failed to read *.wasm file: : %v", err)
@@ -40,7 +41,8 @@ func main() {
 	}
 	var args []string
 	args = append(args, code)
-	gear.GetClient().Subscribe(args, "author_submitAndWatchExtrinsic")
+	gear.GetWsClient().Subscribe(args, "author_submitAndWatchExtrinsic")
+
 	storage := gear_storage_methods.NewStorage("GearProgram", "CodeMetadataStorage", gear.GetMeta(), gear.GetRPC())
 	storageDataArr, err := storage.DecodeStorageDataArray()
 	if err != nil {

@@ -1,0 +1,833 @@
+ asm   I``` ` `` `  ` ``` ` �	envgr_debug envgr_panic envgr_oom_panic envalloc env
+free_range  envgr_read envgr_reply envgr_size envmemory KJ       	      
+             p	A��� $init Phandle Q__gear_stack_end 	 A
+
+&%$)421567DIHFJENG
+مJ�# Ak"$  A 6   Aj@ A�O@ A�I
+ A��O@  A?qA�r:   AvA�r:   AvA?qA�r:   AvA?qA�r:
+A  A?qA�r:   AvA�r:   AvA?qA�r:
+A  : A  A?qA�r:
+  AvA�r: A
+ Aj$ N# A k"$  Aj"Aj Aj) 7  Aj Aj) 7   ) 7  A���  - A j$ �@  @ ( ( "A N
+AՄ� A�3  (!# Ak"$  A 6  6   6   	@A��� A
+ AjA��� A��� 0  (  (  Aj$   ( A��� A (( b# A k"$ # A k"$  A��6   6  Aj6  Aj6# " A��k"$   Aj
+  $  A j$  A j$ �  (" j!@@  O@@A��  A��O" I
+    (K
+   k" K
+   (  j"k  k  K I
+   @   6A A��� : # A0k" $    6   6   A6  A��� 6  B7    Aj�B������7(    �B������7     A j6  AjA��� , AЇ� A�3 �A!# Ak"$  Aj!@  ( "E
+  �B �B R@A��� A�3  "A����M@ A6  (! Aj!A��� A�3   6 @ ("E
+  (" E
+ # Ak"$     A ! @@ A��� I
+  A��� K
+  A��� k!@  "AG@ Aj!   G
+A��� A��� -  A~ wq:   AkA #! Aj$  Aj$ �A!@ E
+ A��� -   E@# Ak"$     ( ( ! Aj$ # Ak"$     (" ( "@  ? Aj$    6   6 � A	O@@@@@ A��{M@  A��{ kO
+  " j!    I
+  A " E
+  Ak"   "Ak" A 
+A��� ; A��� :   Ak( AxqjA#   F
+   Ak( " AI
+    Axq   A2  iAF A����x kMqE@A��� A�3    6   6 2 @ @     jAk" K
+  A  kqA��� ; A��� : 1A!@  A
+O    Aj" K
+  AAA��� : )   AM@AĻ� AĻ� ( A~  wq6 A��� > : @  A����M@  At" A O
+A���  vA� qA��� < A�� = �@ E
+ A�� (
+   A� K
+ A��� -  !A !@ AF
+@A t" qE@@@ A����M@ At"A O
+A�� vA� q!A��� < AЖ� =    M
+ Aj!A��� A��� -   r:   A��� j@@@@@@@@@@@@@  "A�O@A ! A��{O
+AȻ� ( E
+A !A  k!@@ "( "E
+  A AvkA  AGt!A ! @@ "(Axq" I
+   k" O
+  !  "
+ A !  ("   AvAqj("F  ! At! 
+  @ !  E
+ A !AȻ� ( A~ tq"E@A !A ! A !  h!	A A!@ E@ 	( !A!@ @ Aj Aj (!	      (Axq"  k" I"   I"!      !  E
+AԾ� ( " O   kOq
+     Ar6 AO@   j" Ar6  Axqj 6  AM
+     Axqj" (Ar6A !  AĻ� (  Av"v" Aq@  AsAq j" "  At"Ar6   j" (Ar6	 AԾ� ( M
+
+AȻ� ( " E
+   h( " (Axq" I
+  k!  !@@ AA (j( "E
+ (Axq" O@  k" I!   !    ! AИ� ;      Ar6   A�qj! AI
+  Ar6  Axqj 6  AM
+   AԾ� ( K
+Aܾ� ( "    A   th" !  At" I
+  k"AM@   Ar6   j" (Ar6   Ar6   j" Ar6  Axqj 6  AI
+   Aؾ� ( M
+A��� ;   (Ar6A��� ; A�� ( "    A  E
+  AjA ! A��{K
+ @@A�� -
+ A�� A:  A�� A" A��� K
+  A��� G@  A���   kAؾ� (  I
+ A�� ( "
+ A jA��"Av" AF
+  A��O
+  E
+  At A��|q! A�� (
+ Aؾ� ( !Aܾ� ( !A�� ( !@ @ ( (  (!j"Ak-  Aq
+ Ak" ( k" F
+ ("AI
+ Axq" M
+Aؾ�  6 A��  6  ! ! E
+        A @    (Axqj!  Aj! A��� ; A��� < 0A!  A���I  A  Avg" kvAq  AtkA>jA    A O@A��� A�3   AtAԽ� j�  (!@@  ("  F@  AA  ("j( "
+A !  (" 6  6  Aj  Aj !@ ! "Aj! ("
+  Aj! ("
+  A 6 @@ E
+ @  ("(   G@@   (G@  6  6 
+  6  E
+  6  ("@  6  6  (" E
+    6   6  (" A I@AȻ� AȻ� ( A~  wq6 A��� > � A�O@ "!  B 7   6AȻ� ( "A t"qE@AȻ�   r6    6 A A AvkA  AGt! ( !@  "(AxqF@ ("  6   6A!A!A  Av! At!  Aqj"("
+  Aj  6  !A!A!  "!   j 6 A Av"!AĻ� ( "A t"qE@AĻ�   r6   (!   6   6A!A  j 6    j 6    A N@  AtA̻� jA��� < -  ("("  G@   6   6   1AԾ� ( "@Aܾ� (  Aܾ�   6 AԾ�  6 �  ("Aq! Axq!@   F@  !@@@   M@   k" K
+  k!    r6  A�� ( F
+  Aܾ� ( G
+AԾ�  6 Aܾ�  6 A��� ; Aؾ�  6 A��  6 AЗ� ; @ E
+  AM
+      6 A !@@ Aj"  O@   M"
+  j"  6     (Ar6A��� : @@  M@  j"  k" Ar6   Axqj" (A~q6  (Axqj  6   A   AK"! A  ! A�� ( F
+Aܾ� (  F@AԾ�  6 Aܾ�  6  E
+  AI
+   A�� ; Aؾ�  6 A��  6  !   rAr6A�� (  G@Aܾ� (  F@AԾ� A 6 Aܾ� A 6  Aؾ� A 6 A�� A 6  �   j"AkA6  Ak 6  Ak"  6  AkA6  AkA�� ( "6 A�� ( "@  (AxqjAؾ� ( "6   @ AK@   Ak"Ar6A��   6 A��  6 Aؾ�  6    Axqj 6 @@ @A�� !A ! !@ "E
+   (  (jF
+ (! !  A !@ A G@ "   6    6 Aj!A�� (     (6A�� ( " E
+   "! @@ ( "E
+  ( G@ Aj!A�� ( " (!   "! A��  6   A��� ; A�� A��� + G  ("AO@ A�O@    ("  (" G@   6   6 Av�
+  ("Axq"Aj!@@@@@@@@@@@@@  O@ A��O@   j!A !A�� !@ ( "E@A( ! ( "  M@    ("jI
+ Aj! !    A�� ( F
+ AI
+  Aܾ� ( G
+AЙ� :    j"	K
+  	 	 kAK"  AA    Gj"I
+@  k"A��I
+  A��!  j" I
+  M
+   kA��|q"
+  A�� ( F
+  Aܾ� ( F
+     K
+  j" 	K
+  Ar  F"! A Ah j!@@  	F"@ AI
+ Ak!    A E
+AA��� ;  (  (jAk( AqAr!  K
+ Av" A��qE" I
+ (!
+ Av A��qA Gj   k  F@ !   k"  j"AkA6  Ak  6  Ak"  6  AkA6  @   6A��   6 A��� ; A��� : A�� ; A��� ; A��� ; A��� : A��� ; @ @
+
+E
+A��
+6  	 k" j"AkA6  Ak 6  Ak" 6  Ak 6 @  @   6A��  6  ! 
+6A�� A 6 �  (" ("j" O@  6   ( " 6    j"Ak"( !  AqAr6  Ak!@ Aq
+   ( k"A�� ( G
+     (Axqj   jAkF
+ Aؾ� A 6 A�� A 6   (Axq A #A��� : �@@@@@@@@@@  ("AqE@ Axq!    ( k" (!@@A�� (   G@Aܾ� (   G@   AԾ� ( " j!  I
+AԾ�  6 Aؾ� ( " j!  O@Aؾ�  6 A��� : A�� :    Axqj"K
+   Ar"6 Axq"  j"- Aq
+ A�� ( F
+ Aܾ� ( F
+    (Axq" (Axqj!  K
+   Ar"6  Aܾ� ( F
+ E
+     (!A��� :    A}q6  (A~q6   (Axq6  E
+  A�� ( F
+  Aܾ� ( G
+A��� : Aܾ�   6 AԾ� ( " j!  O@AԾ�  6    Ar"6A��� : AԾ�  6 A��   6 Aؾ� ( " j!  I
+Aؾ�  6 Aܾ� (   F@AԾ� A 6 Aܾ� A 6    Ar"6  ("AI
+   Axq  A��� :  Axq"  j 6     N# A k"$  Aj"Aj Aj) 7  Aj Aj) 7   ) 7  A���  - A j$ �  !@@@@  ( "A�M@   jAj!  A�G A� Mq
+ A�I A�Mq
+ A�I A��Mq
+ A�O
+   A?qA�r:    AvA�r:     AvA?qA�r:    AvA?qA�r: AAП� ;    :  A   A?qA�r:    AvA�r:  A   A?qA�r:    AvA�r:     AvA?qA�r: A!     j(A��� ! A��� G)# Ak"$  Aj    ' ( Aj$ A Gu@ ( "A�M@A� k O@   jAj"k  k  K I
+   @   j(A !   6   6 A��� ; A�� A�3   A�O@A��� A��� +    6 R~# A k"$  (  (  ( " ) !  )!   )7  7  7 Aj- A j$ �# A�k"$  A 6 Aj Aj"A��� A'   ( 6� A6� A��� 6� B7� A	6�  A�j6�  A�j6�  A�j$ Aj!  ( "A H@A��� A�3    6   Aj6  ( ( A# A k"$  A 6 A6 B7 A+6   6  Aj6   , *# Ak"$  A;  6   6 Aj* �# Ak"$   6   6  B����7@@@ ("	@ ("
+ (" E
+ ("  Atj!  AkA����qAj! ( ! @@  Aj( "E
+  (   (   (( E
+ AA (   Aj( 
+  Aj!  Aj" G
+   Al!
+  AkA����qAj! (! ( ! @@  Aj( "E
+  (   (   (( E
+ AA !A !@@@  	j"Aj/ Ak  A
+j/ !  Aj( Atj/!@@@ / Ak  Aj/ !  Aj( Atj/!  ;  ;  Aj( 6A  Aj( Atj"(   (
+  Aj!  Aj"
+G
+ @  (O
+  (  (  Atj" (   ( (( E
+ AA  Aj$ �~A+A���   ("A���q"! Av j!@ A���qE@A !@ AO@  /! E@ Aq!	@ AI@ Aq!@   j"
+,  A�Jj
+Aj,  A�Jj
+Aj,  A�Jj
+Aj,  A�Jj!  Aj"G
+  	E
+   j!@  ,  A�Jj! Aj! 	Ak"
+   j!@  /"	 K@@@ A���qE@ 	 k!	A !A !@@@ AvAqAk   	! 	A��qAv! A��� q!
+  (!  ( ! @ A��q A��qO
+A! Aj!
+ (  E
+     )"
+�A����yqA����r6A!  ( "  ("
+   8
+A ! 	 kA��q!@ A��q O
+ Aj! A0
+(  E
+ A!      8
+     (
+A ! 	 kA��q!@ A��q" I!  M
+ Aj!
+ (  E
+    
+(
+
+7A A!  ( "  ("    8
+      ( ! �@@  AjA|q"  k" K
+   k"AI
+  Aq!A !@   F"
+ @   k"A|K@A !A !@    j",  A�Jj Aj,  A�Jj Aj,  A�Jj Aj,  A�Jj! Aj"
+ 
+    j!@  ,  A�Jj! Aj! Aj"
+    j! @ E
+    A|qj",  A�J! AF
+   , A�Jj! AF
+   , A�Jj! Av!  j!@  ! E
+A�  A�O"Aq! At! A ! AO@   A�qj! !@  ( "AsAv AvrA���qj Aj( "AsAv AvrA���qj Aj( "AsAv AvrA���qj Aj( "AsAv AvrA���qj!  Aj"G
+   k!   j!  AvA���q A���qjA��lAv j! E
+   A�qAtj" ( "AsAv AvrA���q" AF
+    ("AsAv AvrA���qj" AF
+   (" AsAv  AvrA���q j"AvA��q A���qjA��lAv j E@A  Aq!@ AI@ A|q!@    j",  A�Jj Aj,  A�Jj Aj,  A�Jj Aj,  A�Jj!  Aj"G
+  E
+    j!@  ,  A�Jj! Aj! Ak"
+  {# A@j"$   6   6  6  6 A6 A̤� 6 B7$  Aj�B������78  Aj�B������70  A0j6  Aj , �  ( ! # Ak"$ A
+! " A�O@  !@ Aj j"Ak  A�� n" A�� lk"A��qA� n"At"	A��� j-  :   Ak 	A��� j-  :   Ak  A� lkA��qAt"A��� j-  :   Ak A��� j-  :   Ak! A���K  !
+ @  A	M@  !  jAj    A��qA� n"A� lkA��qAt" A��� j-  :   Ak" Ajj  A��� j-  :   E A GqE@ Ak" Ajj AtAqA��� j-  :  AA  Aj jA
+ k. Aj$ �  ( !  (!@@ ("A����qE
+ @@@@ A����q@ /"
+A ! AO@  /! E@A ! Aq! AO@ Aq!@   j" ,  A�Jj  Aj,  A�Jj  Aj,  A�Jj  Aj,  A�Jj!  Aj"G
+  E
+  j! @   ,  A�Jj!  Aj!  Ak"
+   j!	A ! ! ! @  " 	F
+ Aj ,  "A N
+  Aj A`I
+  Aj ApI
+  Aj"  k j! Ak"
+ A !  k! /"  M
+    k!A !A !@@@ AvAqAk  ! A��qAv! A��� q! (! ( !@ A��q A��qI@A!  Aj!   (  E
+A!     (
+A !  kA��q!@ A��q" I!   M
+ Aj!   (  E
+  (    (( !   �# A k"$  A 6 A6 B7  6   6  Aj6 # A0k" $   Aj"Aj Aj) 7  Aj Aj) 7    ) 7  A : -  A : ,  A��� 6(   6$  A$j*    (    ((  � Ak!  (!
+  ( !  (!@@ 
+@  I
+ @  j!@@@  k"AM@  G
+ !@ AjA|q" k"@A ! @   j-  A
+F
+   Aj" G
+  Ak"  O
+ Ak! @ ( "	A��� 	A���� skr Aj( "	A��� 	A���� skrqA����xqA����xG
+ Aj!   Aj"O
+ A ! @   j-  A
+F
+   Aj" G
+  !  F@ !@  j-  A
+F@ !   Aj"G
+  !   j"Aj!@  M
+    j-  A
+G
+ A ! "  O
+   F
+A! ! ! @ -  @ A��� A
+(
+   k!A !   G@   j-  A
+F!  j!   :   !    
+( E
+A!
+
+O  (!  ( !@  (" -  E
+  A��� A ( E
+ A   A
+F:     (  
+   Aܤ�  -8 @ A��� F
+     (  E
+ A E@A      ( �# A k"$ A!@  ( "    ("("
+ @  -
+A�qE@ A��� A 
+    (  E
+ A��� A 
+ A:   6  6  Aܤ� 6   )7  Aj6  6  Aj (
+ (A��� A ((
+@ 
+   -
+A�q
+   ( A��� A  ((
+  ( A�� A  (( ! A j$  6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A�� 6 B7 Aj  , 6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A�� 6 B7 Aj  , � AO@@A   kAq"  j"  M
+  Ak @ !@  A :    Aj!  Ak"
+ AI
+ @  A :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :     Aj" G
+     k"A|qj" I@@ A 6  Aj"  I
+  Aq!@   j"  M
+  Ak Aq"@@  A :    Aj!  Ak"
+ AI
+ @  A :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :     Aj" G
+ �# Ak! AO@@A   kAq"  j"  M
+  Ak ! @ !@   -  :   Aj!  Aj!  Ak"
+ AI
+ @   -  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :   Aj!   Aj" G
+   k"A|q" j! @  j"Aq"E@   M
+ !@  ( 6  Aj! Aj"  I
+ A ! A 6 Aj r!A k"Aq@  -  :  A! Aq@  j  j/ ;   k! At! (!@   AjM@ !A  kAq!	@  v!   Aj"( " 	tr6  Aj!
+ Aj"!
+K
+ A ! A :  A :  AF@A ! Aj!
+A  Aj-    Aj-  ": A!
+ Aj!
+At!	 Aq@
+ Aj
+j-  :   - At! - !  A�q  	rrA  kAqt  vr6  Aq!  j!@   j"  M
+  Ak Aq"@@   -  :   Aj!  Aj!  Ak"
+ AI
+ @   -  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :   Aj!   Aj" G
+ �# Ak"$   Aj" 6 @@ A�kAI
+ @ A� k"AK
+  AF
+ A  A�kAI
+ A�kAO@@ AF
+  A�F
+ A�F
+ A A��G
+AAAA6  (!A (" AFA!   6   6  Aj$ '# Ak" $   A 6  Aj  (  Aj$ �# A� k"$  B 7 B 7 A,j"A$?A��� AA  Aj (,A@ ("AF@   )07   Aj A� j) 7    Aj A@k) 7    A	j A8j) 7   (!   6   6A!   :   A� j$ �  ( ! (" A���qE@  A��� qE@# Ak" $ A! -  "! A
+O@    A� n"A� lkA�qAt"A��� j-  :    A��� j-  : A! E A GqE@ Ak"  A
+jj AtA�qA��� j-  :   AA   A
+j jA k.  Aj$ # A�k"$  -  ! A !@  jA� j  Aq"A0r A7j A
+I:   Ak!  "Av!  AK
+  A��� A  jA�jA  k. A�j$ # A�k"$  -  ! A !@  jA� j  Aq"A0r A� j A
+I:   Ak!  "Av!  AK
+  A��� A  jA�jA  k. A�j$ �	  (!  (!# A k" $  A����K@A��� A�3   A j$ # Ak"
+$  ( A�� A (( !
+Aj"A :    :   6 A!  j! # Ak"$ @   G@  6 Aj!# A k"$ A!	@ - 
+  - !@ ( "-
+A�qE@ AqE
+ ( A��� A (( E
+ AqE@ ( A��� A ((
+ A:  Aܤ� 6  ) 7   )7  Aj6  6  AjA��� ( 
+ (A��� A (( !	  A��� (   !	 A:   	:  A j$  Aj! Aj$  - E@ ( " ( A��� A  (( !  : 
+Aj$  �A�� !A!@@@@@@@@@@@@@@@  ( ( A�k 
+
+A��� !A#!
+A��� !A!A��� !A!A��� !A
+!
+Aİ� !A!	Aϰ� !A
+!Aܰ� !A!A�� !A��� !A!A��� !A!A��� !A"!Aױ� !A!A�� !A!A��� !A ! (    (( �# Ak"$   ( "Aj! @@@@@ ( Ak    6 Aܮ� A	 AjA̮� 9   6 A��� A AjA�� 9   6 A��� A AjA��� 9   6 A��� A AjA��� 9 ( A��� A ((  Aj$ 2  ( A��� Aկ�   ( ( A�F" AA   (( 3  (   ( ( At" A��� j(   A��� j(  (( 3  (   ( ( At" A��� j(   A��� j(  (( �~# A k"$  Aj!B# Ak"$  Aj!!# A0k"$  A6  A6 A$j!	 Aj"
+( "iAF 
+(jAkA  kq"
+A����x kMqE@A��� A�3 @
+� �~"B ��
+  �"A����x kK
+
+6 	 6 ! 	 6   ($"E@ A 6A (("E@ A6 A 6A  A N@ Aj   ("	E@  6  6A  	6  6A  A 6A6  A0j$  (!@ (E@ (!  6  6  6  Aj$  (!  @ iAF  A����x kMqE@A��� A�3  # A k" $   A 6  A6  A�� 6  B7  AjAĵ� ,  Aj! ("A H@A��� A�3   6  (6  (! (!# Ak"$ A B"I
+ A E
+  A 6A    Aj  (A (! ( !  6  6  Aj$ @ ( "AG@ (!   6  A����x6    6    )7   Aj Aj( 6  A j$ ]# Ak"$  ( A����xF@  )7A��� A AjA��  0    ) 7   Aj Aj( 6  Aj$ y# Ak"$  -  AF@  )7A��� A AjA��  0    ) 7    Aj Aj)  7    Aj Aj)  7    Aj A	j)  7   Aj$ W# Ak"$   ( AG@   6 A��� A AjA��� 9 ( A��� A ((  Aj$ w  ("A H@AԵ� A�3   (! AF@A��� !@ E
+ @ -  " -  " F@ Aj! Aj! Ak"
+   k!A! E�# A� k" $   A 6<  A60  A��� 6,  B74  A,j" K   A��� L  A60  A��� 6,  B78  A6    Aj"64    6   O@ C  AĹ� M    A� j$ G# A� k" $   A,j"K   AԹ� L  O@ C  Aj A�� M    A� j$ �9 A��� �9unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                      /home/dos/Desktop/gwork/gear/stack-buffer/src/lib.rs4 4   h      unsafe precondition(s) violated: hint::assert_unchecked must never be called when the condition is false
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::from_raw_parts_mut requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.              Errorfmt failed/home/dos/Desktop/gwork/gear/gcore/src/utils.rs  � /   d   $   unsafe precondition(s) violated: ptr::copy_nonoverlapping requires that both pointer arguments are aligned and non-null and the specified memory ranges do not overlap
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety./home/dos/Desktop/gwork/gear/gcore/src/utils.rs  � /   Q   #   � /   T   *   unsafe precondition(s) violated: usize::unchecked_mul cannot overflow
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::get_unchecked_mut requires that the index is within the slice
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety./home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/common.rs 
+ `   
+   
+ `         
+ `         /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/dlmalloc.rs  �
+ b   �     �
+ b   �     �
+ b        �
+ b         �
+ b    
+   �
+ b   &      �
+ b   &
+   �
+ b   X     �
+ b   �  *   �
+ b   J  5   �
+ b   �  Z   �
+ b   �  "   �
+ b   �
+   �
+ b   �     �
+ b   �  &   �
+ b   �     �
+ b   �     �
+ b   '  	   �
+ b   j     �
+ b   �  "   �
+ b   �     �
+ b        �
+ b         �
+ b        �
+ b   &     �
+ b   C  !   �
+ b   ?     �
+ b   6     �
+ b   g     �
+ b   �  "   �
+ b   �      �
+ b   �     �
+ b   �     �
+ b   �
+   /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/wasm.rs  0
+ ^         0
+ ^   +   	   0
+ ^   7      0
+ ^   8      capacity overflow   �
+    unsafe precondition(s) violated: ptr::copy_nonoverlapping requires that both pointer arguments are aligned and non-null and the specified memory ranges do not overlap
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                   /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/arrayvec-0.7.6/src/array_string.rs     a        assertion failed: length <= self.capacity()   a   �  	     a   �   !   unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.panicked with '          attempt to add with overflow    attempt to subtract with overflow   < !   attempt to multiply with overflow   h !   attempt to shift right with overflow� $   attempt to shift left with overflow � #   )[called `Option::unwrap()` on a `None` valuelibrary/core/src/panicking.rs      �      :          H           
+             , ,
+((
+,
+]0x00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899 out of range for slice of length range end index   n    L "   unsafe precondition(s) violated: hint::assert_unchecked must never be called when the condition is false
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                is_aligned_to: align is not a power-of-two  � *   /rustc/50aa04180709189a03dde5fd1c05751b2625ed37/library/core/src/ptr/const_ptr.rs   � Q   �
+   unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::from_raw_parts_mut requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.               Execution                Memory               Message              ReservationUnsupportedRuntimeAllocOutOfBoundsAccessOutOfBoundsMaxMessageSizeExceedOutgoingMessagesAmountLimitExceededDuplicateReplyDuplicateWakingLateAccessOutOfBoundsDuplicateInitInsufficientValueInsufficientGasLimitDuplicateReplyDepositIncorrectMessageForReplyDepositOutgoingMessagesBytesLimitExceededOutOfBoundsInputSliceOffsetOutOfBoundsInputSliceLengthInsufficientGasForDelayedSendingNotEnoughGasNotEnoughValueTooBigReadLenReadWrongRangeNoReplyContextNoSignalContextNoStatusCodeContextIncorrectEntryForReplyInvalidReservationIdReservationsLimitReachedZeroReservationDurationZeroReservationAmountReservationBelowMailboxThreshold   
+                  - 9     G T b p  �                 � � � �   /home/dos/Desktop/gwork/gear/gstd/src/msg/basic.rs  � 2        unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.              SyscallUsage             ExtInit is live!
+   Failed to load payload/home/dos/Desktop/gwork/gear/examples/ping/src/wasm.rsF 6      %   Received payload:   �    PINGPONGFailed to send replyF 6      %   F 6   #   %   F 6   &   % name asm   I``` ` `` `  ` ``` ` �	envgr_debug envgr_panic envgr_oom_panic envalloc env
+                                                                                                                                                                                                           free_range  envgr_read envgr_reply envgr_size envmemory KJ       	      
+                                                                                                                                                                                                                        p	A��� $init Phandle Q__gear_stack_end 	 A
+                                                                                                                                                                                                           
+                                                                                                                                                                                                           &%$)421567DIHFJENG
+                                                                                                                                                                                                           مJ�# Ak"$  A 6   Aj@ A�O@ A�I
+                                                                                                                                                                                                            A��O@  A?qA�r:   AvA�r:   AvA?qA�r:   AvA?qA�r:
+                                                                                                                                                                                                           A  A?qA�r:   AvA�r:   AvA?qA�r:
+                                                                                                                                                                                                           A  : A  A?qA�r:
+                                                                                                                                                                                                             AvA�r: A
+                                                                                                                                                                                                            Aj$ N# A k"$  Aj"Aj Aj) 7  Aj Aj) 7   ) 7  A���  - A j$ �@  @ ( ( "A N
+                                                                                                                                                                                                           AՄ� A�3  (!# Ak"$  A 6  6   6   	@A��� A
+                                                                                                                                                                                                            AjA��� A��� 0  (  (  Aj$   ( A��� A (( b# A k"$ # A k"$  A��6   6  Aj6  Aj6# " A��k"$   Aj
+                                                                                                                                                                                                             $  A j$  A j$ �  (" j!@@  O@@A��  A��O" I
+                                                                                                                                                                                                               (K
+                                                                                                                                                                                                              k" K
+                                                                                                                                                                                                              (  j"k  k  K I
+                                                                                                                                                                                                              @   6A A��� : # A0k" $    6   6   A6  A��� 6  B7    Aj�B������7(    �B������7     A j6  AjA��� , AЇ� A�3 �A!# Ak"$  Aj!@  ( "E
+                                                                                                                                                                                                             �B �B R@A��� A�3  "A����M@ A6  (! Aj!A��� A�3   6 @ ("E
+                                                                                                                                                                                                             (" E
+                                                                                                                                                                                                            # Ak"$     A ! @@ A��� I
+                                                                                                                                                                                                             A��� K
+                                                                                                                                                                                                             A��� k!@  "AG@ Aj!   G
+                                                                                                                                                                                                           A��� A��� -  A~ wq:   AkA #! Aj$  Aj$ �A!@ E
+                                                                                                                                                                                                            A��� -   E@# Ak"$     ( ( ! Aj$ # Ak"$     (" ( "@  ? Aj$    6   6 � A	O@@@@@ A��{M@  A��{ kO
+                                                                                                                                                                                                             " j!    I
+                                                                                                                                                                                                             A " E
+                                                                                                                                                                                                             Ak"   "Ak" A 
+                                                                                                                                                                                                           A��� ; A��� :   Ak( AxqjA#   F
+                                                                                                                                                                                                              Ak( " AI
+                                                                                                                                                                                                               Axq   A2  iAF A����x kMqE@A��� A�3    6   6 2 @ @     jAk" K
+                                                                                                                                                                                                             A  kqA��� ; A��� : 1A!@  A
+                                                                                                                                                                                                           O    Aj" K
+                                                                                                                                                                                                             AAA��� : )   AM@AĻ� AĻ� ( A~  wq6 A��� > : @  A����M@  At" A O
+                                                                                                                                                                                                           A���  vA� qA��� < A�� = �@ E
+                                                                                                                                                                                                            A�� (
+                                                                                                                                                                                                              A� K
+                                                                                                                                                                                                            A��� -  !A !@ AF
+                                                                                                                                                                                                           @A t" qE@@@ A����M@ At"A O
+                                                                                                                                                                                                           A�� vA� q!A��� < AЖ� =    M
+                                                                                                                                                                                                            Aj!A��� A��� -   r:   A��� j@@@@@@@@@@@@@  "A�O@A ! A��{O
+                                                                                                                                                                                                           AȻ� ( E
+                                                                                                                                                                                                           A !A  k!@@ "( "E
+                                                                                                                                                                                                             A AvkA  AGt!A ! @@ "(Axq" I
+                                                                                                                                                                                                              k" O
+                                                                                                                                                                                                             !  "
+                                                                                                                                                                                                            A !  ("   AvAqj("F  ! At! 
+                                                                                                                                                                                                             @ !  E
+                                                                                                                                                                                                            A !AȻ� ( A~ tq"E@A !A ! A !  h!	A A!@ E@ 	( !A!@ @ Aj Aj (!	      (Axq"  k" I"   I"!      !  E
+                                                                                                                                                                                                           AԾ� ( " O   kOq
+                                                                                                                                                                                                                Ar6 AO@   j" Ar6  Axqj 6  AM
+                                                                                                                                                                                                                Axqj" (Ar6A !  AĻ� (  Av"v" Aq@  AsAq j" "  At"Ar6   j" (Ar6	 AԾ� ( M
+
+                                                                                                                                                                                                           AȻ� ( " E
+                                                                                                                                                                                                              h( " (Axq" I
+                                                                                                                                                                                                             k!  !@@ AA (j( "E
+                                                                                                                                                                                                            (Axq" O@  k" I!   !    ! AИ� ;      Ar6   A�qj! AI
+                                                                                                                                                                                                             Ar6  Axqj 6  AM
+                                                                                                                                                                                                              AԾ� ( K
+                                                                                                                                                                                                           Aܾ� ( "    A   th" !  At" I
+                                                                                                                                                                                                             k"AM@   Ar6   j" (Ar6   Ar6   j" Ar6  Axqj 6  AI
+                                                                                                                                                                                                              Aؾ� ( M
+                                                                                                                                                                                                           A��� ;   (Ar6A��� ; A�� ( "    A  E
+                                                                                                                                                                                                             AjA ! A��{K
+                                                                                                                                                                                                            @@A�� -
+                                                                                                                                                                                                            A�� A:  A�� A" A��� K
+                                                                                                                                                                                                             A��� G@  A���   kAؾ� (  I
+                                                                                                                                                                                                            A�� ( "
+                                                                                                                                                                                                            A jA��"Av" AF
+                                                                                                                                                                                                             A��O
+                                                                                                                                                                                                             E
+                                                                                                                                                                                                             At A��|q! A�� (
+                                                                                                                                                                                                            Aؾ� ( !Aܾ� ( !A�� ( !@ @ ( (  (!j"Ak-  Aq
+                                                                                                                                                                                                            Ak" ( k" F
+                                                                                                                                                                                                            ("AI
+                                                                                                                                                                                                            Axq" M
+                                                                                                                                                                                                           Aؾ�  6 A��  6  ! ! E
+                                                                                                                                                                                                                   A @    (Axqj!  Aj! A��� ; A��� < 0A!  A���I  A  Avg" kvAq  AtkA>jA    A O@A��� A�3   AtAԽ� j�  (!@@  ("  F@  AA  ("j( "
+                                                                                                                                                                                                           A !  (" 6  6  Aj  Aj !@ ! "Aj! ("
+                                                                                                                                                                                                             Aj! ("
+                                                                                                                                                                                                             A 6 @@ E
+                                                                                                                                                                                                            @  ("(   G@@   (G@  6  6 
+                                                                                                                                                                                                             6  E
+                                                                                                                                                                                                             6  ("@  6  6  (" E
+                                                                                                                                                                                                               6   6  (" A I@AȻ� AȻ� ( A~  wq6 A��� > � A�O@ "!  B 7   6AȻ� ( "A t"qE@AȻ�   r6    6 A A AvkA  AGt! ( !@  "(AxqF@ ("  6   6A!A!A  Av! At!  Aqj"("
+                                                                                                                                                                                                             Aj  6  !A!A!  "!   j 6 A Av"!AĻ� ( "A t"qE@AĻ�   r6   (!   6   6A!A  j 6    j 6    A N@  AtA̻� jA��� < -  ("("  G@   6   6   1AԾ� ( "@Aܾ� (  Aܾ�   6 AԾ�  6 �  ("Aq! Axq!@   F@  !@@@   M@   k" K
+                                                                                                                                                                                                             k!    r6  A�� ( F
+                                                                                                                                                                                                             Aܾ� ( G
+                                                                                                                                                                                                           AԾ�  6 Aܾ�  6 A��� ; Aؾ�  6 A��  6 AЗ� ; @ E
+                                                                                                                                                                                                             AM
+                                                                                                                                                                                                                 6 A !@@ Aj"  O@   M"
+                                                                                                                                                                                                             j"  6     (Ar6A��� : @@  M@  j"  k" Ar6   Axqj" (A~q6  (Axqj  6   A   AK"! A  ! A�� ( F
+                                                                                                                                                                                                           Aܾ� (  F@AԾ�  6 Aܾ�  6  E
+                                                                                                                                                                                                             AI
+                                                                                                                                                                                                              A�� ; Aؾ�  6 A��  6  !   rAr6A�� (  G@Aܾ� (  F@AԾ� A 6 Aܾ� A 6  Aؾ� A 6 A�� A 6  �   j"AkA6  Ak 6  Ak"  6  AkA6  AkA�� ( "6 A�� ( "@  (AxqjAؾ� ( "6   @ AK@   Ak"Ar6A��   6 A��  6 Aؾ�  6    Axqj 6 @@ @A�� !A ! !@ "E
+                                                                                                                                                                                                              (  (jF
+                                                                                                                                                                                                            (! !  A !@ A G@ "   6    6 Aj!A�� (     (6A�� ( " E
+                                                                                                                                                                                                              "! @@ ( "E
+                                                                                                                                                                                                             ( G@ Aj!A�� ( " (!   "! A��  6   A��� ; A�� A��� + G  ("AO@ A�O@    ("  (" G@   6   6 Av�
+                                                                                                                                                                                                             ("Axq"Aj!@@@@@@@@@@@@@  O@ A��O@   j!A !A�� !@ ( "E@A( ! ( "  M@    ("jI
+                                                                                                                                                                                                            Aj! !    A�� ( F
+                                                                                                                                                                                                            AI
+                                                                                                                                                                                                             Aܾ� ( G
+                                                                                                                                                                                                           AЙ� :    j"	K
+                                                                                                                                                                                                             	 	 kAK"  AA    Gj"I
+                                                                                                                                                                                                           @  k"A��I
+                                                                                                                                                                                                             A��!  j" I
+                                                                                                                                                                                                             M
+                                                                                                                                                                                                              kA��|q"
+                                                                                                                                                                                                             A�� ( F
+                                                                                                                                                                                                             Aܾ� ( F
+                                                                                                                                                                                                                K
+                                                                                                                                                                                                             j" 	K
+                                                                                                                                                                                                             Ar  F"! A Ah j!@@  	F"@ AI
+                                                                                                                                                                                                            Ak!    A E
+                                                                                                                                                                                                           AA��� ;  (  (jAk( AqAr!  K
+                                                                                                                                                                                                            Av" A��qE" I
+                                                                                                                                                                                                            (!
+                                                                                                                                                                                                            Av A��qA Gj   k  F@ !   k"  j"AkA6  Ak  6  Ak"  6  AkA6  @   6A��   6 A��� ; A��� : A�� ; A��� ; A��� ; A��� : A��� ; @ @
+                                                                                                                                                                                                           
+                                                                                                                                                                                                           E
+                                                                                                                                                                                                           A��
+                                                                                                                                                                                                           6  	 k" j"AkA6  Ak 6  Ak" 6  Ak 6 @  @   6A��  6  ! 
+                                                                                                                                                                                                           6A�� A 6 �  (" ("j" O@  6   ( " 6    j"Ak"( !  AqAr6  Ak!@ Aq
+                                                                                                                                                                                                              ( k"A�� ( G
+                                                                                                                                                                                                                (Axqj   jAkF
+                                                                                                                                                                                                            Aؾ� A 6 A�� A 6   (Axq A #A��� : �@@@@@@@@@@  ("AqE@ Axq!    ( k" (!@@A�� (   G@Aܾ� (   G@   AԾ� ( " j!  I
+                                                                                                                                                                                                           AԾ�  6 Aؾ� ( " j!  O@Aؾ�  6 A��� : A�� :    Axqj"K
+                                                                                                                                                                                                              Ar"6 Axq"  j"- Aq
+                                                                                                                                                                                                            A�� ( F
+                                                                                                                                                                                                            Aܾ� ( F
+                                                                                                                                                                                                               (Axq" (Axqj!  K
+                                                                                                                                                                                                              Ar"6  Aܾ� ( F
+                                                                                                                                                                                                            E
+                                                                                                                                                                                                                (!A��� :    A}q6  (A~q6   (Axq6  E
+                                                                                                                                                                                                             A�� ( F
+                                                                                                                                                                                                             Aܾ� ( G
+                                                                                                                                                                                                           A��� : Aܾ�   6 AԾ� ( " j!  O@AԾ�  6    Ar"6A��� : AԾ�  6 A��   6 Aؾ� ( " j!  I
+                                                                                                                                                                                                           Aؾ�  6 Aܾ� (   F@AԾ� A 6 Aܾ� A 6    Ar"6  ("AI
+                                                                                                                                                                                                              Axq  A��� :  Axq"  j 6     N# A k"$  Aj"Aj Aj) 7  Aj Aj) 7   ) 7  A���  - A j$ �  !@@@@  ( "A�M@   jAj!  A�G A� Mq
+                                                                                                                                                                                                            A�I A�Mq
+                                                                                                                                                                                                            A�I A��Mq
+                                                                                                                                                                                                            A�O
+                                                                                                                                                                                                              A?qA�r:    AvA�r:     AvA?qA�r:    AvA?qA�r: AAП� ;    :  A   A?qA�r:    AvA�r:  A   A?qA�r:    AvA�r:     AvA?qA�r: A!     j(A��� ! A��� G)# Ak"$  Aj    ' ( Aj$ A Gu@ ( "A�M@A� k O@   jAj"k  k  K I
+                                                                                                                                                                                                              @   j(A !   6   6 A��� ; A�� A�3   A�O@A��� A��� +    6 R~# A k"$  (  (  ( " ) !  )!   )7  7  7 Aj- A j$ �# A�k"$  A 6 Aj Aj"A��� A'   ( 6� A6� A��� 6� B7� A	6�  A�j6�  A�j6�  A�j$ Aj!  ( "A H@A��� A�3    6   Aj6  ( ( A# A k"$  A 6 A6 B7 A+6   6  Aj6   , *# Ak"$  A;  6   6 Aj* �# Ak"$   6   6  B����7@@@ ("	@ ("
+                                                                                                                                                                                                            (" E
+                                                                                                                                                                                                            ("  Atj!  AkA����qAj! ( ! @@  Aj( "E
+                                                                                                                                                                                                             (   (   (( E
+                                                                                                                                                                                                            AA (   Aj( 
+                                                                                                                                                                                                             Aj!  Aj" G
+                                                                                                                                                                                                              Al!
+                                                                                                                                                                                                             AkA����qAj! (! ( ! @@  Aj( "E
+                                                                                                                                                                                                             (   (   (( E
+                                                                                                                                                                                                            AA !A !@@@  	j"Aj/ Ak  A
+                                                                                                                                                                                                           j/ !  Aj( Atj/!@@@ / Ak  Aj/ !  Aj( Atj/!  ;  ;  Aj( 6A  Aj( Atj"(   (
+                                                                                                                                                                                                             Aj!  Aj"
+                                                                                                                                                                                                           G
+                                                                                                                                                                                                            @  (O
+                                                                                                                                                                                                             (  (  Atj" (   ( (( E
+                                                                                                                                                                                                            AA  Aj$ �~A+A���   ("A���q"! Av j!@ A���qE@A !@ AO@  /! E@ Aq!	@ AI@ Aq!@   j"
+                                                                                                                                                                                                           ,  A�Jj
+                                                                                                                                                                                                           Aj,  A�Jj
+                                                                                                                                                                                                           Aj,  A�Jj
+                                                                                                                                                                                                           Aj,  A�Jj!  Aj"G
+                                                                                                                                                                                                             	E
+                                                                                                                                                                                                              j!@  ,  A�Jj! Aj! 	Ak"
+                                                                                                                                                                                                              j!@  /"	 K@@@ A���qE@ 	 k!	A !A !@@@ AvAqAk   	! 	A��qAv! A��� q!
+                                                                                                                                                                                                             (!  ( ! @ A��q A��qO
+                                                                                                                                                                                                           A! Aj!
+                                                                                                                                                                                                            (  E
+                                                                                                                                                                                                                )"
+                                                                                                                                                                                                           �A����yqA����r6A!  ( "  ("
+                                                                                                                                                                                                              8
+                                                                                                                                                                                                           A ! 	 kA��q!@ A��q O
+                                                                                                                                                                                                            Aj! A0
+                                                                                                                                                                                                           (  E
+                                                                                                                                                                                                            A!      8
+                                                                                                                                                                                                                (
+                                                                                                                                                                                                           A ! 	 kA��q!@ A��q" I!  M
+                                                                                                                                                                                                            Aj!
+                                                                                                                                                                                                            (  E
+                                                                                                                                                                                                               
+                                                                                                                                                                                                           (
+                                                                                                                                                                                                           
+                                                                                                                                                                                                           7A A!  ( "  ("    8
+                                                                                                                                                                                                                 ( ! �@@  AjA|q"  k" K
+                                                                                                                                                                                                              k"AI
+                                                                                                                                                                                                             Aq!A !@   F"
+                                                                                                                                                                                                            @   k"A|K@A !A !@    j",  A�Jj Aj,  A�Jj Aj,  A�Jj Aj,  A�Jj! Aj"
+                                                                                                                                                                                                            
+                                                                                                                                                                                                               j!@  ,  A�Jj! Aj! Aj"
+                                                                                                                                                                                                               j! @ E
+                                                                                                                                                                                                               A|qj",  A�J! AF
+                                                                                                                                                                                                              , A�Jj! AF
+                                                                                                                                                                                                              , A�Jj! Av!  j!@  ! E
+                                                                                                                                                                                                           A�  A�O"Aq! At! A ! AO@   A�qj! !@  ( "AsAv AvrA���qj Aj( "AsAv AvrA���qj Aj( "AsAv AvrA���qj Aj( "AsAv AvrA���qj!  Aj"G
+                                                                                                                                                                                                              k!   j!  AvA���q A���qjA��lAv j! E
+                                                                                                                                                                                                              A�qAtj" ( "AsAv AvrA���q" AF
+                                                                                                                                                                                                               ("AsAv AvrA���qj" AF
+                                                                                                                                                                                                              (" AsAv  AvrA���q j"AvA��q A���qjA��lAv j E@A  Aq!@ AI@ A|q!@    j",  A�Jj Aj,  A�Jj Aj,  A�Jj Aj,  A�Jj!  Aj"G
+                                                                                                                                                                                                             E
+                                                                                                                                                                                                               j!@  ,  A�Jj! Aj! Ak"
+                                                                                                                                                                                                             {# A@j"$   6   6  6  6 A6 A̤� 6 B7$  Aj�B������78  Aj�B������70  A0j6  Aj , �  ( ! # Ak"$ A
+                                                                                                                                                                                                           ! " A�O@  !@ Aj j"Ak  A�� n" A�� lk"A��qA� n"At"	A��� j-  :   Ak 	A��� j-  :   Ak  A� lkA��qAt"A��� j-  :   Ak A��� j-  :   Ak! A���K  !
+                                                                                                                                                                                                            @  A	M@  !  jAj    A��qA� n"A� lkA��qAt" A��� j-  :   Ak" Ajj  A��� j-  :   E A GqE@ Ak" Ajj AtAqA��� j-  :  AA  Aj jA
+                                                                                                                                                                                                            k. Aj$ �  ( !  (!@@ ("A����qE
+                                                                                                                                                                                                            @@@@ A����q@ /"
+                                                                                                                                                                                                           A ! AO@  /! E@A ! Aq! AO@ Aq!@   j" ,  A�Jj  Aj,  A�Jj  Aj,  A�Jj  Aj,  A�Jj!  Aj"G
+                                                                                                                                                                                                             E
+                                                                                                                                                                                                             j! @   ,  A�Jj!  Aj!  Ak"
+                                                                                                                                                                                                              j!	A ! ! ! @  " 	F
+                                                                                                                                                                                                            Aj ,  "A N
+                                                                                                                                                                                                             Aj A`I
+                                                                                                                                                                                                             Aj ApI
+                                                                                                                                                                                                             Aj"  k j! Ak"
+                                                                                                                                                                                                            A !  k! /"  M
+                                                                                                                                                                                                               k!A !A !@@@ AvAqAk  ! A��qAv! A��� q! (! ( !@ A��q A��qI@A!  Aj!   (  E
+                                                                                                                                                                                                           A!     (
+                                                                                                                                                                                                           A !  kA��q!@ A��q" I!   M
+                                                                                                                                                                                                            Aj!   (  E
+                                                                                                                                                                                                             (    (( !   �# A k"$  A 6 A6 B7  6   6  Aj6 # A0k" $   Aj"Aj Aj) 7  Aj Aj) 7    ) 7  A : -  A : ,  A��� 6(   6$  A$j*    (    ((  � Ak!  (!
+                                                                                                                                                                                                             ( !  (!@@ 
+                                                                                                                                                                                                           @  I
+                                                                                                                                                                                                            @  j!@@@  k"AM@  G
+                                                                                                                                                                                                            !@ AjA|q" k"@A ! @   j-  A
+                                                                                                                                                                                                           F
+                                                                                                                                                                                                              Aj" G
+                                                                                                                                                                                                             Ak"  O
+                                                                                                                                                                                                            Ak! @ ( "	A��� 	A���� skr Aj( "	A��� 	A���� skrqA����xqA����xG
+                                                                                                                                                                                                            Aj!   Aj"O
+                                                                                                                                                                                                            A ! @   j-  A
+                                                                                                                                                                                                           F
+                                                                                                                                                                                                              Aj" G
+                                                                                                                                                                                                             !  F@ !@  j-  A
+                                                                                                                                                                                                           F@ !   Aj"G
+                                                                                                                                                                                                             !   j"Aj!@  M
+                                                                                                                                                                                                               j-  A
+                                                                                                                                                                                                           G
+                                                                                                                                                                                                            A ! "  O
+                                                                                                                                                                                                              F
+                                                                                                                                                                                                           A! ! ! @ -  @ A��� A
+                                                                                                                                                                                                           (
+                                                                                                                                                                                                              k!A !   G@   j-  A
+                                                                                                                                                                                                           F!  j!   :   !    
+                                                                                                                                                                                                           ( E
+                                                                                                                                                                                                           A!
+                                                                                                                                                                                                           
+                                                                                                                                                                                                           O  (!  ( !@  (" -  E
+                                                                                                                                                                                                             A��� A ( E
+                                                                                                                                                                                                            A   A
+                                                                                                                                                                                                           F:     (  
+                                                                                                                                                                                                              Aܤ�  -8 @ A��� F
+                                                                                                                                                                                                                (  E
+                                                                                                                                                                                                            A E@A      ( �# A k"$ A!@  ( "    ("("
+                                                                                                                                                                                                            @  -
+                                                                                                                                                                                                           A�qE@ A��� A 
+                                                                                                                                                                                                               (  E
+                                                                                                                                                                                                            A��� A 
+                                                                                                                                                                                                            A:   6  6  Aܤ� 6   )7  Aj6  6  Aj (
+                                                                                                                                                                                                            (A��� A ((
+                                                                                                                                                                                                           @ 
+                                                                                                                                                                                                              -
+                                                                                                                                                                                                           A�q
+                                                                                                                                                                                                              ( A��� A  ((
+                                                                                                                                                                                                             ( A�� A  (( ! A j$  6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A�� 6 B7 Aj  , 6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A��� 6 B7 Aj  , 6# A k"$  A 6 A6 A�� 6 B7 Aj  , � AO@@A   kAq"  j"  M
+                                                                                                                                                                                                             Ak @ !@  A :    Aj!  Ak"
+                                                                                                                                                                                                            AI
+                                                                                                                                                                                                            @  A :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :     Aj" G
+                                                                                                                                                                                                                k"A|qj" I@@ A 6  Aj"  I
+                                                                                                                                                                                                             Aq!@   j"  M
+                                                                                                                                                                                                             Ak Aq"@@  A :    Aj!  Ak"
+                                                                                                                                                                                                            AI
+                                                                                                                                                                                                            @  A :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :    AjA :     Aj" G
+                                                                                                                                                                                                            �# Ak! AO@@A   kAq"  j"  M
+                                                                                                                                                                                                             Ak ! @ !@   -  :   Aj!  Aj!  Ak"
+                                                                                                                                                                                                            AI
+                                                                                                                                                                                                            @   -  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :   Aj!   Aj" G
+                                                                                                                                                                                                              k"A|q" j! @  j"Aq"E@   M
+                                                                                                                                                                                                            !@  ( 6  Aj! Aj"  I
+                                                                                                                                                                                                            A ! A 6 Aj r!A k"Aq@  -  :  A! Aq@  j  j/ ;   k! At! (!@   AjM@ !A  kAq!	@  v!   Aj"( " 	tr6  Aj!
+                                                                                                                                                                                                            Aj"!
+                                                                                                                                                                                                           K
+                                                                                                                                                                                                            A ! A :  A :  AF@A ! Aj!
+                                                                                                                                                                                                           A  Aj-    Aj-  ": A!
+                                                                                                                                                                                                            Aj!
+                                                                                                                                                                                                           At!	 Aq@
+                                                                                                                                                                                                            Aj
+                                                                                                                                                                                                           j-  :   - At! - !  A�q  	rrA  kAqt  vr6  Aq!  j!@   j"  M
+                                                                                                                                                                                                             Ak Aq"@@   -  :   Aj!  Aj!  Ak"
+                                                                                                                                                                                                            AI
+                                                                                                                                                                                                            @   -  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :    Aj Aj-  :   Aj!   Aj" G
+                                                                                                                                                                                                            �# Ak"$   Aj" 6 @@ A�kAI
+                                                                                                                                                                                                            @ A� k"AK
+                                                                                                                                                                                                             AF
+                                                                                                                                                                                                            A  A�kAI
+                                                                                                                                                                                                            A�kAO@@ AF
+                                                                                                                                                                                                             A�F
+                                                                                                                                                                                                            A�F
+                                                                                                                                                                                                            A A��G
+                                                                                                                                                                                                           AAAA6  (!A (" AFA!   6   6  Aj$ '# Ak" $   A 6  Aj  (  Aj$ �# A� k"$  B 7 B 7 A,j"A$?A��� AA  Aj (,A@ ("AF@   )07   Aj A� j) 7    Aj A@k) 7    A	j A8j) 7   (!   6   6A!   :   A� j$ �  ( ! (" A���qE@  A��� qE@# Ak" $ A! -  "! A
+                                                                                                                                                                                                           O@    A� n"A� lkA�qAt"A��� j-  :    A��� j-  : A! E A GqE@ Ak"  A
+                                                                                                                                                                                                           jj AtA�qA��� j-  :   AA   A
+                                                                                                                                                                                                           j jA k.  Aj$ # A�k"$  -  ! A !@  jA� j  Aq"A0r A7j A
+                                                                                                                                                                                                           I:   Ak!  "Av!  AK
+                                                                                                                                                                                                             A��� A  jA�jA  k. A�j$ # A�k"$  -  ! A !@  jA� j  Aq"A0r A� j A
+                                                                                                                                                                                                           I:   Ak!  "Av!  AK
+                                                                                                                                                                                                             A��� A  jA�jA  k. A�j$ �	  (!  (!# A k" $  A����K@A��� A�3   A j$ # Ak"
+                                                                                                                                                                                                           $  ( A�� A (( !
+                                                                                                                                                                                                           Aj"A :    :   6 A!  j! # Ak"$ @   G@  6 Aj!# A k"$ A!	@ - 
+                                                                                                                                                                                                             - !@ ( "-
+                                                                                                                                                                                                           A�qE@ AqE
+                                                                                                                                                                                                            ( A��� A (( E
+                                                                                                                                                                                                            AqE@ ( A��� A ((
+                                                                                                                                                                                                            A:  Aܤ� 6  ) 7   )7  Aj6  6  AjA��� ( 
+                                                                                                                                                                                                            (A��� A (( !	  A��� (   !	 A:   	:  A j$  Aj! Aj$  - E@ ( " ( A��� A  (( !  : 
+                                                                                                                                                                                                           Aj$  �A�� !A!@@@@@@@@@@@@@@@  ( ( A�k 
+                                                                                                                                                                                                           
+                                                                                                                                                                                                           A��� !A#!
+                                                                                                                                                                                                           A��� !A!A��� !A!A��� !A
+                                                                                                                                                                                                           !
+                                                                                                                                                                                                           Aİ� !A!	Aϰ� !A
+                                                                                                                                                                                                           !Aܰ� !A!A�� !A��� !A!A��� !A!A��� !A"!Aױ� !A!A�� !A!A��� !A ! (    (( �# Ak"$   ( "Aj! @@@@@ ( Ak    6 Aܮ� A	 AjA̮� 9   6 A��� A AjA�� 9   6 A��� A AjA��� 9   6 A��� A AjA��� 9 ( A��� A ((  Aj$ 2  ( A��� Aկ�   ( ( A�F" AA   (( 3  (   ( ( At" A��� j(   A��� j(  (( 3  (   ( ( At" A��� j(   A��� j(  (( �~# A k"$  Aj!B# Ak"$  Aj!!# A0k"$  A6  A6 A$j!	 Aj"
+                                                                                                                                                                                                           ( "iAF 
+                                                                                                                                                                                                           (jAkA  kq"
+                                                                                                                                                                                                           A����x kMqE@A��� A�3 @
+                                                                                                                                                                                                           � �~"B ��
+                                                                                                                                                                                                             �"A����x kK
+
+                                                                                                                                                                                                           6 	 6 ! 	 6   ($"E@ A 6A (("E@ A6 A 6A  A N@ Aj   ("	E@  6  6A  	6  6A  A 6A6  A0j$  (!@ (E@ (!  6  6  6  Aj$  (!  @ iAF  A����x kMqE@A��� A�3  # A k" $   A 6  A6  A�� 6  B7  AjAĵ� ,  Aj! ("A H@A��� A�3   6  (6  (! (!# Ak"$ A B"I
+                                                                                                                                                                                                            A E
+                                                                                                                                                                                                             A 6A    Aj  (A (! ( !  6  6  Aj$ @ ( "AG@ (!   6  A����x6    6    )7   Aj Aj( 6  A j$ ]# Ak"$  ( A����xF@  )7A��� A AjA��  0    ) 7   Aj Aj( 6  Aj$ y# Ak"$  -  AF@  )7A��� A AjA��  0    ) 7    Aj Aj)  7    Aj Aj)  7    Aj A	j)  7   Aj$ W# Ak"$   ( AG@   6 A��� A AjA��� 9 ( A��� A ((  Aj$ w  ("A H@AԵ� A�3   (! AF@A��� !@ E
+                                                                                                                                                                                                            @ -  " -  " F@ Aj! Aj! Ak"
+                                                                                                                                                                                                              k!A! E�# A� k" $   A 6<  A60  A��� 6,  B74  A,j" K   A��� L  A60  A��� 6,  B78  A6    Aj"64    6   O@ C  AĹ� M    A� j$ G# A� k" $   A,j"K   AԹ� L  O@ C  Aj A�� M    A� j$ �9 A��� �9unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                      /home/dos/Desktop/gwork/gear/stack-buffer/src/lib.rs4 4   h      unsafe precondition(s) violated: hint::assert_unchecked must never be called when the condition is false
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::from_raw_parts_mut requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.              Errorfmt failed/home/dos/Desktop/gwork/gear/gcore/src/utils.rs  � /   d   $   unsafe precondition(s) violated: ptr::copy_nonoverlapping requires that both pointer arguments are aligned and non-null and the specified memory ranges do not overlap
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety./home/dos/Desktop/gwork/gear/gcore/src/utils.rs  � /   Q   #   � /   T   *   unsafe precondition(s) violated: usize::unchecked_mul cannot overflow
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: Layout::from_size_align_unchecked requires that align is a power of 2 and the rounded-up allocation size does not exceed isize::MAX
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::get_unchecked_mut requires that the index is within the slice
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety./home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/common.rs 
+                                                                                                                                                                                                            `   
+                                                                                                                                                                                                              
+                                                                                                                                                                                                            `         
+                                                                                                                                                                                                            `         /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/dlmalloc.rs  �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b        �
+                                                                                                                                                                                                            b         �
+                                                                                                                                                                                                            b    
+                                                                                                                                                                                                              �
+                                                                                                                                                                                                            b   &      �
+                                                                                                                                                                                                            b   &
+                                                                                                                                                                                                              �
+                                                                                                                                                                                                            b   X     �
+                                                                                                                                                                                                            b   �  *   �
+                                                                                                                                                                                                            b   J  5   �
+                                                                                                                                                                                                            b   �  Z   �
+                                                                                                                                                                                                            b   �  "   �
+                                                                                                                                                                                                            b   �
+                                                                                                                                                                                                              �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   �  &   �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   '  	   �
+                                                                                                                                                                                                            b   j     �
+                                                                                                                                                                                                            b   �  "   �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b        �
+                                                                                                                                                                                                            b         �
+                                                                                                                                                                                                            b        �
+                                                                                                                                                                                                            b   &     �
+                                                                                                                                                                                                            b   C  !   �
+                                                                                                                                                                                                            b   ?     �
+                                                                                                                                                                                                            b   6     �
+                                                                                                                                                                                                            b   g     �
+                                                                                                                                                                                                            b   �  "   �
+                                                                                                                                                                                                            b   �      �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   �     �
+                                                                                                                                                                                                            b   �
+                                                                                                                                                                                                              /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gear-dlmalloc-0.2.0/src/wasm.rs  0
+                                                                                                                                                                                                            ^         0
+                                                                                                                                                                                                            ^   +   	   0
+                                                                                                                                                                                                            ^   7      0
+                                                                                                                                                                                                            ^   8      capacity overflow   �
+                                                                                                                                                                                                               unsafe precondition(s) violated: ptr::copy_nonoverlapping requires that both pointer arguments are aligned and non-null and the specified memory ranges do not overlap
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                   /home/dos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/arrayvec-0.7.6/src/array_string.rs     a        assertion failed: length <= self.capacity()   a   �  	     a   �   !   unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.panicked with '          attempt to add with overflow    attempt to subtract with overflow   < !   attempt to multiply with overflow   h !   attempt to shift right with overflow� $   attempt to shift left with overflow � #   )[called `Option::unwrap()` on a `None` valuelibrary/core/src/panicking.rs      �      :          H           
+                                                                                                                                                                                                                        , ,
+                                                                                                                                                                                                           ((
+                                                                                                                                                                                                           ,
+                                                                                                                                                                                                           ]0x00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899 out of range for slice of length range end index   n    L "   unsafe precondition(s) violated: hint::assert_unchecked must never be called when the condition is false
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.                is_aligned_to: align is not a power-of-two  � *   /rustc/50aa04180709189a03dde5fd1c05751b2625ed37/library/core/src/ptr/const_ptr.rs   � Q   �
+                                                                                                                                                                                                              unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.unsafe precondition(s) violated: slice::from_raw_parts_mut requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.               Execution                Memory               Message              ReservationUnsupportedRuntimeAllocOutOfBoundsAccessOutOfBoundsMaxMessageSizeExceedOutgoingMessagesAmountLimitExceededDuplicateReplyDuplicateWakingLateAccessOutOfBoundsDuplicateInitInsufficientValueInsufficientGasLimitDuplicateReplyDepositIncorrectMessageForReplyDepositOutgoingMessagesBytesLimitExceededOutOfBoundsInputSliceOffsetOutOfBoundsInputSliceLengthInsufficientGasForDelayedSendingNotEnoughGasNotEnoughValueTooBigReadLenReadWrongRangeNoReplyContextNoSignalContextNoStatusCodeContextIncorrectEntryForReplyInvalidReservationIdReservationsLimitReachedZeroReservationDurationZeroReservationAmountReservationBelowMailboxThreshold   
+                                                                                                                                                                                                                             - 9     G T b p  �                 � � � �   /home/dos/Desktop/gwork/gear/gstd/src/msg/basic.rs  � 2        unsafe precondition(s) violated: slice::from_raw_parts requires the pointer to be aligned and non-null, and the total size of the slice not to exceed `isize::MAX`
+
+                                                                                                                                                                                                           This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.              SyscallUsage             ExtInit is live!
+                                                                                                                                                                                                              Failed to load payload/home/dos/Desktop/gwork/gear/examples/ping/src/wasm.rsF 6      %   Received payload:   �    PINGPONGFailed to send replyF 6      %   F 6   #   %   F 6   &   % name
