@@ -8,7 +8,7 @@ require (
 	github.com/ethereum/go-ethereum v1.16.0
 	github.com/goccy/go-json v0.10.5
 	github.com/gorilla/websocket v1.5.3
-	github.com/itering/scale.go v1.9.23
+	github.com/itering/scale.go v1.10.1
 	github.com/misnaged/scriptorium v0.0.0-20231207043744-47446928a2b9
 	github.com/misnaged/substrate-api-rpc v0.0.5
 	github.com/sirupsen/logrus v1.9.3

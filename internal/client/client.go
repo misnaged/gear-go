@@ -9,5 +9,10 @@ type IClient interface {
 	PostRequest(params any, method string) (*models.RpcGenericResponse, error)
 	SetId(id any)
 	PropagateAddress() string
-	Subscribe(params any, method string)
+}
+
+type IWsClient interface {
+	IClient
+	Subscribe(params any, method string) (<-chan *models.SubscriptionResponse, error)
+	Cancel()
 }

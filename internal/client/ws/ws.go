@@ -12,16 +12,7 @@ import (
 	"github.com/misnaged/gear-go/internal/models"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"sync"
-	"time"
 )
-
-type wsClient struct {
-	config *config.Scheme
-	closed chan struct{}
-	mu     sync.RWMutex
-	dealer *websocket.Dialer
-	id     any
-}
 
 func (ws *wsClient) PropagateAddress() string {
 	return fmt.Sprintf("%s://%s:%d", ws.config.Client.Transport, ws.config.Client.Host, ws.config.Client.Port)
@@ -30,54 +21,83 @@ func (ws *wsClient) PropagateAddress() string {
 func (ws *wsClient) SetId(id any) {
 	ws.id = id
 }
-func NewWsClient(config *config.Scheme) (gear_client.IClient, error) {
-	wsc := &wsClient{
-		closed: make(chan struct{}),
-		config: config,
+
+type wsClient struct {
+	config       *config.Scheme
+	closed       chan struct{}
+	cancel       context.CancelFunc
+	dealer       *websocket.Dialer
+	conn         *websocket.Conn
+	sem          chan struct{}
+	subscribes   sync.Map
+	responseChan chan *models.SubscriptionResponse
+	id           any
+}
+
+func (ws *wsClient) readLoop() {
+	for {
+		select {
+		case <-ws.closed:
+			logger.Log().Info("client disconnected")
+			return
+		default:
+
+			_, message, err := ws.conn.ReadMessage()
+			if err != nil {
+				logger.Log().Errorf("wsClient.readLoop: read message failed: %v", err)
+				return
+			}
+			var response models.SubscriptionResponse
+			if err = json.Unmarshal(message, &response); err != nil {
+				logger.Log().Errorf("failed to unmarshal message: %v, body: %s", err, message)
+				return
+			}
+
+			ws.responseChan <- &response
+		}
 	}
-	//address := wsc.PropagateAddress()
+}
+func (ws *wsClient) Acquire() {
+	ws.sem <- struct{}{}
+}
+func (ws *wsClient) Release() {
+	<-ws.sem
+}
+func (ws *wsClient) WriteResponse(resp *models.SubscriptionResponse) {
+	ws.responseChan <- resp
+}
+func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
+	wsc := &wsClient{
+		closed:       make(chan struct{}),
+		config:       config,
+		sem:          make(chan struct{}, 1),
+		responseChan: make(chan *models.SubscriptionResponse, 100),
+	}
+	address := wsc.PropagateAddress()
+	//pCtx := context.Background()
+	//ctx, cancel := context.WithTimeout(pCtx, time.Second*1)
+	//defer cancel()
+	conn, _, err := websocket.DefaultDialer.Dial(address, nil)
+	if err != nil {
+		return nil, fmt.Errorf("dial websocket failed: %v", err)
+	}
+	wsc.conn = conn
 
 	// Setting default id //
 	if wsc.id == nil {
 		wsc.id = "1"
 	}
 	// --------------------- //
-	wsc.dealer = &websocket.Dialer{}
+	go wsc.readLoop()
+
 	return wsc, nil
 }
+func (ws *wsClient) Cancel() {
+	ws.cancel()
+}
+func (ws *wsClient) Subscribe(params any, method string) (<-chan *models.SubscriptionResponse, error) {
 
-//func (ws *wsClient) unsubscribe(subId string, conn *websocket.Conn) {
-//	var params []any
-//	params = append(params, subId)
-//	rpcRequest := &models.RpcGenericRequest{
-//		Jsonrpc: "2.0",
-//		Id:      "1",
-//		Method:  "author_unwatchExtrinsic",
-//		Params:  params,
-//	}
-//	body, err := rpcRequest.MarshalBody()
-//	if err != nil {
-//		logger.Log().Errorf("marshal json rpc request body failed: %v", err)
-//		return
-//	}
-//
-//	ws.mu.Lock()
-//	err = conn.WriteMessage(websocket.TextMessage, body)
-//	ws.mu.Unlock()
-//}
-
-func (ws *wsClient) Subscribe(params any, method string) {
-	pCtx := context.Background()
-	ctx, cancel := context.WithTimeout(pCtx, time.Second*5)
-	defer cancel()
-	address := ws.PropagateAddress()
-	conn, _, err := ws.dealer.DialContext(ctx, address, nil)
-	if err != nil {
-		//return nil, fmt.Errorf("failed to dial to ws: %w", err)
-		logger.Log().Infof("failed to dial websocket:%v", err)
-		return
-	}
-
+	respChan := make(chan *models.SubscriptionResponse, 1)
 	rpcRequest := &models.RpcGenericRequest{
 		Jsonrpc: "2.0",
 		Id:      "1",
@@ -86,74 +106,26 @@ func (ws *wsClient) Subscribe(params any, method string) {
 	}
 	body, err := json.Marshal(rpcRequest)
 	if err != nil {
-		logger.Log().Errorf("marshal json rpc request body failed: %v", err)
-		return
+		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
-
-	ws.mu.Lock()
-	err = conn.WriteMessage(websocket.TextMessage, body)
+	ws.Acquire()
+	err = ws.conn.WriteMessage(websocket.TextMessage, body)
+	ws.Release()
 	if err != nil {
-		logger.Log().Errorf("send subscription request failed: %v", err)
-		return
+		return nil, fmt.Errorf("send subscription request failed: %v", err)
 	}
-	ws.mu.Unlock()
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
 	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case <-ws.closed:
-				return
-			case <-ctx.Done():
-				logger.Log().Info("Done!")
-				//ws.unsubscribe("1", conn) //TODO: add unsubscribe if neeeded
-				return
-			default:
-
-				// nolint:errcheck
-				conn.SetReadDeadline(time.Now().Add(15 * time.Second))
-
-				_, message, err := conn.ReadMessage()
-				fmt.Println(string(message))
-				if err != nil {
-					logger.Log().Errorf("read message failed: %v", err)
-					return
+		for resp := range ws.responseChan {
+			if resp.Result != nil {
+				if resp.Result.(string) != "" {
+					ws.subscribes.Store(resp.Result.(string), respChan)
 				}
-				var response any
-				//TODO: add map type (as well as fully functional subscription result parser)
-				if err = json.Unmarshal(message, &response); err != nil {
-					logger.Log().Errorf("failed to unmarshal message: %v, body: %s", err, message)
-					return
-				}
-				switch response.(type) {
-				case map[string]interface{}:
-					aaa := response.(map[string]interface{})["params"]
-					if aaa != nil {
-						bbb := aaa.(map[string]interface{})
-						logger.Log().Infof("received message: %v", bbb["subscription"])
-					}
-				}
-
 			}
+			respChan <- resp
 		}
 	}()
-	wg.Wait()
 
-	// nolint:errcheck
-	conn.Close()
-
-}
-
-type Resp struct {
-	Params struct {
-		Subscription string `json:"subscription"`
-		Result       string `json:"result"`
-	} `json:"params"`
-}
-type Subscription struct {
-	Subscription string `json:"subscription"`
+	return respChan, nil
 }
 
 func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {

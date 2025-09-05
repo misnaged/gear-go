@@ -9,7 +9,6 @@ import (
 	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 	"github.com/misnaged/gear-go/internal/models"
-	"github.com/misnaged/gear-go/pkg/logger"
 	"net/http"
 	"time"
 )
@@ -75,7 +74,4 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 		return respRPC, errors.New(errorMsg)
 	}
 	return respRPC, nil
-}
-func (cli *HttpClient) Subscribe(params any, method string) {
-	logger.Log().Error("http client DO NOT support subscribe methods")
 }
