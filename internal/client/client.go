@@ -14,5 +14,6 @@ type IClient interface {
 type IWsClient interface {
 	IClient
 	Subscribe(params any, method string) (<-chan *models.SubscriptionResponse, error)
+	ReadLoop()
 	Cancel()
 }

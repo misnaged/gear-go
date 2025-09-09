@@ -33,7 +33,7 @@ type wsClient struct {
 	id           any
 }
 
-func (ws *wsClient) readLoop() {
+func (ws *wsClient) ReadLoop() {
 	for {
 		select {
 		case <-ws.closed:
@@ -84,9 +84,6 @@ func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
 		wsc.id = "1"
 	}
 	// --------------------- //
-	if wsc.config.Subscriptions.Enabled {
-		go wsc.readLoop()
-	}
 
 	return wsc, nil
 }
@@ -127,14 +124,6 @@ func (ws *wsClient) Subscribe(params any, method string) (<-chan *models.Subscri
 }
 
 func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {
-	address := ws.PropagateAddress()
-	conn, _, err := websocket.DefaultDialer.Dial(address, nil)
-	if err != nil {
-		return nil, fmt.Errorf("failed to dial websocket:%v", err)
-	}
-
-	// nolint:errcheck
-	defer conn.Close()
 
 	rpcRequest := &models.RpcGenericRequest{
 		Jsonrpc: "2.0",
@@ -147,13 +136,13 @@ func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericRe
 	if err != nil {
 		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
-	err = conn.WriteMessage(websocket.TextMessage, body)
+	err = ws.conn.WriteMessage(websocket.TextMessage, body)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to write to WebSocket: %w", err)
 	}
 
-	_, responseData, err := conn.ReadMessage()
+	_, responseData, err := ws.conn.ReadMessage()
 	if err != nil {
 		return nil, fmt.Errorf("failed to read response from WebSocket: %w", err)
 	}

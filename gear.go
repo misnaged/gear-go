@@ -88,7 +88,7 @@ func (gear *Gear) ProcessSubscriptions() error {
 	}
 
 	gear.initEvents()
-
+	go gear.wsClient.ReadLoop()
 	if err := gear.addStorageEventsToResponsePool(); err != nil {
 		return fmt.Errorf("%w", err)
 	}
