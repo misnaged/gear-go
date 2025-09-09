@@ -11,6 +11,7 @@ type Scheme struct {
 	Subscriptions *Subscriptions
 }
 type Subscriptions struct {
+	Enabled             bool
 	HasCustomPoolRunner bool
 }
 type Keyring struct {

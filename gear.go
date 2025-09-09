@@ -1,6 +1,7 @@
 package gear_go
 
 import (
+	"errors"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
 	"github.com/misnaged/gear-go/internal/calls"
@@ -73,19 +74,30 @@ func NewGear() (*Gear, error) {
 	// Calls initialization
 	gear.initCalls()
 
-	if gear.config.Client.IsWebSocket {
-		gear.initEvents()
-
-		if err := gear.addStorageEventsToResponsePool(); err != nil {
-			return nil, fmt.Errorf("%w", err)
-		}
-		if !gear.config.Subscriptions.HasCustomPoolRunner {
-			gear.ResponsePoolRunner()
+	if gear.config.Subscriptions.Enabled {
+		if err := gear.ProcessSubscriptions(); err != nil {
+			return nil, fmt.Errorf(" gear.ProcessSubscriptions failed: %w", err)
 		}
 	}
 	return gear, nil
 }
 
+func (gear *Gear) ProcessSubscriptions() error {
+	if !gear.config.Client.IsWebSocket {
+		return errors.New("not a websocket client")
+	}
+
+	gear.initEvents()
+
+	if err := gear.addStorageEventsToResponsePool(); err != nil {
+		return fmt.Errorf("%w", err)
+	}
+	if !gear.config.Subscriptions.HasCustomPoolRunner {
+		gear.ResponsePoolRunner()
+	}
+
+	return nil
+}
 func (gear *Gear) initEvents() {
 	gear.events = gear_events.NewGearEvents(gear.GetMeta().GetMetadata())
 }
