@@ -26,7 +26,6 @@ type wsClient struct {
 	config       *config.Scheme
 	closed       chan struct{}
 	cancel       context.CancelFunc
-	dealer       *websocket.Dialer
 	conn         *websocket.Conn
 	sem          chan struct{}
 	subscribes   sync.Map
@@ -41,7 +40,6 @@ func (ws *wsClient) readLoop() {
 			logger.Log().Info("client disconnected")
 			return
 		default:
-
 			_, message, err := ws.conn.ReadMessage()
 			if err != nil {
 				logger.Log().Errorf("wsClient.readLoop: read message failed: %v", err)
@@ -63,9 +61,7 @@ func (ws *wsClient) Acquire() {
 func (ws *wsClient) Release() {
 	<-ws.sem
 }
-func (ws *wsClient) WriteResponse(resp *models.SubscriptionResponse) {
-	ws.responseChan <- resp
-}
+
 func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
 	wsc := &wsClient{
 		closed:       make(chan struct{}),
@@ -88,7 +84,9 @@ func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
 		wsc.id = "1"
 	}
 	// --------------------- //
-	go wsc.readLoop()
+	if wsc.config.Subscriptions.Enabled {
+		go wsc.readLoop()
+	}
 
 	return wsc, nil
 }
@@ -130,7 +128,7 @@ func (ws *wsClient) Subscribe(params any, method string) (<-chan *models.Subscri
 
 func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {
 	address := ws.PropagateAddress()
-	conn, _, err := ws.dealer.Dial(address, nil)
+	conn, _, err := websocket.DefaultDialer.Dial(address, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to dial websocket:%v", err)
 	}
@@ -149,8 +147,8 @@ func (ws *wsClient) PostRequest(params any, method string) (*models.RpcGenericRe
 	if err != nil {
 		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
-
 	err = conn.WriteMessage(websocket.TextMessage, body)
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to write to WebSocket: %w", err)
 	}
