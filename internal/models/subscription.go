@@ -1,9 +1,5 @@
 package models
 
-import (
-	"fmt"
-)
-
 type SubscriptionResponse struct {
 	Jsonrpc string `json:"jsonrpc"`
 	Method  string `json:"method"`
@@ -21,19 +17,6 @@ type ResponseError struct {
 type BasicParams struct {
 	Result       any    `json:"result"`
 	Subscription string `json:"subscription"`
-}
-
-func GetChangesFromEvents(response *SubscriptionResponse) ([]any, error) {
-	result, err := GetFieldFromAny("result", response.Params)
-	if err != nil {
-		return nil, fmt.Errorf("gear.GetFieldFromAny failed: %w", err)
-
-	}
-	changes, err := GetFieldFromAny("changes", result.(map[string]interface{}))
-	if err != nil {
-		return nil, fmt.Errorf("gear.GetFieldFromAny failed: %w", err)
-	}
-	return changes.([]any)[0].([]any), nil //TODO: usually len of the first array is 1. But it would be reasonable to check it to be sure
 }
 
 // `author_submitAndWatchExtrinsic` related structs.

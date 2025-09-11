@@ -1,8 +1,8 @@
 package gear_events
 
 import (
-	"errors"
 	"fmt"
+	"github.com/goccy/go-json"
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	"github.com/itering/scale.go/types/scaleBytes"
@@ -42,56 +42,42 @@ func (ev *GearEvent) GetEvents(hex string) ([]*models.Event, error) {
 	return events, nil
 }
 
-//func (ev *GearEvent) handleExtrinsicSuccess(event *models.Event) error {
-//	for _, param := range event.Params {
-//		fmt.Println(param.Name, param.Value)
-//	}
-//	return nil
-//}
-
-func (ev *GearEvent) handleExtrinsicFailed(event *models.Event) error {
+func (ev *GearEvent) handleGearUserMessage(event *models.Event) error {
 	for _, param := range event.Params {
-		if param.Name == "dispatch_error" {
-			module, err := models.GetFieldFromAny("Module", param.Value)
+		if param.Name == "message" {
+			b, err := json.Marshal(param.Value)
 			if err != nil {
-				return fmt.Errorf(" GetFieldFromAny for module failed: %w", err)
+				return fmt.Errorf("failed to marshal message: %w", err)
 			}
-			errorIndexHex, err := models.GetFieldFromAny("error", module)
-			if err != nil {
-				return fmt.Errorf(" GetFieldFromAny for errorIndexHex failed: %w", err)
+			var message models.Message
+			if err = json.Unmarshal(b, &message); err != nil {
+				return fmt.Errorf("failed to unmarshal message: %w", err)
 			}
-			moduleIdxHex, err := models.GetFieldFromAny("index", module)
-			if err != nil {
-				return fmt.Errorf(" GetFieldFromAny for moduleIdx failed: %w", err)
+			if message.Details.Code.Error != nil {
+				//TODO: error handler for messages
+				logger.Log().Errorf("gear.handleGearUserMessage failed: %v", message.Details.Code.Error.Execution)
+				continue
 			}
-			errorIndex, err := models.ConvertFromHexToInt(errorIndexHex.(string))
-			if err != nil {
-				return fmt.Errorf(" ConvertFromHexToInt failed: %w", err)
-			}
-			if moduleIdxHex == nil {
-				return fmt.Errorf("%w", errors.New("module index is nil"))
-			}
-
-			errorMessage := models.GetMessageByIndex(moduleIdxHex.(int), *errorIndex, ev.meta)
-			logger.Log().Error(errorMessage)
+			logger.Log().Infof("gear.handleGearUserMessage - message: %v", message)
 		}
 	}
 	return nil
 }
 
 func (ev *GearEvent) Handle(events []*models.Event) error {
+	// todo: refactor hardcode
 	for _, event := range events {
 		switch event.EventID {
 		case "ExtrinsicFailed":
-			err := ev.handleExtrinsicFailed(event)
+			err := handleExtrinsicFailed(event, ev.meta)
 			if err != nil {
 				return fmt.Errorf(" gear.HandleExtrinsicFailed failed: %w", err)
 			}
-			//case "ExtrinsicSuccess":
-			//	err := ev.handleExtrinsicSuccess(event)
-			//	if err != nil {
-			//		return fmt.Errorf(" gear.HandleExtrinsicSuccess failed: %w", err)
-			//	}
+		case "UserMessageSent":
+			err := ev.handleGearUserMessage(event)
+			if err != nil {
+				return fmt.Errorf(" gear.HandleGearUserMessage failed: %w", err)
+			}
 		}
 	}
 	return nil

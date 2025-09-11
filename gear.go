@@ -126,7 +126,7 @@ func (gear *Gear) ResponsePoolRunner() {
 		case <-resp:
 			for e := range resp {
 				if e.Params != nil {
-					if err := gear.Get(e); err != nil {
+					if err := gear.GetResponseFromSubscription(e); err != nil {
 						logger.Log().Errorf("gear.Get failed: %v", err)
 						return
 					}
@@ -136,11 +136,13 @@ func (gear *Gear) ResponsePoolRunner() {
 	}
 }
 
-func (gear *Gear) Get(resp *models.SubscriptionResponse) error {
+func (gear *Gear) GetResponseFromSubscription(resp *models.SubscriptionResponse) error {
 	changes, err := models.GetChangesFromEvents(resp)
 	if err != nil {
 		return fmt.Errorf("gear.responsePoolRunner - GetChangesFromEvents failed: %w", err)
 	}
+	//	 changes[0] --  block hash
+	//	  changes[1] -- changes hash
 	if changes[1] != nil {
 		if changes[1].(string) != "" {
 			events, err := gear.events.GetEvents(changes[1].(string))
