@@ -7,3 +7,11 @@ type RpcGenericResponse struct {
 	Method  string         `json:"method"`
 	Error   map[string]any `json:"error,omitempty"`
 }
+
+type GasCalculateResult struct {
+	MinLimit      int  `json:"min_limit"`
+	Reserved      int  `json:"reserved"`
+	Burned        int  `json:"burned"`
+	MayBeReturned int  `json:"may_be_returned"`
+	Waited        bool `json:"waited"`
+}

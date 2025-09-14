@@ -1,5 +1,7 @@
 package gear_storage
 
+import "github.com/misnaged/gear-go/internal/models"
+
 type IGearStorage interface {
 	DecodeStorage(decodeData any, storkey string) error
 	GetStorageKeys() ([]string, error)
@@ -9,4 +11,7 @@ type IGearStorage interface {
 	DecodeStorageDataMap(storkey string) (map[string]any, error)
 	DecodeStorageDataAny(storkey string, v any) error
 	GetProgramsId() ([]string, error)
+	GetPrograms() ([]*models.Program, error)
+
+	GetProgramByCodeId(codeId string) (*models.Program, error)
 }

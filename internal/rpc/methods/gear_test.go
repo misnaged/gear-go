@@ -15,6 +15,6 @@ func TestGearRpc_GearCalculateInitCreateGas(t *testing.T) {
 	assert.NoError(t, err)
 	pingPayload := "0x50494e47"
 	Alice := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d"
-	_, err = gearRpc.GearCalculateInitCreateGas(codeId, Alice, pingPayload, 1, true)
+	_, err = gearRpc.GearCalculateInitCreateGas(Alice, codeId, pingPayload, 1, true)
 	assert.NoError(t, err)
 }

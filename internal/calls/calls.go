@@ -40,3 +40,14 @@ func (calls *Calls) CallBuilder(callName string, args []any) (string, error) {
 	}
 	return aa, nil
 }
+
+func (calls *Calls) DoCall(callHash string) error {
+	resp, err := calls.GearRpc.AuthorSubmitExtrinsic(callHash)
+	if err != nil {
+		return fmt.Errorf("error submitting extrinsic: %w", err)
+	}
+	if resp.Error != nil {
+		return fmt.Errorf("chain response returned error: %v", resp.Error)
+	}
+	return nil
+}

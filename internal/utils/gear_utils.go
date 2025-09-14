@@ -5,11 +5,13 @@ import (
 	"errors"
 	"fmt"
 	blake2b2 "github.com/ethereum/go-ethereum/crypto/blake2b"
+	"github.com/goccy/go-json"
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	"github.com/itering/scale.go/types/scaleBytes"
 	"github.com/itering/scale.go/utiles"
 	gear_client "github.com/misnaged/gear-go/internal/client"
+	"github.com/misnaged/gear-go/internal/models"
 	"os"
 	"strings"
 )
@@ -192,4 +194,21 @@ func GetCodeIdFromWasmFile(filePath string) (string, error) {
 
 	h := blake2b2.Sum256(f)
 	return AddToHex(h[:]), nil
+}
+
+func TextToHex(text string) string {
+	return fmt.Sprintf("0x%s", hex.EncodeToString([]byte(text)))
+}
+
+func GetMinimalGasForProgram(calculateGasResponse *models.RpcGenericResponse) (*int, error) {
+	b, err := json.Marshal(calculateGasResponse.Result)
+	if err != nil {
+		return nil, fmt.Errorf(" json.Marshal failed: %w", err)
+	}
+	var calculateGasResult models.GasCalculateResult
+	err = json.Unmarshal(b, &calculateGasResult)
+	if err != nil {
+		return nil, fmt.Errorf(" json.Unmarshal failed: %w", err)
+	}
+	return &calculateGasResult.MinLimit, nil
 }

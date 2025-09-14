@@ -74,11 +74,6 @@ func NewGear() (*Gear, error) {
 	// Calls initialization
 	gear.initCalls()
 
-	if gear.config.Subscriptions.Enabled {
-		if err := gear.ProcessSubscriptions(); err != nil {
-			return nil, fmt.Errorf(" gear.ProcessSubscriptions failed: %w", err)
-		}
-	}
 	return gear, nil
 }
 
@@ -126,8 +121,8 @@ func (gear *Gear) ResponsePoolRunner() {
 		case <-resp:
 			for e := range resp {
 				if e.Params != nil {
-					if err := gear.GetResponseFromSubscription(e); err != nil {
-						logger.Log().Errorf("gear.Get failed: %v", err)
+					if err := gear.GetResponseFromEventsSubscription(e); err != nil {
+						logger.Log().Errorf("gear.GetResponseFromEventsSubscription failed: %v", err)
 						return
 					}
 				}
@@ -136,7 +131,7 @@ func (gear *Gear) ResponsePoolRunner() {
 	}
 }
 
-func (gear *Gear) GetResponseFromSubscription(resp *models.SubscriptionResponse) error {
+func (gear *Gear) GetResponseFromEventsSubscription(resp *models.SubscriptionResponse) error {
 	changes, err := models.GetChangesFromEvents(resp)
 	if err != nil {
 		return fmt.Errorf("gear.responsePoolRunner - GetChangesFromEvents failed: %w", err)

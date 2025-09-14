@@ -14,7 +14,7 @@ type GearProgram struct {
 	CodeId      string // rust: code_id [U8; 32]
 	Salt        string // rust: salt Vec<U8>
 	InitPayload string // rust: init_payload Vec<U8>
-	GasLimit    string // rust: gas_limit U64
+	GasLimit    int    // rust: gas_limit U64
 	Value       string // rust: value U128
 	KeepAlive   bool   // keep_alive Bool
 }
