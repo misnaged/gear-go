@@ -8,6 +8,7 @@ type IGearRPC interface {
 	NoArgRpcRequest(method NoArgsMethod) (*models.RpcGenericResponse, error)
 	// Author methods
 	AuthorSubmitExtrinsic(signed string) (*models.RpcGenericResponse, error)
+
 	// Chain methods
 	ChainGetBlockHashLatest() (*models.RpcGenericResponse, error)
 	ChainGetBlockHash(blockNum int) (*models.RpcGenericResponse, error)
@@ -23,5 +24,6 @@ type IGearRPC interface {
 	SystemAccountNextIndex(accountId string) (*models.RpcGenericResponse, error)
 
 	//Gear methods
-	GearCalculateInitCreateGas(codeId, owner, payload string, value any, allowOtherPanic bool) (*models.RpcGenericResponse, error)
+	GearCalculateInitCreateGas(owner, codeId, payload string, value any, allowOtherPanic bool) (*models.RpcGenericResponse, error)
+	GearCalculateHandleGas(owner, dest, payload string, value any, allowOtherPanic bool) (*models.RpcGenericResponse, error)
 }
