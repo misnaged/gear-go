@@ -34,6 +34,7 @@ func (calls *Calls) SignTransaction(moduleName, callName string, params []scalec
 	if err != nil {
 		return "", fmt.Errorf("failed to send SystemAccountNextIndex request: %w", err)
 	}
+
 	calls.customTx = rpc.NewCustomTransaction(
 		callIndex,
 		genesisHash,

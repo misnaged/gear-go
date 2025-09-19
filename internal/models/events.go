@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"github.com/goccy/go-json"
 	scalecodec "github.com/itering/scale.go"
 )
 
@@ -12,18 +13,44 @@ type Event struct {
 	ExtrinsicIndex int                     `json:"extrinsic_idx"`
 	Params         []scalecodec.EventParam `json:"params"`
 }
+type ChangesResponse struct {
+	Result       any    `json:"result"`
+	Subscription string `json:"subscription"`
+}
 
-func GetChangesFromEvents(response *SubscriptionResponse) ([]any, error) {
-	result, err := GetFieldFromAny("result", response.Params)
-	if err != nil {
-		return nil, fmt.Errorf("gear.GetFieldFromAny failed: %w", err)
+type Result struct {
+	Block  string  `json:"block"`
+	Change [][]any `json:"changes"`
+}
+type Changes struct {
+	ChangeHash string
+}
 
-	}
-	changes, err := GetFieldFromAny("changes", result.(map[string]interface{}))
+func GetChangesFromEvents(response *SubscriptionResponse) (*Changes, error) {
+	b, err := json.Marshal(response.Params)
 	if err != nil {
-		return nil, fmt.Errorf("gear.GetFieldFromAny failed: %w", err)
+		return nil, fmt.Errorf("json marshal failed: %w", err)
 	}
-	return changes.([]any)[0].([]any), nil //TODO: usually len of the first array is 1. But it would be reasonable to check it to be sure
+	var resp ChangesResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, fmt.Errorf("json unmarshal failed: %w", err)
+	}
+	bb, err := json.Marshal(resp.Result)
+	if err != nil {
+		return nil, fmt.Errorf("json marshal failed: %w", err)
+	}
+	var res Result
+	err = json.Unmarshal(bb, &res)
+	if err != nil {
+		return nil, fmt.Errorf("json unmarshal failed: %w", err)
+	}
+
+	changes := &Changes{}
+	for _, change := range res.Change {
+		changes.ChangeHash = change[1].(string)
+	}
+	return changes, nil
 }
 
 type TransactionPaymentEvent struct {

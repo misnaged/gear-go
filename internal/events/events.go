@@ -78,6 +78,11 @@ func (ev *GearEvent) Handle(events []*models.Event) error {
 			if err != nil {
 				return fmt.Errorf(" gear.HandleGearUserMessage failed: %w", err)
 			}
+
+		default:
+			if event.EventID != "ExtrinsicSuccess" {
+				logger.Log().Infof("gear.HandleGearUserMessage - event: %v", event)
+			}
 		}
 	}
 	return nil

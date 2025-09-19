@@ -14,11 +14,15 @@ import (
 )
 
 type HttpClient struct {
-	client *http.Client
-	config *config.Scheme
-	id     any
+	address string
+	client  *http.Client
+	config  *config.Scheme
+	id      any
 }
 
+func (cli *HttpClient) propagateAddress() {
+	cli.address = fmt.Sprintf("%s://%s:%d", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
+}
 func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.IClient {
 	c := &http.Client{
 		Timeout: timeout,
@@ -28,18 +32,15 @@ func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.ICl
 	if httpClient.id == nil {
 		httpClient.id = "1"
 	}
+	httpClient.propagateAddress()
 	// ---------------------- //
 	return httpClient
 }
 func (cli *HttpClient) SetId(id any) {
 	cli.id = id
 }
-func (cli *HttpClient) PropagateAddress() string {
-	return fmt.Sprintf("%s://%s:%d", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
-}
 
 func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGenericResponse, error) {
-	address := cli.PropagateAddress()
 	rpcRequest := &models.RpcGenericRequest{
 		Jsonrpc: "2.0",
 		Id:      "1",
@@ -51,7 +52,7 @@ func (cli *HttpClient) PostRequest(params any, method string) (*models.RpcGeneri
 		return nil, fmt.Errorf("marshal json rpc request body failed: %v", err)
 	}
 
-	req, err := http.NewRequest(http.MethodPost, address, bytes.NewReader(body))
+	req, err := http.NewRequest(http.MethodPost, cli.address, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("post request has failed: %w", err)
 	}

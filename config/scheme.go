@@ -11,8 +11,8 @@ type Scheme struct {
 	Subscriptions *Subscriptions
 }
 type Subscriptions struct {
-	Enabled             bool
-	HasCustomPoolRunner bool
+	BuffSize int
+	Enabled  bool
 }
 type Keyring struct {
 	Category keyring.Category

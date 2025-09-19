@@ -5,15 +5,18 @@ import (
 	"github.com/misnaged/gear-go/internal/models"
 )
 
+type ResponseType string
+
 type IClient interface {
 	PostRequest(params any, method string) (*models.RpcGenericResponse, error)
 	SetId(id any)
-	PropagateAddress() string
 }
 
 type IWsClient interface {
 	IClient
-	Subscribe(params any, method string) (<-chan *models.SubscriptionResponse, error)
-	ReadLoop()
+	AddResponseTypesAndMakeWsConnectionsPool(responseTypes ...string) error
+	EnqueuedSubscriptions(methods []string, param1, param2 any, rtypes []ResponseType) error
+	NewSubscriptionFunc(method string, params any, responseType ResponseType) (chan *models.SubscriptionResponse, error)
+	CloseAllConnection() error
 	Cancel()
 }
