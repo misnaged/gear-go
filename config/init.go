@@ -19,8 +19,8 @@ func InitConfig(cfg *Scheme) error {
 	viper.SetDefault("client.issecured", false)
 	viper.SetDefault("keyring.category", keyring.Sr25519Type)
 	viper.SetDefault("keyring.seed", "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a") //Alice
-	viper.SetDefault("subscriptions.hascustompoolrunner", false)
 	viper.SetDefault("subscriptions.enabled", true)
+	viper.SetDefault("subscriptions.buffsize", 100)
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {

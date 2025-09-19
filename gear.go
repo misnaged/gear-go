@@ -1,16 +1,16 @@
 package gear_go
 
 import (
-	"errors"
+	"context"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
 	"github.com/misnaged/gear-go/internal/calls"
 	gear_events "github.com/misnaged/gear-go/internal/events"
 	"github.com/misnaged/gear-go/internal/metadata"
-	"github.com/misnaged/gear-go/internal/models"
-	gear_storage_methods "github.com/misnaged/gear-go/internal/storage/methods"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"github.com/misnaged/substrate-api-rpc/keyring"
+	"sync"
+
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
@@ -31,17 +31,19 @@ import (
 )
 
 type Gear struct {
-	config       *config.Scheme
-	version      *version.Version
-	client       gear_client.IClient
-	wsClient     gear_client.IWsClient
-	gearRPC      gear_rpc.IGearRPC
-	events       gear_events.IEvent
-	meta         *metadata.Metadata
-	calls        *calls.Calls
-	keyRing      keyring.IKeyRing
-	stop         chan struct{}
-	responsePool []<-chan *models.SubscriptionResponse
+	config   *config.Scheme
+	version  *version.Version
+	client   gear_client.IClient
+	wsClient gear_client.IWsClient
+	gearRPC  gear_rpc.IGearRPC
+	events   gear_events.IEvent
+	meta     *metadata.Metadata
+	calls    *calls.Calls
+	keyRing  keyring.IKeyRing
+	mu       sync.Mutex
+	stop     chan struct{}
+	subFuncs []SubscriptionFunc
+	ctx      context.Context
 }
 
 // NewGear creates fully functional gear-go API instance
@@ -77,97 +79,7 @@ func NewGear() (*Gear, error) {
 	return gear, nil
 }
 
-func (gear *Gear) ProcessSubscriptions() error {
-	if !gear.config.Client.IsWebSocket {
-		return errors.New("not a websocket client")
-	}
-
-	gear.initEvents()
-	go gear.wsClient.ReadLoop()
-	if err := gear.addStorageEventsToResponsePool(); err != nil {
-		return fmt.Errorf("%w", err)
-	}
-	if !gear.config.Subscriptions.HasCustomPoolRunner {
-		gear.ResponsePoolRunner()
-	}
-
-	return nil
-}
-func (gear *Gear) initEvents() {
-	gear.events = gear_events.NewGearEvents(gear.GetMeta().GetMetadata())
-}
-
 // ************** API Builders ************ //
-
-// ResponsePoolRunner is the main function that handles
-// and operates subscriptions responses.
-//
-// You can add new subscription by using Subscribe function of gear.wsClient as shown below:
-//
-//		 	newSubscription, err := gear.wsClient.Subscribe(args, methodName)
-//				...
-//				gear.responsePool = append(gear.responsePool, newSubscription) // the part in which new sub is added to pool
-//	 --------------------------------------------------------------------------------------------------------------------
-//
-// This function could be overwritten
-// if config value of Subscriptions.HasCustomPoolRunner is set by true.
-// In this case, you would have to make CustomRunner function by your own
-// in the way it suits you
-func (gear *Gear) ResponsePoolRunner() {
-	for _, resp := range gear.responsePool {
-		select {
-		case <-gear.stop:
-			return
-		case <-resp:
-			for e := range resp {
-				if e.Params != nil {
-					if err := gear.GetResponseFromEventsSubscription(e); err != nil {
-						logger.Log().Errorf("gear.GetResponseFromEventsSubscription failed: %v", err)
-						return
-					}
-				}
-			}
-		}
-	}
-}
-
-func (gear *Gear) GetResponseFromEventsSubscription(resp *models.SubscriptionResponse) error {
-	changes, err := models.GetChangesFromEvents(resp)
-	if err != nil {
-		return fmt.Errorf("gear.responsePoolRunner - GetChangesFromEvents failed: %w", err)
-	}
-	//	 changes[0] --  block hash
-	//	  changes[1] -- changes hash
-	if changes[1] != nil {
-		if changes[1].(string) != "" {
-			events, err := gear.events.GetEvents(changes[1].(string))
-			if err != nil {
-				return fmt.Errorf("gear.responsePoolRunner - GetEvents failed: %w", err)
-			}
-			err = gear.events.Handle(events)
-			if err != nil {
-				return fmt.Errorf("gear.responsePoolRunner - HandleEvents failed: %w", err)
-			}
-		}
-	}
-	return nil
-}
-func (gear *Gear) addStorageEventsToResponsePool() error {
-	storage := gear_storage_methods.NewStorage("System", "Events", gear.GetMeta(), gear.GetRPC())
-	k, err := storage.GetStorageKey()
-	if err != nil {
-		logger.Log().Errorf(" storage.GetStorageKeys failed: %v", err)
-	}
-
-	storageSub, err := gear.wsClient.Subscribe([][]string{{k}}, "state_subscribeStorage")
-	if err != nil {
-		return fmt.Errorf(" gear.wsClient.Subscribe2 failed: %w", err)
-	}
-
-	gear.responsePool = append(gear.responsePool, storageSub)
-
-	return nil
-}
 
 func (gear *Gear) initGearRpc() {
 	gearRpc := gear_rpc_method.NewGearRpc(gear.client, gear.config)
@@ -259,4 +171,7 @@ func (gear *Gear) GetRPC() gear_rpc.IGearRPC {
 }
 func (gear *Gear) GetMeta() *metadata.Metadata {
 	return gear.meta
+}
+func (gear *Gear) GetCalls() *calls.Calls {
+	return gear.calls
 }

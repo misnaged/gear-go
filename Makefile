@@ -82,6 +82,10 @@ run:
 example-code-run:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/example_upload_code_and_get_code_from_storage.go
 
+example-update-code-sub:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/upload/example_subscription_upload.go
+
+
 cargo-build:
 	cd $(CARGO_DIR) && cargo install subxt-cli
 	cd $(CARGO_DIR) && subxt metadata -f bytes > metadata.scale
