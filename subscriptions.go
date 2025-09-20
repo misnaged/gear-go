@@ -15,19 +15,6 @@ import (
 
 // SubscriptionFunc is a subscription builder func
 type SubscriptionFunc func() error
-type Subscriptions struct {
-	subFuncs     SubscriptionFunc
-	responseType gear_client.ResponseType
-	method       string
-}
-
-func NewSubscription(f SubscriptionFunc, responseType gear_client.ResponseType, method string) *Subscriptions {
-	return &Subscriptions{
-		subFuncs:     f,
-		responseType: responseType,
-		method:       method,
-	}
-}
 
 func (gear *Gear) MergeSubscriptionFunctions(fo ...SubscriptionFunc) {
 	gear.subFuncs = append(gear.subFuncs, fo...)
