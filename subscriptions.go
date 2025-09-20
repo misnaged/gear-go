@@ -30,9 +30,7 @@ func NewSubscription(f SubscriptionFunc, responseType gear_client.ResponseType, 
 }
 
 func (gear *Gear) MergeSubscriptionFunctions(fo ...SubscriptionFunc) {
-	for _, f := range fo {
-		gear.subFuncs = append(gear.subFuncs, f)
-	}
+	gear.subFuncs = append(gear.subFuncs, fo...)
 }
 
 func (gear *Gear) initEvents() {
@@ -49,7 +47,7 @@ func (gear *Gear) InitSubscriptions() error {
 	}
 
 	gear.initEvents()
-	if gear.subFuncs == nil || len(gear.subFuncs) == 0 {
+	if len(gear.subFuncs) == 0 {
 		return errors.New("subscription functions were not added. To add subscription function use gear.MergeSubscriptionFunctions")
 	}
 	for _, sub := range gear.subFuncs {
@@ -97,13 +95,10 @@ func (gear *Gear) EventsSubscription() SubscriptionFunc {
 			return fmt.Errorf(" gear.wsClient.Subscribe failed: %w", err)
 		}
 		for resp := range storageSub {
-			select {
-			default:
-				if resp.Params != nil {
-					if err = gear.getResponseFromEventsSubscription(resp); err != nil {
-						logger.Log().Errorf("gear.GetResponseFromEventsSubscription failed: %v", err)
-						return nil
-					}
+			if resp.Params != nil {
+				if err = gear.getResponseFromEventsSubscription(resp); err != nil {
+					logger.Log().Errorf("gear.GetResponseFromEventsSubscription failed: %v", err)
+					return nil
 				}
 			}
 		}
@@ -130,17 +125,7 @@ func (gear *Gear) getResponseFromEventsSubscription(resp *models.SubscriptionRes
 	}
 	return nil
 }
-func (gear *Gear) EnqueuedHandler(a, b any) SubscriptionFunc {
-	return func() error {
-		var methods = []string{"author_submitAndWatchExtrinsic", "author_submitAndWatchExtrinsic"}
-		var types = []gear_client.ResponseType{"submitAndWatchExtrinsic1", "submitAndWatchExtrinsic2"}
-		err := gear.wsClient.EnqueuedSubscriptions(methods, a, b, types)
-		if err != nil {
-			return fmt.Errorf(" gear.wsClient.EnqueuedSubscriptions failed: %w", err)
-		}
-		return nil
-	}
-}
+
 func (gear *Gear) SubmitAndWatchExtrinsic(args []any, t string) SubscriptionFunc {
 	return func() error {
 		sSub, err := gear.GetWsClient().NewSubscriptionFunc("author_submitAndWatchExtrinsic", args, gear_client.ResponseType(t))
@@ -148,11 +133,45 @@ func (gear *Gear) SubmitAndWatchExtrinsic(args []any, t string) SubscriptionFunc
 			return fmt.Errorf(" gear.wsClient.Subscribe failed: %w", err)
 		}
 		for resp := range sSub {
-			select {
-			default:
-				logger.Log().Info("extirnsic", resp)
+			logger.Log().Info("extrinsic", resp)
+			if resp.Error != nil {
+				logger.Log().Errorf("gear.wsClient.Subscribe failed: %v", resp.Error)
+			}
+		}
+		return nil
+	}
+}
+
+// TODO: looking for improvement of EnqueuedSubscriptions
+
+// EnqueuedSubscriptions
+func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.ResponseType, callNames, moduleNames []string, args [][]any) SubscriptionFunc {
+	return func() error {
+		for i := range rtypes {
+
+			// we need to call CallBuilder firstly, because this function returns Signed transaction
+			// with new nonce number
+			// if we're calling it in advance - new nonce switching won't be happened
+			str, err := gear.calls.CallBuilder(callNames[i], moduleNames[i], args[i])
+			if err != nil {
+				return fmt.Errorf("gear.wsClient.EnqueuedSubscriptions: %w", err)
+			}
+
+			ch, err := gear.wsClient.NewSubscriptionFunc(methods[i], []any{str}, rtypes[i])
+			if err != nil {
+				return fmt.Errorf("gear.wsClient.EnqueuedSubscriptions: %w", err)
+			}
+			for resp := range ch {
+				logger.Log().Info("extrinsic", resp)
 				if resp.Error != nil {
-					logger.Log().Errorf("gear.wsClient.Subscribe failed: %v", resp.Error)
+					logger.Log().Errorf("failed to send response: %v", resp.Error)
+					gear.wsClient.CloseChannelByResponseType(rtypes[i])
+					return errors.New("gear.wsClient.EnqueuedSubscriptions: failed to send response")
+				}
+				if models.IsFinalized(resp) {
+					logger.Log().Info("subscription finalized, moving to next")
+					gear.wsClient.CloseChannelByResponseType(rtypes[i])
+					break
 				}
 			}
 		}

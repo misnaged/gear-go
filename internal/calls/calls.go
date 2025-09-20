@@ -1,7 +1,6 @@
 package calls
 
 import (
-	"errors"
 	"fmt"
 	"github.com/misnaged/gear-go/internal/metadata"
 	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
@@ -11,11 +10,10 @@ import (
 )
 
 type Calls struct {
-	GearRpc    gear_rpc.IGearRPC
-	Meta       *metadata.Metadata
-	KeyRing    keyring.IKeyRing
-	customTx   rpc.ICustomTranscation
-	ModuleName string
+	GearRpc  gear_rpc.IGearRPC
+	Meta     *metadata.Metadata
+	KeyRing  keyring.IKeyRing
+	customTx rpc.ICustomTranscation
 }
 
 func NewCalls(meta *metadata.Metadata, gearRpc gear_rpc.IGearRPC, kr keyring.IKeyRing) *Calls {
@@ -25,16 +23,14 @@ func NewCalls(meta *metadata.Metadata, gearRpc gear_rpc.IGearRPC, kr keyring.IKe
 		KeyRing: kr,
 	}
 }
-func (calls *Calls) CallBuilder(callName string, args []any) (string, error) {
-	if calls.ModuleName == "" {
-		return "", fmt.Errorf("%w", errors.New("module name is empty"))
-	}
-	params, err := extrinsic_params.InitBuilder(calls.ModuleName, callName, calls.Meta.GetMetadata().Metadata.Modules, args)
+func (calls *Calls) CallBuilder(callName, ModuleName string, args []any) (string, error) {
+
+	params, err := extrinsic_params.InitBuilder(ModuleName, callName, calls.Meta.GetMetadata().Metadata.Modules, args)
 	if err != nil {
 		return "", fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
 	}
 
-	aa, err := calls.SignTransaction(calls.ModuleName, callName, params)
+	aa, err := calls.SignTransaction(ModuleName, callName, params)
 	if err != nil {
 		return "", fmt.Errorf("SignTransaction failed: %w", err)
 	}

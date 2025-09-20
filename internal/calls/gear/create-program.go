@@ -14,7 +14,7 @@ func (gc *GearCalls) CreateProgram(pathToWasm string, p *extrinsic_params.GearPr
 
 	p.CodeId = codeId
 	args := []any{p.CodeId, p.Salt, p.InitPayload, p.GasLimit, p.Value, p.KeepAlive}
-	call, err := gc.c.CallBuilder("create_program", args)
+	call, err := gc.c.CallBuilder("create_program", "Gear", args)
 	if err != nil {
 		return "", fmt.Errorf("error calling extrinsic params builder: %w", err)
 	}

@@ -33,3 +33,16 @@ type InBlockResponse struct {
 type FinalizedResponse struct {
 	Finalized string `json:"finalized"`
 }
+
+func IsFinalized(resp *SubscriptionResponse) bool {
+	if resultMap, ok := resp.Params.(map[string]any); ok {
+		if n, ok := resultMap["result"]; ok {
+			if rss, ok := n.(map[string]any); ok {
+				if _, ok = rss["finalized"]; ok {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}

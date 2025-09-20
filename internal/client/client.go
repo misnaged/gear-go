@@ -15,8 +15,8 @@ type IClient interface {
 type IWsClient interface {
 	IClient
 	AddResponseTypesAndMakeWsConnectionsPool(responseTypes ...string) error
-	EnqueuedSubscriptions(methods []string, param1, param2 any, rtypes []ResponseType) error
 	NewSubscriptionFunc(method string, params any, responseType ResponseType) (chan *models.SubscriptionResponse, error)
 	CloseAllConnection() error
+	CloseChannelByResponseType(respType ResponseType)
 	Cancel()
 }

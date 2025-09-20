@@ -11,7 +11,7 @@ func (gc *GearCalls) UploadCode(pathToWasm string) (string, error) {
 		return "", fmt.Errorf("error creating code: %w", err)
 	}
 	args := []any{codeParams.Code}
-	call, err := gc.c.CallBuilder("upload_code", args)
+	call, err := gc.c.CallBuilder("upload_code", "Gear", args)
 	if err != nil {
 		return "", fmt.Errorf("error calling extrinsic params builder: %w", err)
 	}

@@ -9,7 +9,5 @@ type GearCalls struct {
 }
 
 func New(c *calls.Calls) IGearCalls {
-	gc := &GearCalls{c: c}
-	gc.c.ModuleName = "Gear"
-	return gc
+	return &GearCalls{c: c}
 }

@@ -1,7 +1,6 @@
 package gear_go
 
 import (
-	"context"
 	"fmt"
 	"github.com/misnaged/gear-go/config"
 	"github.com/misnaged/gear-go/internal/calls"
@@ -9,7 +8,6 @@ import (
 	"github.com/misnaged/gear-go/internal/metadata"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"github.com/misnaged/substrate-api-rpc/keyring"
-	"sync"
 
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
@@ -40,10 +38,8 @@ type Gear struct {
 	meta     *metadata.Metadata
 	calls    *calls.Calls
 	keyRing  keyring.IKeyRing
-	mu       sync.Mutex
 	stop     chan struct{}
 	subFuncs []SubscriptionFunc
-	ctx      context.Context
 }
 
 // NewGear creates fully functional gear-go API instance

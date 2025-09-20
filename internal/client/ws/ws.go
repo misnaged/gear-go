@@ -7,7 +7,6 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 	"github.com/misnaged/gear-go/config"
-
 	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
@@ -15,7 +14,33 @@ import (
 	"github.com/misnaged/gear-go/pkg/logger"
 )
 
-type contextDoneKey string
+type wsClient struct {
+	address        string
+	config         *config.Scheme
+	closed         chan struct{}
+	cancel         context.CancelFunc
+	sem            chan struct{}
+	responsePool   map[gear_client.ResponseType]chan *models.SubscriptionResponse
+	connectionPool map[gear_client.ResponseType]*websocket.Conn
+	id             any
+	responseTypes  []gear_client.ResponseType
+}
+
+func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
+	wsc := &wsClient{
+		closed: make(chan struct{}),
+		config: config,
+		sem:    make(chan struct{}, 1),
+	}
+	wsc.propagateAddress()
+	if wsc.id == nil {
+		wsc.id = "1"
+	}
+
+	// --------------------- //
+
+	return wsc, nil
+}
 
 func (ws *wsClient) newResponseType(typeName string) error {
 	if len(ws.responseTypes) > 0 {
@@ -34,20 +59,6 @@ func (ws *wsClient) propagateAddress() {
 
 func (ws *wsClient) SetId(id any) {
 	ws.id = id
-}
-
-type wsClient struct {
-	address        string
-	config         *config.Scheme
-	closed         chan struct{}
-	cancel         context.CancelFunc
-	sem            chan struct{}
-	responsePool   map[gear_client.ResponseType]chan *models.SubscriptionResponse
-	connectionPool map[gear_client.ResponseType]*websocket.Conn
-	id             any
-	responseTypes  []gear_client.ResponseType
-	done           string
-	ctx            context.Context
 }
 
 func (ws *wsClient) readLoop(respType gear_client.ResponseType) {
@@ -109,21 +120,7 @@ func (ws *wsClient) AddResponseTypesAndMakeWsConnectionsPool(responseTypes ...st
 	}
 	return errors.New("subscriptions not enabled in config")
 }
-func NewWsClient(config *config.Scheme) (gear_client.IWsClient, error) {
-	wsc := &wsClient{
-		closed: make(chan struct{}),
-		config: config,
-		sem:    make(chan struct{}, 1),
-	}
-	wsc.propagateAddress()
-	if wsc.id == nil {
-		wsc.id = "1"
-	}
 
-	// --------------------- //
-
-	return wsc, nil
-}
 func (ws *wsClient) Cancel() {
 	ws.cancel()
 }
@@ -133,46 +130,6 @@ func (ws *wsClient) newConnection(respType gear_client.ResponseType) error {
 		return fmt.Errorf("failed to dial websocket:%w", err)
 	}
 	ws.connectionPool[respType] = conn
-	return nil
-}
-func isFinalized(resp *models.SubscriptionResponse) bool {
-	if resultMap, ok := resp.Params.(map[string]any); ok {
-		if n, ok := resultMap["result"]; ok {
-			if rss, ok := n.(map[string]any); ok {
-				if _, ok = rss["finalized"]; ok {
-					return true
-				}
-			}
-		}
-	}
-	return false
-}
-
-func (ws *wsClient) EnqueuedSubscriptions(methods []string, param1, param2 any, rtypes []gear_client.ResponseType) error {
-	var params []any
-	params = append(params, param1, param2)
-	for i := range rtypes {
-
-		ch, err := ws.subscribe(params[i], methods[i], rtypes[i])
-		if err != nil {
-			return fmt.Errorf("%w", err)
-		}
-
-		go ws.readLoop(rtypes[i])
-		// later, when you want to stop:
-		for resp := range ch {
-			logger.Log().Info("extrinsic", resp)
-			if resp.Error != nil {
-				logger.Log().Errorf("failed to send response: %v", resp.Error)
-				close(ws.responsePool[rtypes[i]])
-			}
-			if isFinalized(resp) {
-				logger.Log().Info("subscription finalized, moving to next")
-
-				break
-			}
-		}
-	}
 	return nil
 }
 
@@ -188,7 +145,7 @@ func (ws *wsClient) NewSubscriptionFunc(method string, params any, responseType 
 			return ws.subscribe(params, method, responseType)
 		}
 	}
-	return nil, errors.New(fmt.Sprintf("gear.wsClient.NewSubscriptionFunc: response type %s not supported", responseType))
+	return nil, fmt.Errorf("gear.wsClient.NewSubscriptionFunc: response type %s not supported", responseType)
 
 }
 
@@ -200,6 +157,10 @@ func (ws *wsClient) CloseAllConnection() error {
 		}
 	}
 	return nil
+}
+func (ws *wsClient) CloseChannelByResponseType(respType gear_client.ResponseType) {
+	//todo: error handling
+	close(ws.responsePool[respType])
 }
 
 func (ws *wsClient) subscribe(params any, method string, responseType gear_client.ResponseType) (chan *models.SubscriptionResponse, error) {

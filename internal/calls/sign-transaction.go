@@ -6,6 +6,7 @@ import (
 	scalecodec "github.com/itering/scale.go"
 	"github.com/itering/scale.go/types"
 	gear_utils "github.com/misnaged/gear-go/internal/utils"
+	"github.com/misnaged/gear-go/pkg/logger"
 	rpcModels "github.com/misnaged/substrate-api-rpc/model"
 	"github.com/misnaged/substrate-api-rpc/rpc"
 )
@@ -34,7 +35,7 @@ func (calls *Calls) SignTransaction(moduleName, callName string, params []scalec
 	if err != nil {
 		return "", fmt.Errorf("failed to send SystemAccountNextIndex request: %w", err)
 	}
-
+	logger.Log().Infof("nonce is: %d  %s %s \n", int(resp.Result.(float64)), callName, moduleName)
 	calls.customTx = rpc.NewCustomTransaction(
 		callIndex,
 		genesisHash,
