@@ -83,7 +83,7 @@ example-code-run:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/example_upload_code_and_get_code_from_storage.go
 
 example-update-code-sub:
-	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/upload/example_subscription_upload.go
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/upload_and_create/example_subscription_upload.go
 
 
 cargo-build:
