@@ -13,5 +13,5 @@ type IGearStorage interface {
 	GetProgramsId() ([]string, error)
 	GetPrograms() ([]*models.Program, error)
 
-	GetProgramByCodeId(codeId string) (*models.Program, error)
+	GetActiveProgramByCodeId(codeId string) (*models.Program, error)
 }

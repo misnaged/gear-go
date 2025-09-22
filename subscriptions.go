@@ -93,6 +93,29 @@ func (gear *Gear) EventsSubscription() SubscriptionFunc {
 	}
 }
 
+func (gear *Gear) EventsSubscription2() SubscriptionFunc {
+	return func() error {
+		storage := gear_storage_methods.NewStorage("GearMessenger", "Mailbox", gear.GetMeta(), gear.GetRPC())
+		k, err := storage.GetStorageKey()
+		if err != nil {
+			return fmt.Errorf(" storage.GetStorageKeys failed: %w", err)
+		}
+
+		storageSub, err := gear.wsClient.NewSubscriptionFunc("state_subscribeStorage", [][]string{{k}}, "subscribeStorage2")
+		if err != nil {
+			return fmt.Errorf(" gear.wsClient.Subscribe failed: %w", err)
+		}
+		for resp := range storageSub {
+			changes, err := models.GetChangesFromEvents(resp)
+			if err != nil {
+				return fmt.Errorf("gear.responsePoolRunner - GetChangesFromEvents failed: %w", err)
+			}
+			fmt.Println(changes)
+		}
+		return nil
+	}
+}
+
 // getResponseFromEventsSubscription gets change hash from subscription response
 // and decodes it to useful payload (ExtrinsicFailed and UserMessageSent at this moment)
 func (gear *Gear) getResponseFromEventsSubscription(resp *models.SubscriptionResponse) error {
@@ -136,6 +159,11 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 	return func() error {
 		for i := range rtypes {
 
+			// quit loop if iteration is higher or eq than given queue
+			if i >= len(rtypes)-1 {
+				break
+			}
+
 			// we need to call CallBuilder firstly, because this function returns Signed transaction
 			// with new nonce number
 			// if we're calling it in advance - new nonce switching won't be happened
@@ -146,17 +174,16 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 
 			ch, err := gear.wsClient.NewSubscriptionFunc(methods[i], []any{str}, rtypes[i])
 			if err != nil {
-				return fmt.Errorf("gear.wsClient.EnqueuedSubscriptions: %w", err)
+				return fmt.Errorf("gear.wsClient. NewSubscriptionFunc failed: %w", err)
 			}
 			for resp := range ch {
-				logger.Log().Info("extrinsic", resp)
 				if resp.Error != nil {
 					logger.Log().Errorf("failed to send response: %v", resp.Error)
 					gear.wsClient.CloseChannelByResponseType(rtypes[i])
-					return errors.New("gear.wsClient.EnqueuedSubscriptions: failed to send response")
+					break
 				}
 				if models.IsFinalized(resp) {
-					logger.Log().Info("subscription finalized, moving to next")
+					//logger.Log().Info("subscription finalized, moving to next")
 					gear.wsClient.CloseChannelByResponseType(rtypes[i])
 					break
 				}

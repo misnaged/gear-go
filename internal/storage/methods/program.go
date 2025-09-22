@@ -69,7 +69,7 @@ func (stor *Storage) GetPrograms() ([]*models.Program, error) {
 	return programs, nil
 }
 
-func (stor *Storage) GetProgramByCodeId(codeId string) (*models.Program, error) {
+func (stor *Storage) GetActiveProgramByCodeId(codeId string) (*models.Program, error) {
 	programs, err := stor.GetPrograms()
 	if err != nil {
 		return nil, fmt.Errorf("error getting all programs: %w", err)

@@ -58,7 +58,7 @@ func (ev *GearEvent) handleGearUserMessage(event *models.Event) error {
 				logger.Log().Errorf("gear.handleGearUserMessage failed: %v", message.Details.Code.Error.Execution)
 				continue
 			}
-			logger.Log().Infof("gear.handleGearUserMessage - message: %v", message)
+			logger.Log().Infof("gear.handleGearUserMessage - message: %#v", message)
 		}
 	}
 	return nil
@@ -81,7 +81,7 @@ func (ev *GearEvent) Handle(events []*models.Event) error {
 
 		default:
 			if event.EventID != "ExtrinsicSuccess" {
-				logger.Log().Infof("gear.HandleGearUserMessage - event: %v", event)
+				logger.Log().Infof(": %#v", event)
 			}
 		}
 	}

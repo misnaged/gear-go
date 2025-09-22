@@ -17,7 +17,7 @@ type IGearRPC interface {
 	StateGetMetadataLatest() (*models.RpcGenericResponse, error)
 	StateGetRuntimeVersion(blockHash string) (*models.RpcGenericResponse, error)
 	StateGetMetadata(blockHash string) (*models.RpcGenericResponse, error)
-	StateGetStorageLatest(accountId string) (*models.RpcGenericResponse, error)
+	StateGetStorageLatest(storageKey string) (*models.RpcGenericResponse, error)
 	StateGetKeyPaged(encodedKey string) (*models.RpcGenericResponse, error)
 	StateQueryStorageAt(encodedKey string) (*models.RpcGenericResponse, error)
 
