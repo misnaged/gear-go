@@ -80,11 +80,13 @@ run:
 	MallocNanoZone=0 go run -race $(APP_ENTRY_POINT) serve
 
 example-code-run:
-	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/example_upload_code_and_get_code_from_storage.go
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/example_upload_code_and_get_code_from_storage.go
 
 example-update-code-sub:
-	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)code/upload_and_create/example_subscription_upload.go
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/upload_and_create/example_subscription_upload.go
 
+example-send-msg:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/send_message/example_send_message.go
 
 cargo-build:
 	cd $(CARGO_DIR) && cargo install subxt-cli

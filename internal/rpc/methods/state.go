@@ -25,9 +25,9 @@ func (gearRPC *GearRpc) StateGetMetadata(blockHash string) (*models.RpcGenericRe
 	return gearRPC.client.PostRequest(blockHash, "state_getMetadata")
 }
 
-func (gearRPC *GearRpc) StateGetStorageLatest(accountId string) (*models.RpcGenericResponse, error) {
+func (gearRPC *GearRpc) StateGetStorageLatest(storageKey string) (*models.RpcGenericResponse, error) {
 	var params []string
-	params = append(params, accountId)
+	params = append(params, storageKey)
 	return gearRPC.client.PostRequest(params, "state_getStorage")
 }
 
