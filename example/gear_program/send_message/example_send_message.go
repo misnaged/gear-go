@@ -58,8 +58,6 @@ func main() {
 		logger.Log().Errorf("%v", err)
 		os.Exit(1)
 	}
-	if hash == "" {
-	}
 	gear.MergeSubscriptionFunctions(gear.EventsSubscription(), gear.SubmitAndWatchExtrinsic([]any{hash}, "send_message"))
 	err = gear.InitSubscriptions()
 	if err != nil {
