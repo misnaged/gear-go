@@ -23,4 +23,8 @@ func main() {
 	}
 
 	_, err = gear.GetClient().PostRequest([]string{s}, "author_submitExtrinsic")
+	if err != nil {
+		logger.Log().Errorf(" gear.client.PostRequest failed: %v", err)
+		os.Exit(1)
+	}
 }
