@@ -1,7 +1,5 @@
 package config
 
-import "github.com/misnaged/substrate-api-rpc/keyring"
-
 // Scheme represents the application configuration scheme.
 type Scheme struct {
 	// Env is the application environment.
@@ -15,7 +13,7 @@ type Subscriptions struct {
 	Enabled  bool
 }
 type Keyring struct {
-	Category keyring.Category
+	Category string // only Ed25519 Sr25519 avaliable
 	Seed     string
 }
 type Client struct {

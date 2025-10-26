@@ -88,6 +88,13 @@ example-update-code-sub:
 example-send-msg:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/send_message/example_send_message.go
 
+example-transfer:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)balances/transfer_keep_alive.go
+
+example-account-info:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)storage/get_account_value.go
+
+
 cargo-build:
 	cd $(CARGO_DIR) && cargo install subxt-cli
 	cd $(CARGO_DIR) && subxt metadata -f bytes > metadata.scale

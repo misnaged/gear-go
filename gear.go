@@ -72,6 +72,7 @@ func NewGear() (*Gear, error) {
 	// Calls initialization
 	gear.initCalls()
 
+	fmt.Println(gear.config.Keyring.Category)
 	return gear, nil
 }
 
@@ -107,10 +108,18 @@ func (gear *Gear) initClient() error {
 	return nil
 }
 func (gear *Gear) initKeyRing() {
-	kr := keyring.New(gear.config.Keyring.Category, gear.config.Keyring.Seed)
+	kr := keyring.New(keyringFromString(gear.config.Keyring.Category), gear.config.Keyring.Seed)
 	gear.keyRing = kr
 }
-
+func keyringFromString(kr string) keyring.Category {
+	switch kr {
+	case "Sr25519":
+		return keyring.Sr25519Type
+	case "Ed25519":
+		return keyring.Ed25519Type
+	}
+	return keyring.Sr25519Type
+}
 func (gear *Gear) initCalls() {
 	cs := calls.NewCalls(gear.meta, gear.gearRPC, gear.keyRing)
 	gear.calls = cs
