@@ -42,8 +42,8 @@ github.com/mimoo/StrobeGo v0.0.0-20220103164710-9a04d6ca976b h1:QrHweqAtyJ9EwCaG
 github.com/mimoo/StrobeGo v0.0.0-20220103164710-9a04d6ca976b/go.mod h1:xxLb2ip6sSUts3g1irPVHyk/DGslwQsNOo9I7smJfNU=
 github.com/misnaged/scriptorium v0.0.0-20231207043744-47446928a2b9 h1:SYBE9jdGqwtdL5ZxnSEVVwQApSriAnbnWqBXJPTB6/g=
 github.com/misnaged/scriptorium v0.0.0-20231207043744-47446928a2b9/go.mod h1:4AkLSOTmNx+6Ku2dFVtvYML/pay5ViqBZ/t/ZnIuUjY=
-github.com/misnaged/substrate-api-rpc v0.0.5 h1:BvwkfME/msdTuUis3hLa2nNzNkhBu27qgTMXJwgj9AE=
-github.com/misnaged/substrate-api-rpc v0.0.5/go.mod h1:uEI09p0iIm2DtJnUnFuIkBQlmSPv03aKxZ+td38wBdE=
+github.com/misnaged/substrate-api-rpc v0.0.6 h1:6xEqPeexPbBayQMU8vej9HIKUyEkP5Qlb1dtSTOEbYA=
+github.com/misnaged/substrate-api-rpc v0.0.6/go.mod h1:uEI09p0iIm2DtJnUnFuIkBQlmSPv03aKxZ+td38wBdE=
 github.com/pelletier/go-toml/v2 v2.2.3 h1:YmeHyLY8mFWbdkNWwpr+qIL2bEqT0o95WSdkNHvL12M=
 github.com/pelletier/go-toml/v2 v2.2.3/go.mod h1:MfCQTFTvCcUyyvvwm1+G6H/jORL20Xlb6rzQu9GuUkc=
 github.com/pierrec/xxHash v0.1.5 h1:n/jBpwTHiER4xYvK3/CdPVnLDPchj8eTJFFLUb4QHBo=

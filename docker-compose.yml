@@ -1,0 +1,7 @@
+services:
+  gear-go:
+    container_name: gear-go
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: ["/gear-go", "serve"]

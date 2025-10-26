@@ -5,7 +5,7 @@ import "github.com/misnaged/gear-go/internal/models"
 type IGearStorage interface {
 	DecodeStorage(decodeData any, storkey string) error
 	GetStorageKeys() ([]string, error)
-	BuildParams(accountId string) error
+	AddAccountIdToStorageParams(accountId string) error
 	GetStorageKey() (string, error)
 	DecodeStorageDataArray() ([]map[string]any, error)
 	DecodeStorageDataMap(storkey string) (map[string]any, error)

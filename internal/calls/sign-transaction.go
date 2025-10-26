@@ -39,6 +39,7 @@ func (calls *Calls) SignTransaction(moduleName, callName string, params []scalec
 	calls.customTx = rpc.NewCustomTransaction(
 		callIndex,
 		genesisHash,
+		"00", //todo: always immortal
 		int(resp.Result.(float64)),
 		version,
 		calls.Meta.GetMetadata(),

@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"github.com/misnaged/substrate-api-rpc/keyring"
 	"github.com/spf13/viper"
 	"strings"
 )
@@ -17,7 +16,7 @@ func InitConfig(cfg *Scheme) error {
 	viper.SetDefault("client.port", 9944)
 	viper.SetDefault("client.iswebsocket", true)
 	viper.SetDefault("client.issecured", false)
-	viper.SetDefault("keyring.category", keyring.Sr25519Type)
+	viper.SetDefault("keyring.category", "Sr25519")
 	viper.SetDefault("keyring.seed", "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a") //Alice
 	viper.SetDefault("subscriptions.enabled", true)
 	viper.SetDefault("subscriptions.buffsize", 100)
