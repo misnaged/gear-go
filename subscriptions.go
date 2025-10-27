@@ -180,6 +180,8 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 			// e.g.
 			// 		to calculate gas for create_program we need our program to be ALREADY uploaded to chain
 			//      see example/gear_program/upload_and_create/example_subscription_upload.go
+
+			//nolint:staticcheck
 			if interruptions != nil {
 				for _, interruption := range interruptions {
 					if interruption.InterruptionCause == string(rtypes[i]) {
