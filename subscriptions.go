@@ -154,14 +154,47 @@ func (gear *Gear) SubmitAndWatchExtrinsic(args []any, t string) SubscriptionFunc
 
 // TODO: looking for improvement of EnqueuedSubscriptions
 
+type Interruption struct {
+	InterruptFunc     func() ([]any, error)
+	InterruptionCause string
+}
+
+func NewInterruption(interruptionCause string, interFunc func() ([]any, error)) *Interruption {
+	return &Interruption{
+		InterruptFunc:     interFunc,
+		InterruptionCause: interruptionCause,
+	}
+}
+
 // EnqueuedSubscriptions
-func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.ResponseType, callNames, moduleNames []string, args [][]any) SubscriptionFunc {
+func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.ResponseType, callNames, moduleNames []string, args [][]any, interruptions ...*Interruption) SubscriptionFunc {
 	return func() error {
 		for i := range rtypes {
 
 			// quit loop if iteration is higher or eq than given queue
 			if i >= len(rtypes)-1 {
 				break
+			}
+
+			// interruptions are needed to do something before the next extrinsic is launched
+			// e.g.
+			// 		to calculate gas for create_program we need our program to be ALREADY uploaded to chain
+			//      see example/gear_program/upload_and_create/example_subscription_upload.go
+			if interruptions != nil {
+				for _, interruption := range interruptions {
+					if interruption.InterruptionCause == string(rtypes[i]) {
+						gear.mutex.Lock()
+						a, err := interruption.InterruptFunc()
+						if err != nil {
+							return fmt.Errorf("interruptionFunc failed %w", err)
+						}
+						if a != nil {
+							args = append(args, a)
+						}
+						gear.mutex.Unlock()
+					}
+				}
+
 			}
 
 			// we need to call CallBuilder firstly, because this function returns Signed transaction

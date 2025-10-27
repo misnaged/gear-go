@@ -42,38 +42,42 @@ func main() {
 	}
 	uploadArgs := []string{upload.Code}
 
-	// create_program
-	owner := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" //Alice
-	payload := gear_utils.TextToHex("PING")
-	resp, err := gear.GetRPC().GearCalculateInitCreateGas(owner, codeId, payload, 1, true)
-	if err != nil {
-		logger.Log().Errorf("%v", err)
-		os.Exit(1)
-	}
-	gas, err := gear_utils.GetMinimalGasForProgram(resp)
-	if err != nil {
-		logger.Log().Errorf("%v", err)
-		os.Exit(1)
-	}
-	p := &extrinsic_params.GearProgram{
-		CodeId:      codeId,
-		Salt:        "0x1",
-		InitPayload: payload,
-		GasLimit:    *gas,
-		Value:       "1",
-		KeepAlive:   true,
-	}
-
-	createArgs := []any{p.CodeId, p.Salt, p.InitPayload, p.GasLimit, p.Value, p.KeepAlive}
-
 	var args [][]any
-
-	args = append(args, strToAny(uploadArgs), createArgs)
-	gear.MergeSubscriptionFunctions(gear.EventsSubscription(), gear.EnqueuedSubscriptions(methods, strToRespType(types), callNames, moduleNames, args))
+	args = append(args, strToAny(uploadArgs))
+	inter := gear_go.NewInterruption("create_program", CalculateGas(gear, codeId))
+	gear.MergeSubscriptionFunctions(gear.EventsSubscription(), gear.EnqueuedSubscriptions(methods, strToRespType(types), callNames, moduleNames, args, inter))
 	err = gear.InitSubscriptions()
 	if err != nil {
 		logger.Log().Errorf(" gear.ProcessEventsSubscription failed: %v", err)
 		os.Exit(1)
+	}
+}
+func CalculateGas(gear *gear_go.Gear, codeId string) func() ([]any, error) {
+	return func() ([]any, error) {
+		owner := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" //Alice
+		payload := gear_utils.TextToHex("PING")
+		resp, err := gear.GetRPC().GearCalculateInitCreateGas(owner, codeId, payload, 1, true)
+		if err != nil {
+			logger.Log().Errorf("%v", err)
+			os.Exit(1)
+		}
+		gas, err := gear_utils.GetMinimalGasForProgram(resp)
+		if err != nil {
+			logger.Log().Errorf("%v", err)
+			os.Exit(1)
+		}
+		logger.Log().Printf("\n\n gas: %v\n\n", *gas)
+		p := &extrinsic_params.GearProgram{
+			CodeId:      codeId,
+			Salt:        "0x11",
+			InitPayload: payload,
+			GasLimit:    *gas,
+			Value:       "1",
+			KeepAlive:   true,
+		}
+
+		createArgs := []any{p.CodeId, p.Salt, p.InitPayload, p.GasLimit, p.Value, p.KeepAlive}
+		return createArgs, nil
 	}
 }
 
