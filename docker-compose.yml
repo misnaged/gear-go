@@ -5,3 +5,4 @@ services:
       context: ./
       dockerfile: Dockerfile
     command: ["/gear-go", "serve"]
+    network_mode: "host"

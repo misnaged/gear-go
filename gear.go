@@ -8,7 +8,6 @@ import (
 	"github.com/misnaged/gear-go/internal/metadata"
 	"github.com/misnaged/gear-go/pkg/logger"
 	"github.com/misnaged/substrate-api-rpc/keyring"
-	"sync"
 
 	// nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
@@ -41,7 +40,6 @@ type Gear struct {
 	keyRing  keyring.IKeyRing
 	stop     chan struct{}
 	subFuncs []SubscriptionFunc
-	mutex    sync.RWMutex
 }
 
 // NewGear creates fully functional gear-go API instance
