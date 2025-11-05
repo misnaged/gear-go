@@ -7,6 +7,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 	"github.com/misnaged/gear-go/config"
+
 	//nolint:typecheck
 	gear_client "github.com/misnaged/gear-go/internal/client"
 
@@ -62,8 +63,6 @@ func (ws *wsClient) SetId(id any) {
 }
 
 func (ws *wsClient) readLoop(respType gear_client.ResponseType) {
-	defer close(ws.responsePool[respType])
-
 	for {
 		select {
 		case <-ws.closed:
@@ -125,7 +124,7 @@ func (ws *wsClient) Cancel() {
 	ws.cancel()
 }
 func (ws *wsClient) newConnection(respType gear_client.ResponseType) error {
-	conn, _, err := websocket.DefaultDialer.Dial(ws.address, nil)
+	conn, _, err := websocket.DefaultDialer.Dial(ws.address, nil) // todo: switch to dialer with context
 	if err != nil {
 		return fmt.Errorf("failed to dial websocket:%w", err)
 	}
@@ -158,8 +157,11 @@ func (ws *wsClient) CloseAllConnection() error {
 	}
 	return nil
 }
+
 func (ws *wsClient) CloseChannelByResponseType(respType gear_client.ResponseType) {
-	//todo: error handling
+	if ws.responsePool[respType] == nil {
+		fmt.Println(" gear.wsClient.CloseChannelByResponseType: no response types provided", respType)
+	}
 	close(ws.responsePool[respType])
 }
 

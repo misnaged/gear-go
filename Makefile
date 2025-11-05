@@ -79,6 +79,9 @@ test:
 run:
 	MallocNanoZone=0 go run -race $(APP_ENTRY_POINT) serve
 
+example-mailbox:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/mailbox/example_mailbox.go
+
 example-code-run:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/example_upload_code_and_get_code_from_storage.go
 

@@ -77,6 +77,9 @@ func NewGear() (*Gear, error) {
 	return gear, nil
 }
 
+type KK struct {
+}
+
 // ************** API Builders ************ //
 
 func (gear *Gear) initGearRpc() {

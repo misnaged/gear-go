@@ -10,6 +10,14 @@ type GearCode struct {
 	Code string // rust: code Vec<U8>
 }
 
+type GearSendMessage struct {
+	ProgramId string
+	Payload   string
+	GasLimit  int
+	Value     string
+	KeepAlive bool
+}
+
 type GearProgram struct {
 	CodeId      string // rust: code_id [U8; 32]
 	Salt        string // rust: salt Vec<U8>

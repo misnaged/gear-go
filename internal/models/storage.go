@@ -29,6 +29,16 @@ type ActiveProgram struct {
 	Allocations any `json:"allocations_tree_len"`
 }
 
+type Mailbox struct {
+	Id          string  `json:"id,omitempty"`
+	Source      string  `json:"source,omitempty"`
+	Destination string  `json:"destination,omitempty"`
+	Payload     string  `json:"payload,omitempty"`
+	Value       string  `json:"value,omitempty"`
+	Start       float64 `json:"start,omitempty"`
+	Finish      float64 `json:"finish,omitempty"`
+}
+
 func NewProgram(status, programId, terminated string, program *ActiveProgram) *Program {
 	return &Program{
 		Status:     status,
