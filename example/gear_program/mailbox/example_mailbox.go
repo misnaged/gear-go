@@ -38,6 +38,8 @@ func main() {
 		if err != nil {
 			return fmt.Errorf(" gear.DecodeStorageDataArray failed: %w", err)
 		}
+
+		//nolint:staticcheck
 		mbx := &models.Mailbox{}
 
 		for _, data := range storageDataArr {
@@ -65,6 +67,8 @@ func main() {
 				mbx.Finish = v
 			}
 		}
+
+		//nolint:staticcheck
 		if mbx == nil {
 			return errors.New(" gear.DecodeStorageDataArray failed ")
 		}
