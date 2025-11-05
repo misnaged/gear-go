@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-const wasmPath = "assets/wasm/test/demo_ping.opt.wasm"
+const wasmPath = "assets/wasm/test/message.opt.wasm"
 
 func main() {
 	gear, err := gear_go.NewGear()
@@ -55,8 +55,8 @@ func main() {
 func CalculateGas(gear *gear_go.Gear, codeId string) func() ([]any, error) {
 	return func() ([]any, error) {
 		owner := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" //Alice
-		payload := gear_utils.TextToHex("PING")
-		resp, err := gear.GetRPC().GearCalculateInitCreateGas(owner, codeId, payload, 1, true)
+		payload := gear_utils.TextToHex("0x")
+		resp, err := gear.GetRPC().GearCalculateInitCreateGas(owner, codeId, payload, 0, true)
 		if err != nil {
 			logger.Log().Errorf("%v", err)
 			os.Exit(1)

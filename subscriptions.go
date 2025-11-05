@@ -93,29 +93,6 @@ func (gear *Gear) EventsSubscription() SubscriptionFunc {
 	}
 }
 
-func (gear *Gear) EventsSubscription2() SubscriptionFunc {
-	return func() error {
-		storage := gear_storage_methods.NewStorage("GearMessenger", "Mailbox", gear.GetMeta(), gear.GetRPC())
-		k, err := storage.GetStorageKey()
-		if err != nil {
-			return fmt.Errorf(" storage.GetStorageKeys failed: %w", err)
-		}
-
-		storageSub, err := gear.wsClient.NewSubscriptionFunc("state_subscribeStorage", [][]string{{k}}, "subscribeStorage2")
-		if err != nil {
-			return fmt.Errorf(" gear.wsClient.Subscribe failed: %w", err)
-		}
-		for resp := range storageSub {
-			changes, err := models.GetChangesFromEvents(resp)
-			if err != nil {
-				return fmt.Errorf("gear.responsePoolRunner - GetChangesFromEvents failed: %w", err)
-			}
-			fmt.Println(changes)
-		}
-		return nil
-	}
-}
-
 // getResponseFromEventsSubscription gets change hash from subscription response
 // and decodes it to useful payload (ExtrinsicFailed and UserMessageSent at this moment)
 func (gear *Gear) getResponseFromEventsSubscription(resp *models.SubscriptionResponse) error {
@@ -166,13 +143,14 @@ func NewInterruption(interruptionCause string, interFunc func() ([]any, error)) 
 	}
 }
 
-// EnqueuedSubscriptions
+// EnqueuedSubscriptions is
 func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.ResponseType, callNames, moduleNames []string, args [][]any, interruptions ...*Interruption) SubscriptionFunc {
 	return func() error {
 		for i := range rtypes {
 
 			// quit loop if iteration is higher or eq than given queue
 			if i >= len(rtypes)-1 {
+				fmt.Println("QUITTING")
 				break
 			}
 
@@ -198,18 +176,16 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 				}
 
 			}
-
 			// we need to call CallBuilder firstly, because this function returns Signed transaction
 			// with new nonce number
 			// if we're calling it in advance - new nonce switching won't be happened
 			str, err := gear.calls.CallBuilder(callNames[i], moduleNames[i], args[i])
 			if err != nil {
-				return fmt.Errorf("gear.wsClient.EnqueuedSubscriptions: %w", err)
+				return fmt.Errorf("gear.EnqueuedSubscriptions: %w", err)
 			}
-
 			ch, err := gear.wsClient.NewSubscriptionFunc(methods[i], []any{str}, rtypes[i])
 			if err != nil {
-				return fmt.Errorf("gear.wsClient. NewSubscriptionFunc failed: %w", err)
+				return fmt.Errorf("gear.NewSubscriptionFunc failed: %w", err)
 			}
 			for resp := range ch {
 				if resp.Error != nil {
@@ -221,6 +197,98 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 					//logger.Log().Info("subscription finalized, moving to next")
 					gear.wsClient.CloseChannelByResponseType(rtypes[i])
 					break
+				}
+			}
+		}
+		return nil
+	}
+}
+
+type EnquedSubscription struct {
+	ResponseType                 gear_client.ResponseType
+	CallName, ModuleName, Method string
+	Args                         []any
+	IsExtrinsic                  bool
+	CustomFunc                   func() error
+	AfterFinalizationFunc        func() error
+}
+
+func NewEnq(responseType gear_client.ResponseType, callName, module, method string, isExtr bool) *EnquedSubscription {
+	return &EnquedSubscription{
+		ResponseType: responseType,
+		CallName:     callName,
+		ModuleName:   module,
+		Method:       method,
+		IsExtrinsic:  isExtr,
+	}
+}
+func (gear *Gear) EnqueuedSubscriptionsOptional(enq []*EnquedSubscription, interruptions ...*Interruption) SubscriptionFunc {
+	return func() error {
+		for i := range enq {
+
+			// quit loop if iteration is higher or eq than given queue
+			if i >= len(enq)-1 {
+				break
+			}
+			// interruptions are needed to do something before the next extrinsic is launched
+			// e.g.
+			// 		to calculate gas for create_program we need our program to be ALREADY uploaded to chain
+			//      see example/gear_program/upload_and_create/example_subscription_upload.go
+
+			//nolint:staticcheck
+			if interruptions != nil {
+				for _, interruption := range interruptions {
+					if interruption.InterruptionCause == string(enq[i].ResponseType) {
+						gear.mutex.Lock()
+						a, err := interruption.InterruptFunc()
+						if err != nil {
+							return fmt.Errorf("interruptionFunc failed %w", err)
+						}
+						if a != nil {
+							enq[i].Args = a
+						}
+						gear.mutex.Unlock()
+					}
+				}
+
+			}
+
+			if !enq[i].IsExtrinsic {
+				gear.wsClient.CloseChannelByResponseType(enq[i].ResponseType)
+				if enq[i].CustomFunc != nil {
+					if err := enq[i].CustomFunc(); err != nil {
+						return fmt.Errorf("custom function for type %s has been failed: %w", enq[i].ResponseType, err)
+					}
+				}
+				break
+			} else {
+				// we need to call CallBuilder firstly, because this function returns Signed transaction
+				// with new nonce number
+				// if we're calling it in advance - new nonce switching won't be happened
+				str, err := gear.calls.CallBuilder(enq[i].CallName, enq[i].ModuleName, enq[i].Args)
+				if err != nil {
+					return fmt.Errorf("gear.EnqueuedSubscriptions: %w", err)
+				}
+				ch, err := gear.wsClient.NewSubscriptionFunc(enq[i].Method, []any{str}, enq[i].ResponseType)
+				if err != nil {
+					return fmt.Errorf("gear.NewSubscriptionFunc failed: %w", err)
+				}
+				for resp := range ch {
+					if resp.Error != nil {
+						logger.Log().Errorf("failed to send response: %v", resp.Error)
+						gear.wsClient.CloseChannelByResponseType(enq[i].ResponseType)
+						break
+					}
+					if models.IsFinalized(resp) {
+						logger.Log().Info("subscription finalized, moving to next")
+						if enq[i].AfterFinalizationFunc != nil {
+							if err = enq[i].AfterFinalizationFunc(); err != nil {
+								return fmt.Errorf("AfterFinalizationFunc failed for method: %s reason: %w ", enq[i].Method, err)
+							}
+						}
+						gear.wsClient.CloseChannelByResponseType(enq[i].ResponseType)
+						break
+					}
 				}
 			}
 		}

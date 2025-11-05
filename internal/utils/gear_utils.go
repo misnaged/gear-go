@@ -200,6 +200,13 @@ func TextToHex(text string) string {
 	return fmt.Sprintf("0x%s", hex.EncodeToString([]byte(text)))
 }
 
+func DecodeToString(str string) (string, error) {
+	res, err := hex.DecodeString(str)
+	if err != nil {
+		return "", err
+	}
+	return string(res), nil
+}
 func GetMinimalGasForProgram(calculateGasResponse *models.RpcGenericResponse) (*int, error) {
 	b, err := json.Marshal(calculateGasResponse.Result)
 	if err != nil {

@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-const wasmPath = "assets/wasm/test/demo_ping.opt.wasm"
+const wasmPath = "assets/wasm/test/message.opt.wasm"
 
 func main() {
 	gear, err := gear_go.NewGear()
@@ -30,7 +30,6 @@ func main() {
 		logger.Log().Errorf("error getting code id: %v", err)
 		os.Exit(1)
 	}
-
 	storage := gear_storage_methods.NewStorage("GearProgram", "ProgramStorage", gear.GetMeta(), gear.GetRPC())
 
 	program, err := storage.GetActiveProgramByCodeId(codeID)
@@ -38,22 +37,27 @@ func main() {
 		logger.Log().Errorf("%v", err)
 		os.Exit(1)
 	}
+	/*
 
-	owner := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" //Alice
-	payload := gear_utils.TextToHex("PING")
-	resp, err := gear.GetRPC().GearCalculateHandleGas(owner, program.ProgramId, payload, 1, true)
-	if err != nil {
-		logger.Log().Errorf("%v", err)
-		os.Exit(1)
-	}
+		fmt.Println("program id is")
+		fmt.Println(program.ProgramId)
+		owner := "0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" //Alice
+		payload := gear_utils.TextToHex("04")
+		resp, err := gear.GetRPC().GearCalculateHandleGas(owner, program.ProgramId, "0x04", 10854583136, false)
+		if err != nil {
+			logger.Log().Errorf("%v", err)
+			os.Exit(1)
+		}
 
-	gas, err := gear_utils.GetMinimalGasForProgram(resp)
-	if err != nil {
-		logger.Log().Errorf("%v", err)
-		os.Exit(1)
-	}
+		gas, err := gear_utils.GetMinimalGasForProgram(resp)
+		if err != nil {
+			logger.Log().Errorf("%v", err)
+			os.Exit(1)
+		}
+		fmt.Println(*gas)
+	*/
 	calls := gear_calls.New(gear.GetCalls())
-	hash, err := calls.SendMessage(program.ProgramId, "1", payload, *gas, true)
+	hash, err := calls.SendMessage(program.ProgramId, "100000000000000", "0x04", 30845509441, true)
 	if err != nil {
 		logger.Log().Errorf("%v", err)
 		os.Exit(1)

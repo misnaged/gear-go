@@ -53,12 +53,14 @@ func (ev *GearEvent) handleGearUserMessage(event *models.Event) error {
 			if err = json.Unmarshal(b, &message); err != nil {
 				return fmt.Errorf("failed to unmarshal message: %w", err)
 			}
-			if message.Details.Code.Error != nil {
-				//TODO: error handler for messages
-				logger.Log().Errorf("gear.handleGearUserMessage failed: %v", message.Details.Code.Error.Execution)
-				continue
+			if message.Details != nil {
+				if message.Details.Code.Error != nil {
+					//TODO: error handler for messages
+					logger.Log().Errorf("gear.handleGearUserMessage failed: %v", message.Details.Code.Error.Execution)
+					continue
+				}
+				logger.Log().Infof("gear.handleGearUserMessage - message: %#v", message)
 			}
-			logger.Log().Infof("gear.handleGearUserMessage - message: %#v", message)
 		}
 	}
 	return nil
