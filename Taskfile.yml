@@ -1,0 +1,38 @@
+version: '3'
+
+vars:
+  BUILD_OUT_DIR: ./
+  APP: gear-go
+  APP_ENTRY_POINT: ./cmd/gear-go.go
+  EXAMPLES_ENTRY_POINT: ./example/
+tasks:
+  build:
+    cmds:
+      - env CGO_ENABLED=1 go build -ldflags="-w -s" -o {{.BUILD_OUT_DIR}}/{{.APP}} {{.APP_ENTRY_POINT}}
+  run:
+    cmds:
+        - go run -race {{.APP_ENTRY_POINT}} serve
+
+  example-mailbox:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}gear_program/mailbox/example_mailbox.go
+
+  example-code-run:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}gear_program/example_upload_code_and_get_code_from_storage.go
+
+  example-update-code-sub:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}gear_program/upload_and_create/example_subscription_upload.go
+
+  example-send-msg:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}gear_program/send_message/example_send_message.go
+
+  example-transfer:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}balances/transfer_keep_alive.go
+
+  example-account-info:
+    cmds:
+         - go run -race {{.EXAMPLES_ENTRY_POINT}}storage/get_account_value.go
