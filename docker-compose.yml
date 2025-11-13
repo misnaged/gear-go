@@ -6,3 +6,7 @@ services:
       dockerfile: Dockerfile
     command: ["/gear-go", "serve"]
     network_mode: "host"
+
+  subkey:
+    image: docker.io/parity/subkey:latest
+    command: ["inspect", "//Charlie"]

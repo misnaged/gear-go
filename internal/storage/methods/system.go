@@ -15,8 +15,8 @@ func encodeAccountId(accoundSeed string) ([]byte, error) {
 	b := hasher.HashByCryptoName(buffer, "Blake2_128")
 	return append(append([]byte{}, b...), buffer...), nil
 }
-func (stor *Storage) AddAccountIdToStorageParams(accountId string) error {
-	b, err := encodeAccountId(accountId)
+func (stor *Storage) AddAccountIdToStorageParams(accoundSeed string) error {
+	b, err := encodeAccountId(accoundSeed)
 	if err != nil {
 		return fmt.Errorf("error encoding account id: %v", err)
 	}

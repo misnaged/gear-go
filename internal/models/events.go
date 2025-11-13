@@ -76,6 +76,15 @@ type TreasuryEvent struct {
 	Value string
 }
 
+type ExtrinsicSuccess struct {
+	Class   string  `json:"class"`
+	PaysFee string  `json:"pays_fee"`
+	Weight  *Weight `json:"weight"`
+}
+type Weight struct {
+	ProofSize int `json:"proof_size"`
+	RefTime   int `json:"ref_time"`
+}
 type Message struct {
 	Destination string   `json:"destination"`
 	Details     *Details `json:"details"`

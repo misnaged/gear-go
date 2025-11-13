@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-const wasmPath = "assets/wasm/test/message.opt.wasm"
+const wasmPath = "assets/wasm/test/demo_ping.opt.wasm"
 
 func main() {
 	gear, err := gear_go.NewGear()
