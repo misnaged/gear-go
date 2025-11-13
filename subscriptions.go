@@ -150,7 +150,6 @@ func (gear *Gear) EnqueuedSubscriptions(methods []string, rtypes []gear_client.R
 
 			// quit loop if iteration is higher or eq than given queue
 			if i >= len(rtypes)-1 {
-				fmt.Println("QUITTING")
 				break
 			}
 

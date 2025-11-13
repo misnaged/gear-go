@@ -66,6 +66,32 @@ func (ev *GearEvent) handleGearUserMessage(event *models.Event) error {
 	return nil
 }
 
+func (ev *GearEvent) handleSuccessExtrinsic(event *models.Event) error {
+	if event.ModuleID == "System" {
+		if event.ExtrinsicIndex == 0 || event.ExtrinsicIndex == 1 {
+			return nil //suppressing spamming messages
+		}
+	}
+
+	for _, param := range event.Params {
+		if param.Name == "dispatch_info" {
+			b, err := json.Marshal(param.Value)
+			if err != nil {
+				return fmt.Errorf("failed to marshal message: %w", err)
+			}
+			var extSuccess models.ExtrinsicSuccess
+			if err = json.Unmarshal(b, &extSuccess); err != nil {
+				return fmt.Errorf("failed to unmarshal message: %w", err)
+			}
+			logger.Log().Infof("Extrinsic Success: class: %s  pays_fee: %s proof_size:%d ref_time:%d \n",
+				extSuccess.Class,
+				extSuccess.PaysFee,
+				extSuccess.Weight.ProofSize,
+				extSuccess.Weight.RefTime)
+		}
+	}
+	return nil
+}
 func (ev *GearEvent) Handle(events []*models.Event) error {
 	// todo: refactor hardcode
 	for _, event := range events {
@@ -80,11 +106,13 @@ func (ev *GearEvent) Handle(events []*models.Event) error {
 			if err != nil {
 				return fmt.Errorf(" gear.HandleGearUserMessage failed: %w", err)
 			}
-
-		default:
-			if event.EventID != "ExtrinsicSuccess" {
-				logger.Log().Infof(": %#v", event)
+		case "ExtrinsicSuccess":
+			err := ev.handleSuccessExtrinsic(event)
+			if err != nil {
+				return fmt.Errorf("gear.HandleSuccessExtrinsic failed: %w", err)
 			}
+		default:
+			logger.Log().Infof("%#v", event)
 		}
 	}
 	return nil

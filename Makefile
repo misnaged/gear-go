@@ -76,6 +76,9 @@ build:
 test:
 	go test -mod=readonly  ./...
 
+subscribe-storage:
+	MallocNanoZone=0 go run -race $(APP_ENTRY_POINT) subscribe-storage
+
 run:
 	MallocNanoZone=0 go run -race $(APP_ENTRY_POINT) serve
 

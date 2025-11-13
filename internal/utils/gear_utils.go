@@ -149,9 +149,6 @@ func GetEventsByModuleName(meta *types.MetadataStruct, moduleName string) (event
 	}
 	return nil
 }
-func Getttt(meta *types.MetadataStruct) {
-	fmt.Println(meta.Extrinsic.SignedExtensions)
-}
 
 func AddToHex(addr []byte) string {
 	return fmt.Sprintf("0x%s", hex.EncodeToString(addr))
