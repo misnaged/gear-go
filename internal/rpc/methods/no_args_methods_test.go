@@ -26,6 +26,7 @@ func newTestGearRpc() (gear_rpc.IGearRPC, error) {
 
 	return gearGRPC, nil
 }
+
 func TestGearRpc_NoArgRpcRequest(t *testing.T) {
 	gearRpc, err := newTestGearRpc()
 	assert.NoError(t, err)

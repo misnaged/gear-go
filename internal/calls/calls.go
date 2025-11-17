@@ -37,6 +37,18 @@ func (calls *Calls) CallBuilder(callName, ModuleName string, args []any) (string
 	return aa, nil
 }
 
+func (calls *Calls) CallBuilderKeyringOptional(callName, ModuleName string, kr keyring.IKeyRing, args []any) (string, error) {
+	params, err := extrinsic_params.InitBuilder(ModuleName, callName, calls.Meta.GetMetadata().Metadata.Modules, args)
+	if err != nil {
+		return "", fmt.Errorf(" extrinsic_params.InitBuilder failed: %w", err)
+	}
+
+	aa, err := calls.SignTransactionWithKeyring(ModuleName, callName, kr, params)
+	if err != nil {
+		return "", fmt.Errorf("SignTransaction failed: %w", err)
+	}
+	return aa, nil
+}
 func (calls *Calls) DoCall(callHash string) error {
 	resp, err := calls.GearRpc.AuthorSubmitExtrinsic(callHash)
 	if err != nil {

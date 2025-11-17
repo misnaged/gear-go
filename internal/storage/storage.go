@@ -12,6 +12,6 @@ type IGearStorage interface {
 	DecodeStorageDataAny(storkey string, v any) error
 	GetProgramsId() ([]string, error)
 	GetPrograms() ([]*models.Program, error)
-
+	GetVoucherStorageKeys() ([]string, error)
 	GetActiveProgramByCodeId(codeId string) (*models.Program, error)
 }

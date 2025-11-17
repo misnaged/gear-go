@@ -47,6 +47,19 @@ func (stor *Storage) getTypeName() error {
 	stor.scaleType = name.Value
 	return nil
 }
+func (stor *Storage) GetVoucherStorageKeys() ([]string, error) {
+	b := stor.encodeModuleAndMethodNames()
+	var pagedKeys []string
+	keyPaged, err := stor.gearRpc.StateGetKeyPaged(gear_utils.AddToHex(b))
+	if err != nil {
+		return nil, fmt.Errorf(" gear.scale.StateGetStorageLatest failed: %v", err)
+	}
+	toAnyArr := keyPaged.Result.([]any)
+	for i := range toAnyArr {
+		pagedKeys = append(pagedKeys, toAnyArr[i].(string))
+	}
+	return pagedKeys, nil
+}
 
 func (stor *Storage) getEncodedStorageKey() (string, error) {
 	b := stor.encodeModuleAndMethodNames()

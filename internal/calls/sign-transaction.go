@@ -7,9 +7,53 @@ import (
 	"github.com/itering/scale.go/types"
 	gear_utils "github.com/misnaged/gear-go/internal/utils"
 	"github.com/misnaged/gear-go/pkg/logger"
+	"github.com/misnaged/substrate-api-rpc/keyring"
 	rpcModels "github.com/misnaged/substrate-api-rpc/model"
 	"github.com/misnaged/substrate-api-rpc/rpc"
 )
+
+func (calls *Calls) SignTransactionWithKeyring(moduleName, callName string, kr keyring.IKeyRing, params []scalecodec.ExtrinsicParam) (string, error) {
+	if kr == nil {
+		return "", fmt.Errorf("%w", errors.New("failed to sign transaction: keyring is nil"))
+	}
+
+	if err := calls.Meta.MetadataCheck(); err != nil {
+		return "", fmt.Errorf("failed to sign transaction: %w", err)
+	}
+	genesisHash, err := calls.getChainGetBlockHash()
+	if err != nil {
+		return "", fmt.Errorf("%w", err)
+	}
+	version, err := calls.getStateGetRuntimeVersion()
+	if err != nil {
+		return "", fmt.Errorf("%w", err)
+	}
+
+	opt := &types.ScaleDecoderOption{Metadata: calls.Meta.GetMetadata(), Spec: -1}
+	callIndex := gear_utils.GetCallLookupIndexByModuleAndCallNames(calls.Meta.GetMetadata(), moduleName, callName)
+
+	resp, err := calls.GearRpc.SystemAccountNextIndex(kr.PublicKey())
+	if err != nil {
+		return "", fmt.Errorf("failed to send SystemAccountNextIndex request: %w", err)
+	}
+	logger.Log().Infof("nonce is: %d  %s %s \n", int(resp.Result.(float64)), callName, moduleName)
+	calls.customTx = rpc.NewCustomTransaction(
+		callIndex,
+		genesisHash,
+		"00", //todo: always immortal
+		int(resp.Result.(float64)),
+		version,
+		calls.Meta.GetMetadata(),
+		kr,
+		opt,
+		params,
+	)
+	signed, err := calls.customTx.SignTransactionCustom()
+	if err != nil {
+		return "", fmt.Errorf("failed to sign transaction: %w", err)
+	}
+	return signed, nil
+}
 
 func (calls *Calls) SignTransaction(moduleName, callName string, params []scalecodec.ExtrinsicParam) (string, error) {
 	if calls.KeyRing == nil {
@@ -18,7 +62,6 @@ func (calls *Calls) SignTransaction(moduleName, callName string, params []scalec
 	if err := calls.Meta.MetadataCheck(); err != nil {
 		return "", fmt.Errorf("failed to sign transaction: %w", err)
 	}
-
 	genesisHash, err := calls.getChainGetBlockHash()
 	if err != nil {
 		return "", fmt.Errorf("%w", err)
@@ -47,7 +90,7 @@ func (calls *Calls) SignTransaction(moduleName, callName string, params []scalec
 		opt,
 		params,
 	)
-	signed, err := calls.customTx.SignTransactionCustom() //TODO: Era is ALWAYS immortal. Need to change!
+	signed, err := calls.customTx.SignTransactionCustom()
 	if err != nil {
 		return "", fmt.Errorf("failed to sign transaction: %w", err)
 	}
