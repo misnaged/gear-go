@@ -8,6 +8,7 @@ BUILD_OUT_DIR:=./
 GOPRIVATE:=github.com
 CARGO_DIR := lib/temp/
 RUST_GRPC := lib/server_grpc/
+PROGRAMS_DIR = lib/programs/
 
 GOOS	:=
 GOARCH	:=
@@ -82,6 +83,9 @@ subscribe-storage:
 run:
 	MallocNanoZone=0 go run -race $(APP_ENTRY_POINT) serve
 
+example-send-with-voucher:
+	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)voucher/example_voucher_send_msg.go
+
 example-mailbox:
 	MallocNanoZone=0 go run -race $(EXAMPLES_ENTRY_POINT)gear_program/mailbox/example_mailbox.go
 
@@ -102,9 +106,11 @@ example-account-info:
 
 
 cargo-build:
-	cd $(CARGO_DIR) && cargo install subxt-cli
-	cd $(CARGO_DIR) && subxt metadata -f bytes > metadata.scale
-	cd $(CARGO_DIR) && cargo build
+#	cd $(CARGO_DIR) && cargo install subxt-cli
+#	cd $(CARGO_DIR) && subxt metadata -f bytes > metadata.scale
+#	cd $(CARGO_DIR) && cargo build
+	cd $(PROGRAMS_DIR)message && cargo build
+	cd $(PROGRAMS_DIR)ping && cargo build
 
 cargo-run:
 	cd $(CARGO_DIR) && cargo run

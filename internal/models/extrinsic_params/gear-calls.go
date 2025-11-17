@@ -36,3 +36,15 @@ func NewGearCode(wasmFilePath string) (*GearCode, error) {
 	return &GearCode{Code: toHex}, nil
 
 }
+
+func NewVoucherCallSendMessage(dest, payload, value string, gas int, keepAlive bool) map[string]any {
+	callSendMsg := make(map[string]any)
+	callSendMsg["SendMessage"] = map[string]any{
+		"destination": dest,
+		"payload":     payload,
+		"gas_limit":   gas,
+		"value":       value,
+		"keep_alive":  keepAlive,
+	}
+	return callSendMsg
+}

@@ -44,6 +44,14 @@ type Gear struct {
 	mutex    sync.RWMutex
 }
 
+type SendMessage struct {
+	Destination string `json:"destination"`
+	Payload     string `json:"payload"`
+	GasLimit    int    `json:"gas_limit"`
+	Value       string `json:"value"`
+	KeepAlive   bool   `json:"keep_alive"`
+}
+
 // NewGear creates fully functional gear-go API instance
 func NewGear() (*Gear, error) {
 	// Keeping subsequence of inits is must!
@@ -73,7 +81,6 @@ func NewGear() (*Gear, error) {
 
 	// Calls initialization
 	gear.initCalls()
-
 	return gear, nil
 }
 

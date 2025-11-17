@@ -8,6 +8,7 @@ import (
 	"github.com/misnaged/gear-go/internal/models"
 	gear_storage_methods "github.com/misnaged/gear-go/internal/storage/methods"
 	"github.com/misnaged/gear-go/pkg/logger"
+	"github.com/misnaged/substrate-api-rpc/keyring"
 	"os"
 	"os/signal"
 	"syscall"
@@ -208,6 +209,8 @@ type EnquedSubscription struct {
 	CallName, ModuleName, Method string
 	Args                         []any
 	IsExtrinsic                  bool
+	IsCustomBuilder              bool
+	CustomBuilderKeyRing         keyring.IKeyRing
 	CustomFunc                   func() error
 	AfterFinalizationFunc        func() error
 }
@@ -261,14 +264,26 @@ func (gear *Gear) EnqueuedSubscriptionsOptional(enq []*EnquedSubscription, inter
 				}
 				break
 			} else {
+				var signedTx string
+				var err error
 				// we need to call CallBuilder firstly, because this function returns Signed transaction
 				// with new nonce number
 				// if we're calling it in advance - new nonce switching won't be happened
-				str, err := gear.calls.CallBuilder(enq[i].CallName, enq[i].ModuleName, enq[i].Args)
-				if err != nil {
-					return fmt.Errorf("gear.EnqueuedSubscriptions: %w", err)
+				if enq[i].IsCustomBuilder {
+					if enq[i].CustomBuilderKeyRing == nil {
+						return fmt.Errorf("%w", errors.New("keyring for custom builder is nil"))
+					}
+					signedTx, err = gear.calls.CallBuilderKeyringOptional(enq[i].CallName, enq[i].ModuleName, enq[i].CustomBuilderKeyRing, enq[i].Args)
+					if err != nil {
+						return fmt.Errorf("gear.EnqueuedSubscriptions: %w", err)
+					}
+				} else {
+					signedTx, err = gear.calls.CallBuilder(enq[i].CallName, enq[i].ModuleName, enq[i].Args)
+					if err != nil {
+						return fmt.Errorf("gear.EnqueuedSubscriptions: %w", err)
+					}
 				}
-				ch, err := gear.wsClient.NewSubscriptionFunc(enq[i].Method, []any{str}, enq[i].ResponseType)
+				ch, err := gear.wsClient.NewSubscriptionFunc(enq[i].Method, []any{signedTx}, enq[i].ResponseType)
 				if err != nil {
 					return fmt.Errorf("gear.NewSubscriptionFunc failed: %w", err)
 				}

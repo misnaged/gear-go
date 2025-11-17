@@ -216,3 +216,11 @@ func GetMinimalGasForProgram(calculateGasResponse *models.RpcGenericResponse) (*
 	}
 	return &calculateGasResult.MinLimit, nil
 }
+
+func StrToAny(aArr []string) []any {
+	var strArray []any
+	for _, a := range aArr {
+		strArray = append(strArray, a)
+	}
+	return strArray
+}
