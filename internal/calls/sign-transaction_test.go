@@ -3,7 +3,9 @@ package calls
 import (
 	"fmt"
 	"github.com/misnaged/gear-go/config"
+	gear_client "github.com/misnaged/gear-go/internal/client"
 	gear_http "github.com/misnaged/gear-go/internal/client/http"
+	gear_ws "github.com/misnaged/gear-go/internal/client/ws"
 	"github.com/misnaged/gear-go/internal/metadata"
 	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
 	gear_rpc_method "github.com/misnaged/gear-go/internal/rpc/methods"
@@ -14,15 +16,22 @@ import (
 )
 
 func api() (*Calls, error) {
-	clientCfg := &config.Client{
-		IsWebSocket: false,
-		IsSecured:   false,
+	cfg := &config.Scheme{}
+	if err := config.InitConfig(cfg); err != nil {
+		return nil, fmt.Errorf("failed to initialize config: %v", err)
 	}
-	clientCfg.Transport = "http"
-	clientCfg.Host = "127.0.0.1"
-	clientCfg.Port = 9944
-	cfg := &config.Scheme{Client: clientCfg}
-	client := gear_http.NewHttpClient(time.Second*10, cfg)
+	var client gear_client.IClient
+	if cfg.Client.IsWebSocket {
+		wsCli, err := gear_ws.NewWsClient(cfg)
+		if err != nil {
+			return nil, fmt.Errorf("ws.Handler failed: %w", err)
+		}
+		client = wsCli
+	} else {
+
+		httpCli := gear_http.NewHttpClient(time.Second*10, cfg)
+		client = httpCli
+	}
 	gearRpc := gear_rpc_method.NewGearRpc(client, cfg)
 
 	meta, err := metadata.NewMetadata(gearRpc)
@@ -30,8 +39,8 @@ func api() (*Calls, error) {
 		return nil, fmt.Errorf("%w", err)
 	}
 	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
-
 	return NewCalls(meta, gearRpc, kr), nil
+
 }
 
 func TestGearCalls_SignTransaction(t *testing.T) {
