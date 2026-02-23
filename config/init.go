@@ -11,9 +11,8 @@ func InitConfig(cfg *Scheme) error {
 	viper.AutomaticEnv()
 	viper.AllowEmptyEnv(true)
 
+	viper.SetDefault("client.addr", "127.0.0.1:9944")
 	viper.SetDefault("env", "prod")
-	viper.SetDefault("client.host", "127.0.0.1")
-	viper.SetDefault("client.port", 9944)
 	viper.SetDefault("client.iswebsocket", true)
 	viper.SetDefault("client.issecured", false)
 	viper.SetDefault("keyring.category", "Sr25519")
@@ -28,7 +27,6 @@ func InitConfig(cfg *Scheme) error {
 	}
 
 	setTransport()
-
 	return viper.Unmarshal(cfg)
 }
 
@@ -43,7 +41,8 @@ func setTransport() {
 		transportType = "http"
 	}
 	if viper.GetBool("client.issecured") {
-		viper.Set("client.transport", addSecured(viper.GetString("client.transport")))
+		viper.Set("client.transport", addSecured(transportType))
 	}
 	viper.SetDefault("client.transport", transportType)
+
 }
