@@ -55,7 +55,7 @@ func (ws *wsClient) newResponseType(typeName string) error {
 	return nil
 }
 func (ws *wsClient) propagateAddress() {
-	ws.address = fmt.Sprintf("%s://%s:%d", ws.config.Client.Transport, ws.config.Client.Host, ws.config.Client.Port)
+	ws.address = fmt.Sprintf("%s://%s", ws.config.Client.Transport, ws.config.Client.Addr)
 }
 
 func (ws *wsClient) SetId(id any) {

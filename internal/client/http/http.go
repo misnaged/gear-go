@@ -21,7 +21,7 @@ type HttpClient struct {
 }
 
 func (cli *HttpClient) propagateAddress() {
-	cli.address = fmt.Sprintf("%s://%s:%d", cli.config.Client.Transport, cli.config.Client.Host, cli.config.Client.Port)
+	cli.address = fmt.Sprintf("%s://%s", cli.config.Client.Transport, cli.config.Client.Addr)
 }
 func NewHttpClient(timeout time.Duration, config *config.Scheme) gear_client.IClient {
 	c := &http.Client{

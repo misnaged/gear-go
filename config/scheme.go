@@ -17,13 +17,8 @@ type Keyring struct {
 	Seed     string
 }
 type Client struct {
-	Addr        `mapstructure:",squash"`
+	Addr        string
 	IsWebSocket bool
+	Transport   string
 	IsSecured   bool
-}
-
-type Addr struct {
-	Transport string
-	Host      string
-	Port      int
 }
