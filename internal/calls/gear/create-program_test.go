@@ -1,9 +1,12 @@
 package gear_calls
 
 import (
+	"fmt"
 	"github.com/misnaged/gear-go/config"
 	"github.com/misnaged/gear-go/internal/calls"
+	gear_client "github.com/misnaged/gear-go/internal/client"
 	gear_http "github.com/misnaged/gear-go/internal/client/http"
+	gear_ws "github.com/misnaged/gear-go/internal/client/ws"
 	"github.com/misnaged/gear-go/internal/metadata"
 	"github.com/misnaged/gear-go/internal/models/extrinsic_params"
 	gear_rpc "github.com/misnaged/gear-go/internal/rpc"
@@ -18,21 +21,27 @@ import (
 
 const testWasmPath = "assets/wasm/test/demo_ping.opt.wasm"
 
-func newTestGearRpc() gear_rpc.IGearRPC {
-	clientCfg := &config.Client{
-		IsWebSocket: false,
-		IsSecured:   false,
+func newTestGearRpc() (gear_rpc.IGearRPC, error) {
+	cfg := &config.Scheme{}
+	if err := config.InitConfig(cfg); err != nil {
+		return nil, fmt.Errorf("failed to initialize config: %v", err)
 	}
-	clientCfg.Transport = "http"
-	clientCfg.Host = "127.0.0.1"
-	clientCfg.Port = 9944
 
-	cfg := &config.Scheme{Client: clientCfg}
+	var client gear_client.IClient
+	if cfg.Client.IsWebSocket {
+		wsCli, err := gear_ws.NewWsClient(cfg)
+		if err != nil {
+			return nil, fmt.Errorf("ws.Handler failed: %w", err)
+		}
+		client = wsCli
+	} else {
 
-	client := gear_http.NewHttpClient(time.Second*3, cfg)
+		httpCli := gear_http.NewHttpClient(time.Second*10, cfg)
+		client = httpCli
+	}
 	gearGRPC := gear_rpc_method.NewGearRpc(client, cfg)
 
-	return gearGRPC
+	return gearGRPC, nil
 }
 
 // Warning: for correct work code must be uploaded to chain through upload_code extrinsic
@@ -41,7 +50,9 @@ func TestGearCalls_CreateProgram(t *testing.T) {
 	assert.NoError(t, err)
 	codeId, err := gear_utils.GetCodeIdFromWasmFile(testWasmPath)
 	assert.NoError(t, err)
-	gearRpc := newTestGearRpc()
+	gearRpc, err := newTestGearRpc()
+	assert.NoError(t, err)
+
 	meta, err := metadata.NewMetadata(gearRpc)
 	assert.NoError(t, err)
 	kr := keyring.New(keyring.Sr25519Type, "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a")
